@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="w-100">
+  <div class="container">
+    <div class="row w-100">
+      <div class="col-md-4 d-flex justify-content-start align-items-center">
+        <div>Angular Front-End Project</div>
+      </div>
+      <div class="col-md d-flex justify-content-end gap-4">
+        <ng-container *ngFor="let item of toolbarItems">
+          <button mat-flat-button color="primary" [routerLink]="item.route">
+            {{ item.name }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

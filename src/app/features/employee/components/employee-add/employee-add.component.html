@@ -1,0 +1,42 @@
+<div class="container pt-4">
+  <h1 class="text-center fw-bold"> Add Employee</h1>
+
+  <mat-card class="mat-elevation-z18">
+    <form [formGroup]="employeeForm" (ngSubmit)="addEmployee()">
+      <div class="row pt-4">
+        <div class="col-md d-flex justify-content-center">
+          <mat-form-field appearance="outline" class="w-50">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md d-flex justify-content-center">
+          <mat-form-field appearance="outline" class="w-50">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md d-flex justify-content-center">
+          <mat-form-field appearance="outline" class="w-50">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="emailID">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row py-4">
+        <div class="col-md d-flex justify-content-center align-items-center">
+          <button type="submit" color="primary" mat-flat-button>
+            Aggiungi
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>
