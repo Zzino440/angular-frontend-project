@@ -3,40 +3,62 @@
 
   <mat-card class="mat-elevation-z8">
     <form [formGroup]="employeeForm" (ngSubmit)="addEmployee()">
-      <div class="row pt-4">
-        <div class="col-md d-flex justify-content-center">
-          <mat-form-field appearance="outline" class="w-50">
-            <mat-label>First Name</mat-label>
-            <input matInput formControlName="firstName">
-          </mat-form-field>
+
+      <div class="d-flex flex-column gap-3">
+        <div class="row pt-4">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName">
+              @if (firstNameControl?.errors?.['required']) {
+                <mat-error>First Name is <strong>required</strong></mat-error>
+              }
+              @if (firstNameControl?.errors?.['forbiddenCharacters']) {
+                <mat-error>Only letters <strong>allowed</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName">
+              @if (lastNameControl?.errors?.['required']) {
+                <mat-error>Last Name is <strong>required</strong></mat-error>
+              }
+              @if (lastNameControl?.errors?.['forbiddenCharacters']) {
+                <mat-error>Only letters <strong>allowed</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="emailID">
+              @if (emailId?.errors?.['required']) {
+                <mat-error>Email Id is <strong>required</strong></mat-error>
+              }
+              @if (emailId?.errors?.['email']) {
+                <mat-error>Not a valid <strong>Email</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md d-flex justify-content-center">
-          <mat-form-field appearance="outline" class="w-50">
-            <mat-label>Last Name</mat-label>
-            <input matInput formControlName="lastName">
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md d-flex justify-content-center">
-          <mat-form-field appearance="outline" class="w-50">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="emailID">
-          </mat-form-field>
-        </div>
-      </div>
-
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button type="submit" color="primary" mat-flat-button>
+          <button [disabled]="employeeForm.invalid" type="submit" color="primary" mat-flat-button>
             Aggiungi
           </button>
         </div>
       </div>
+
     </form>
   </mat-card>
 </div>
