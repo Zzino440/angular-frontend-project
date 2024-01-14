@@ -4,6 +4,7 @@ import {EmployeeModel} from "../../models/employee.model";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-employee-list',
@@ -11,7 +12,8 @@ import {MatIconModule} from "@angular/material/icon";
   imports: [
     MatTableModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    RouterLink
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss'
