@@ -5,11 +5,11 @@
         <div>Angular Front-End Project</div>
       </div>
       <div class="col-md d-flex justify-content-end gap-2">
-        <ng-container *ngFor="let item of toolbarItems">
+        @for (item of toolbarItems; track item.name){
           <button mat-flat-button color="primary" [routerLink]="item.route">
             {{ item.name }}
           </button>
-        </ng-container>
+        }
       </div>
     </div>
   </div>
