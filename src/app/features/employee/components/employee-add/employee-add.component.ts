@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {EmployeeModel} from "../../models/employee.model";
 import {EmployeeService} from "../../services/employee.service";
 import {Router} from "@angular/router";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
+import {CustomValidators} from "../../../../shared/validators/custom-validators";
+import {JsonPipe, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-employee-add',
@@ -17,20 +19,22 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    PreventNumbersDirective,
+    NgIf,
+    JsonPipe,
   ],
   templateUrl: './employee-add.component.html',
   styleUrl: './employee-add.component.scss'
 })
 export class EmployeeAddComponent implements OnInit {
-
   employee: EmployeeModel = new EmployeeModel();
 
   employeeForm = new FormGroup(
     {
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl(''),
-      emailID: new FormControl('')
+      firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
+      lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
+      emailID: new FormControl('', [Validators.required, Validators.email])
     }
   )
 
@@ -46,22 +50,33 @@ export class EmployeeAddComponent implements OnInit {
     this.employeeService.createEmployee(this.employee).subscribe(res => {
         console.log(res);
         this.goToEmployeeList();
-      }, error => console.log(error)
+      }
     )
   }
 
   goToEmployeeList() {
-    this.router.navigate(['/employees']);
+    this.router.navigate(['/employees']).then();
   }
 
   getFormValues() {
-    this.employee.firstName = this.employeeForm.get(['firstName'])?.value;
-    this.employee.lastName = this.employeeForm.get(['lastName'])?.value;
-    this.employee.emailID = this.employeeForm.get(['emailID'])?.value;
-    console.log('this.employeeForm.value: ',this.employeeForm.value)
+    this.employee.firstName = this.firstNameControl?.value;
+    this.employee.lastName = this.lastNameControl?.value;
+    this.employee.emailID = this.emailId?.value;
+    console.log('this.employeeForm.value: ', this.employeeForm.value)
     console.log('this.employee: ', this.employee)
-
   }
 
+  //getters
+  get firstNameControl() {
+    return this.employeeForm.get(['firstName']);
+  }
+
+  get lastNameControl() {
+    return this.employeeForm.get(['lastName']);
+  }
+
+  get emailId() {
+    return this.employeeForm.get(['emailID']);
+  }
 
 }
