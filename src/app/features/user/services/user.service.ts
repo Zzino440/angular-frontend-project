@@ -31,8 +31,8 @@ export class UserService {
     )
   }
 
-  updateUser(id: number, employee: UserModel): Observable<UserModel> {
-    return this.httpClient.put<UserModel>(`${this.environment}users/${id}`, employee).pipe(
+  updateUser(id: number, user: UserModel): Observable<UserModel> {
+    return this.httpClient.put<UserModel>(`${this.environment}users/${id}`, user).pipe(
       catchError(this.handleError)
     )
   }

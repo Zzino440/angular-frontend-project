@@ -18,7 +18,7 @@ export class UserDetailComponent implements OnInit {
   currentUser: UserModel = new UserModel();
   currentUserId!: number;
 
-  constructor(private route: ActivatedRoute, private employeeService: UserService) {
+  constructor(private route: ActivatedRoute, private userService: UserService) {
   }
 
   ngOnInit() {
@@ -26,11 +26,11 @@ export class UserDetailComponent implements OnInit {
       this.currentUserId = Number(params.get('id'));
     });
 
-    this.employeeDetail()
+    this.userDetail()
   }
 
-  employeeDetail() {
-    this.employeeService.getUserById(this.currentUserId).subscribe((res) => {
+  userDetail() {
+    this.userService.getUserById(this.currentUserId).subscribe((res) => {
       this.currentUser = res;
     })
   }

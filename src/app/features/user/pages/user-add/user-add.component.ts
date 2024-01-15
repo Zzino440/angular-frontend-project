@@ -37,7 +37,7 @@ export class UserAddComponent implements OnInit {
   editUser!: boolean;
 
 
-  constructor(private employeeService: UserService, private router: Router, private route: ActivatedRoute) {
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
     //get id from the route
     this.route.paramMap.subscribe(params => {
       this.currentUserId = Number(params.get('id'));
@@ -59,21 +59,21 @@ export class UserAddComponent implements OnInit {
 
   submitForm() {
     this.getFormValues();
-    this.editUser ? this.updateEmployee() : this.addUser();
+    this.editUser ? this.updateUser() : this.addUser();
   }
 
   addUser() {
-    this.employeeService.createUser(this.user).subscribe(res => {
+    this.userService.createUser(this.user).subscribe(res => {
         console.log('res save', res)
-        this.goToEmployeeList();
+        this.goToUserList();
       }
     )
   }
 
-  updateEmployee() {
-    this.employeeService.updateUser(this.currentUserId, this.user).subscribe(res => {
+  updateUser() {
+    this.userService.updateUser(this.currentUserId, this.user).subscribe(res => {
       console.log('res update', res)
-      this.goToEmployeeList();
+      this.goToUserList();
     })
   }
 
@@ -86,7 +86,7 @@ export class UserAddComponent implements OnInit {
 
   setFormValues() {
     if (this.editUser) {
-      this.employeeService.getUserById(this.currentUserId).subscribe(res => {
+      this.userService.getUserById(this.currentUserId).subscribe(res => {
         this.user = res;
         this.firstNameControl?.setValue(this.user.firstName);
         this.lastNameControl?.setValue(this.user.lastName);
@@ -96,8 +96,8 @@ export class UserAddComponent implements OnInit {
     }
   }
 
-  goToEmployeeList() {
-    this.router.navigate(['/employees']).then();
+  goToUserList() {
+    this.router.navigate(['/users']).then();
   }
 
   //getters form values
