@@ -19,7 +19,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <button [routerLink]="['/employee-detail']" color="primary" mat-icon-button>
+        <button [routerLink]="['/employee-detail', element.id]" color="primary" mat-icon-button>
           <mat-icon>visibility</mat-icon>
         </button>
         <button routerLink="employee-detail" color="primary" mat-icon-button>

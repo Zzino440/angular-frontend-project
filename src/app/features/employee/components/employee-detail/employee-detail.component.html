@@ -1,8 +1,24 @@
 <div class="container pt-4">
   <h1 class="fw-bold">Employee Details</h1>
-
-  <mat-card>
-
+  <mat-card class="w-50">
+    <div class="row p-4">
+      <div class="col-md">
+        <div class="row">
+          <div class="col-md">
+            <strong>First Name</strong>: {{ currentEmployee.firstName }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md">
+            <strong>Last Name</strong>: {{ currentEmployee.lastName }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md">
+            <strong>Email Id</strong>: {{ currentEmployee.emailID }}
+          </div>
+        </div>
+      </div>
+    </div>
   </mat-card>
-
 </div>
