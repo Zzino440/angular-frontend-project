@@ -46,7 +46,7 @@ export class EmployeeService {
 
   private handleError(error: HttpErrorResponse) {
     // Logica per gestire l'errore
-    console.error('Si è verificato un errore:', error.error);
+    console.error('An error occured:', error.error);
 
     // Restituisce un Observable che emette l'errore
     return throwError(() => error);

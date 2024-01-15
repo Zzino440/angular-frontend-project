@@ -3,7 +3,7 @@
   <p class="text-center">Do you want to delete the selected Employee?</p>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-flat-button color="primary">Confirm</button>
+  <button (click)="deleteEmployee()" mat-flat-button color="primary">Confirm</button>
   <button mat-dialog-close mat-flat-button color="warn">Cancel</button>
 </mat-dialog-actions>
 
