@@ -1,5 +1,5 @@
 <div class="container pt-4 pb-2">
-  <h1 class="fw-bold">Employee List</h1>
+  <h1 class="fw-bold">User List</h1>
   <table mat-table [dataSource]="datasource" class="mat-elevation-z8">
     <ng-container matColumnDef="firstName">
       <th mat-header-cell *matHeaderCellDef>First Name</th>
@@ -19,13 +19,13 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <button [routerLink]="['/employee-detail', element.id]" color="primary" mat-icon-button>
+        <button [routerLink]="['/user-detail', element.id]" color="primary" mat-icon-button>
           <mat-icon>visibility</mat-icon>
         </button>
-        <button [routerLink]="['/employee-edit', element.id]" color="primary" mat-icon-button>
+        <button [routerLink]="['/user-edit', element.id]" color="primary" mat-icon-button>
           <mat-icon>edit</mat-icon>
         </button>
-        <button (click)="openDeleteEmployeeDialog(element.id)" color="warn" mat-icon-button>
+        <button (click)="openDeleteUserDialog(element.id)" color="warn" mat-icon-button>
           <mat-icon>delete</mat-icon>
         </button>
       </td>

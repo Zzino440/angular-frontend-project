@@ -2,23 +2,23 @@ import {Routes} from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'employees',
-    loadComponent: () => import('./features/employee/pages/employee-list/employee-list.component').then(c => c.EmployeeListComponent)
+    path: 'users',
+    loadComponent: () => import('./features/user/pages/user-list/user-list.component').then(c => c.UserListComponent)
   },
   {
-    path: 'add-employee',
-    loadComponent: () => import('./features/employee/pages/employee-add/employee-add.component').then(c => c.EmployeeAddComponent)
+    path: 'add-user',
+    loadComponent: () => import('./features/user/pages/user-add/user-add.component').then(c => c.UserAddComponent)
   },
   {
-    path: 'employee-detail/:id',
-    loadComponent: () => import('./features/employee/pages/employee-detail/employee-detail.component').then(c => c.EmployeeDetailComponent)
+    path: 'user-detail/:id',
+    loadComponent: () => import('./features/user/pages/user-detail/user-detail.component').then(c => c.UserDetailComponent)
   },
   {
-    path: 'employee-edit/:id',
-    loadComponent: () => import('./features/employee/pages/employee-add/employee-add.component').then(c => c.EmployeeAddComponent)
+    path: 'user-edit/:id',
+    loadComponent: () => import('./features/user/pages/user-add/user-add.component').then(c => c.UserAddComponent)
   },
   {
-    path: '', redirectTo: 'employees', pathMatch: 'full'
+    path: '', redirectTo: 'users', pathMatch: 'full'
   },
-  {path: '**', redirectTo: 'employees'}
+  {path: '**', redirectTo: 'users'}
 ];

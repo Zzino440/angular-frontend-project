@@ -4,15 +4,15 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {EmployeeModel} from "../../models/employee.model";
-import {EmployeeService} from "../../services/employee.service";
+import {UserModel} from "../../models/user.model";
+import {UserService} from "../../services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {CustomValidators} from "../../../../shared/validators/custom-validators";
 import {JsonPipe, NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-employee-add',
+  selector: 'app-user-add',
   standalone: true,
   imports: [
     MatCardModule,
@@ -24,30 +24,30 @@ import {JsonPipe, NgIf} from "@angular/common";
     NgIf,
     JsonPipe,
   ],
-  templateUrl: './employee-add.component.html',
-  styleUrl: './employee-add.component.scss'
+  templateUrl: './user-add.component.html',
+  styleUrl: './user-add.component.scss'
 })
-export class EmployeeAddComponent implements OnInit {
+export class UserAddComponent implements OnInit {
   //main variables
-  employee: EmployeeModel = new EmployeeModel();
-  employeeForm!: FormGroup;
+  user: UserModel = new UserModel();
+  userForm!: FormGroup;
 
   //utility variables
-  currentEmployeeId!: number;
-  editEmployee!: boolean;
+  currentUserId!: number;
+  editUser!: boolean;
 
 
-  constructor(private employeeService: EmployeeService, private router: Router, private route: ActivatedRoute) {
+  constructor(private employeeService: UserService, private router: Router, private route: ActivatedRoute) {
     //get id from the route
     this.route.paramMap.subscribe(params => {
-      this.currentEmployeeId = Number(params.get('id'));
+      this.currentUserId = Number(params.get('id'));
     });
 
-    this.editEmployee = !!this.currentEmployeeId;
+    this.editUser = !!this.currentUserId;
   }
 
   ngOnInit(): void {
-    this.employeeForm = new FormGroup(
+    this.userForm = new FormGroup(
       {
         firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
         lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
@@ -59,11 +59,11 @@ export class EmployeeAddComponent implements OnInit {
 
   submitForm() {
     this.getFormValues();
-    this.editEmployee ? this.updateEmployee() : this.addEmployee();
+    this.editUser ? this.updateEmployee() : this.addUser();
   }
 
-  addEmployee() {
-    this.employeeService.createEmployee(this.employee).subscribe(res => {
+  addUser() {
+    this.employeeService.createUser(this.user).subscribe(res => {
         console.log('res save', res)
         this.goToEmployeeList();
       }
@@ -71,7 +71,7 @@ export class EmployeeAddComponent implements OnInit {
   }
 
   updateEmployee() {
-    this.employeeService.updateEmployee(this.currentEmployeeId, this.employee).subscribe(res => {
+    this.employeeService.updateUser(this.currentUserId, this.user).subscribe(res => {
       console.log('res update', res)
       this.goToEmployeeList();
     })
@@ -79,19 +79,19 @@ export class EmployeeAddComponent implements OnInit {
 
   // form get and set
   getFormValues() {
-    this.employee.firstName = this.firstNameControl?.value;
-    this.employee.lastName = this.lastNameControl?.value;
-    this.employee.emailID = this.emailId?.value;
+    this.user.firstName = this.firstNameControl?.value;
+    this.user.lastName = this.lastNameControl?.value;
+    this.user.emailID = this.emailId?.value;
   }
 
   setFormValues() {
-    if (this.editEmployee) {
-      this.employeeService.getEmployeeById(this.currentEmployeeId).subscribe(res => {
-        this.employee = res;
-        this.firstNameControl?.setValue(this.employee.firstName);
-        this.lastNameControl?.setValue(this.employee.lastName);
-        this.emailId?.setValue(this.employee.emailID);
-        this.employeeForm.markAllAsTouched();
+    if (this.editUser) {
+      this.employeeService.getUserById(this.currentUserId).subscribe(res => {
+        this.user = res;
+        this.firstNameControl?.setValue(this.user.firstName);
+        this.lastNameControl?.setValue(this.user.lastName);
+        this.emailId?.setValue(this.user.emailID);
+        this.userForm.markAllAsTouched();
       })
     }
   }
@@ -102,15 +102,15 @@ export class EmployeeAddComponent implements OnInit {
 
   //getters form values
   get firstNameControl() {
-    return this.employeeForm.get(['firstName']);
+    return this.userForm.get(['firstName']);
   }
 
   get lastNameControl() {
-    return this.employeeForm.get(['lastName']);
+    return this.userForm.get(['lastName']);
   }
 
   get emailId() {
-    return this.employeeForm.get(['emailID']);
+    return this.userForm.get(['emailID']);
   }
 
 }
