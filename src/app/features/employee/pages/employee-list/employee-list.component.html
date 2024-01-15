@@ -25,6 +25,9 @@
         <button [routerLink]="['/employee-edit', element.id]" color="primary" mat-icon-button>
           <mat-icon>edit</mat-icon>
         </button>
+        <button (click)="openDeleteEmployeeDialog(element.id)" color="warn" mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
       </td>
     </ng-container>
 

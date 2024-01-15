@@ -5,6 +5,8 @@ import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteEmployeeDialogComponent} from "./delete-employee-dialog/delete-employee-dialog.component";
 
 @Component({
   selector: 'app-employee-list',
@@ -27,7 +29,7 @@ export class EmployeeListComponent implements OnInit {
 
   datasource: MatTableDataSource<EmployeeModel> = new MatTableDataSource<EmployeeModel>();
 
-  constructor(private employeeService: EmployeeService) {
+  constructor(private employeeService: EmployeeService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -39,7 +41,18 @@ export class EmployeeListComponent implements OnInit {
       this.employeeList = res;
       this.datasource.data = res;
     })
+  }
 
+  openDeleteEmployeeDialog(employeeId: number) {
+    const dialogRef = this.dialog.open(DeleteEmployeeDialogComponent, {
+      data: {
+        employeeId: employeeId
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getEmployees()
+      console.log(`Dialog result: ${result}`);
+    })
   }
 
 }
