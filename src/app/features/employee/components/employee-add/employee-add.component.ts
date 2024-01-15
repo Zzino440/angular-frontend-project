@@ -91,6 +91,7 @@ export class EmployeeAddComponent implements OnInit {
         this.firstNameControl?.setValue(this.employee.firstName);
         this.lastNameControl?.setValue(this.employee.lastName);
         this.emailId?.setValue(this.employee.emailID);
+        this.employeeForm.markAllAsTouched();
       })
     }
   }
