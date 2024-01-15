@@ -18,7 +18,8 @@ export class EmployeeDetailComponent implements OnInit {
   currentEmployee: EmployeeModel = new EmployeeModel();
   currentEmployeeId!: number;
 
-  constructor(private route: ActivatedRoute, private employeeService: EmployeeService) {}
+  constructor(private route: ActivatedRoute, private employeeService: EmployeeService) {
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -31,11 +32,7 @@ export class EmployeeDetailComponent implements OnInit {
   employeeDetail() {
     this.employeeService.getEmployeeById(this.currentEmployeeId).subscribe((res) => {
       this.currentEmployee = res;
-      console.log('this.currentEmployee: ', this.currentEmployee)
     })
-
-
   }
-
 
 }

@@ -53,11 +53,12 @@
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="employeeForm.invalid || (!employeeForm.dirty && !employeeForm.touched)" type="submit" color="primary" mat-flat-button>
+          <button [disabled]="employeeForm.invalid || (!employeeForm.dirty && !employeeForm.touched)" type="submit"
+                  color="primary" mat-flat-button>
             @if (editEmployee) {
               Edit
             } @else {
-              Submit
+              Add
             }
           </button>
         </div>
