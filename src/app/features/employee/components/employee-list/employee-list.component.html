@@ -22,7 +22,7 @@
         <button [routerLink]="['/employee-detail', element.id]" color="primary" mat-icon-button>
           <mat-icon>visibility</mat-icon>
         </button>
-        <button routerLink="employee-detail" color="primary" mat-icon-button>
+        <button [routerLink]="['/employee-edit', element.id]" color="primary" mat-icon-button>
           <mat-icon>edit</mat-icon>
         </button>
       </td>

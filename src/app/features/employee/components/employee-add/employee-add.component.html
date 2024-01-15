@@ -2,7 +2,7 @@
   <h1 class="text-center fw-bold"> Add Employee</h1>
 
   <mat-card class="mat-elevation-z8">
-    <form [formGroup]="employeeForm" (ngSubmit)="addEmployee()">
+    <form [formGroup]="employeeForm" (ngSubmit)="submitForm()">
 
       <div class="d-flex flex-column gap-2">
         <div class="row pt-4">
@@ -53,8 +53,13 @@
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="employeeForm.invalid" type="submit" color="primary" mat-flat-button>
-            Submit
+          <button [disabled]="employeeForm.invalid || (!employeeForm.dirty && !employeeForm.touched)" type="submit"
+                  color="primary" mat-flat-button>
+            @if (editEmployee) {
+              Edit
+            } @else {
+              Add
+            }
           </button>
         </div>
       </div>

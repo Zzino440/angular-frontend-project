@@ -31,12 +31,18 @@ export class EmployeeService {
     )
   }
 
+  updateEmployee(id: number, employee: EmployeeModel): Observable<EmployeeModel> {
+    return this.httpClient.put<EmployeeModel>(`${this.environment}employees/${id}`, employee).pipe(
+      catchError(this.handleError)
+    )
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     // Logica per gestire l'errore
     console.error('Si è verificato un errore:', error.error);
 
-    // Restituire un Observable che emette l'errore
+    // Restituisce un Observable che emette l'errore
     return throwError(() => error);
   }
 }
