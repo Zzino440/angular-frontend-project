@@ -25,6 +25,12 @@ export class EmployeeService {
     );
   }
 
+  getEmployeeById(id: number): Observable<EmployeeModel> {
+    return this.httpClient.get<EmployeeModel>(`${this.environment}employees/${id}`).pipe(
+      catchError(this.handleError)
+    )
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     // Logica per gestire l'errore
