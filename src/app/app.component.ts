@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import {EmployeeListComponent} from "./features/employee/components/employee-list/employee-list.component";
+import {EmployeeListComponent} from "./features/employee/pages/employee-list/employee-list.component";
 import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
 
 @Component({
