@@ -23,7 +23,7 @@ export class EmployeeListComponent implements OnInit {
   employeeList!: EmployeeModel[];
 
 
-  displayedColumns: string[] = ['firstName','lastName','emailID','actions']
+  displayedColumns: string[] = ['firstName', 'lastName', 'emailID', 'actions']
 
   datasource: MatTableDataSource<EmployeeModel> = new MatTableDataSource<EmployeeModel>();
 
@@ -38,7 +38,6 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getEmployeeList().subscribe(res => {
       this.employeeList = res;
       this.datasource.data = res;
-      console.log('data: ', this.datasource.data)
     })
 
   }
