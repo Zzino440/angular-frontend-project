@@ -51,7 +51,7 @@ export class UserAddComponent implements OnInit {
       {
         firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
         lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        emailID: new FormControl('', [Validators.required, Validators.email])
+        email: new FormControl('', [Validators.required, Validators.email])
       }
     )
     this.setFormValues();
@@ -81,7 +81,7 @@ export class UserAddComponent implements OnInit {
   getFormValues() {
     this.user.firstName = this.firstNameControl?.value;
     this.user.lastName = this.lastNameControl?.value;
-    this.user.emailID = this.emailId?.value;
+    this.user.email = this.email?.value;
   }
 
   setFormValues() {
@@ -90,7 +90,7 @@ export class UserAddComponent implements OnInit {
         this.user = res;
         this.firstNameControl?.setValue(this.user.firstName);
         this.lastNameControl?.setValue(this.user.lastName);
-        this.emailId?.setValue(this.user.emailID);
+        this.email?.setValue(this.user.email);
         this.userForm.markAllAsTouched();
       })
     }
@@ -109,8 +109,8 @@ export class UserAddComponent implements OnInit {
     return this.userForm.get(['lastName']);
   }
 
-  get emailId() {
-    return this.userForm.get(['emailID']);
+  get email() {
+    return this.userForm.get(['email']);
   }
 
 }

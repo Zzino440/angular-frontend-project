@@ -25,7 +25,7 @@ export class UserListComponent implements OnInit {
   userList!: UserModel[];
 
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'emailID', 'actions']
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'actions']
 
   datasource: MatTableDataSource<UserModel> = new MatTableDataSource<UserModel>();
 

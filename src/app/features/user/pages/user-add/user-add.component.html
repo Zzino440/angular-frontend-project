@@ -40,11 +40,11 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="emailID">
-              @if (emailId?.errors?.['required']) {
-                <mat-error>Email Id is <strong>required</strong></mat-error>
+              <input matInput formControlName="email">
+              @if (email?.errors?.['required']) {
+                <mat-error>Email is <strong>required</strong></mat-error>
               }
-              @if (emailId?.errors?.['email']) {
+              @if (email?.errors?.['email']) {
                 <mat-error>Not a valid <strong>Email</strong></mat-error>
               }
             </mat-form-field>

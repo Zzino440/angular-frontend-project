@@ -2,5 +2,5 @@ export class UserModel {
   id!: number;
   firstName!: string;
   lastName!: string;
-  emailID!: string;
+  email!: string;
 }
