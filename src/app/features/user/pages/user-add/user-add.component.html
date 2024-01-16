@@ -1,8 +1,8 @@
 <div class="container pt-4">
-  <h1 class="text-center fw-bold"> Add Employee</h1>
+  <h1 class="text-center fw-bold"> Add User</h1>
 
   <mat-card class="mat-elevation-z8">
-    <form [formGroup]="employeeForm" (ngSubmit)="submitForm()">
+    <form [formGroup]="userForm" (ngSubmit)="submitForm()">
 
       <div class="d-flex flex-column gap-2">
         <div class="row pt-4">
@@ -53,9 +53,9 @@
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="employeeForm.invalid || (!employeeForm.dirty && !employeeForm.touched)" type="submit"
+          <button [disabled]="userForm.invalid || (!userForm.dirty && !userForm.touched)" type="submit"
                   color="primary" mat-flat-button>
-            @if (editEmployee) {
+            @if (editUser) {
               Edit
             } @else {
               Add
