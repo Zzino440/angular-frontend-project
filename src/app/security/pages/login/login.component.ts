@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   userToLogin!: LoginRequest;
 
-  constructor(private authenticationService: AuthenticationService, private router:Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit() {
@@ -41,12 +41,14 @@ export class LoginComponent implements OnInit {
 
   submitLoginForm() {
     this.userToLogin = this.loginForm.getRawValue();
-    this.authenticationService.authenticate(this.userToLogin).subscribe(res => {
-      localStorage.setItem('token', res.token);
-      this.authenticationService.currentUserSignal.set(res);
-      console.log('this.authenticationService.currentUserSignal() === null: ',this.authenticationService.currentUserSignal() === null)
-      this.router.navigate(['/users']).then();
-    })
+    this.authenticationService.authenticate(this.userToLogin)
+      .subscribe(res => {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('userId', String(res.id));
+        this.authenticationService.currentUserSignal.set(res);
+        console.log('this.authenticationService.currentUserSignal() === null: ', this.authenticationService.currentUserSignal() === null)
+        this.router.navigate(['/users']).then();
+      })
   }
 
   get email() {

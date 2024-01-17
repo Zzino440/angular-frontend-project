@@ -4,7 +4,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {UserModel} from "../../models/user.model";
+import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
@@ -29,7 +29,7 @@ import {JsonPipe, NgIf} from "@angular/common";
 })
 export class UserAddComponent implements OnInit {
   //main variables
-  user: UserModel = new UserModel();
+  user!: User;
   userForm!: FormGroup;
 
   //utility variables

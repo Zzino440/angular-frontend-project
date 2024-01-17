@@ -5,7 +5,7 @@ import {ToolbarItemsConfig} from "../config/toolbarItemsConfig";
 import {RouterLink} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import {AuthenticationService} from "../../security/services/authentication.service";
-import {ToolbarItem} from "../models/toolbarItem.model";
+import {UserService} from "../../features/user/services/user.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -23,14 +23,23 @@ import {ToolbarItem} from "../models/toolbarItem.model";
 export class ToolbarComponent implements OnInit {
   toolbarItems = ToolbarItemsConfig;
 
-  constructor(protected authenticationService: AuthenticationService) {
+  loggedUserId!: number;
+
+  constructor(private authenticationService: AuthenticationService, private userService: UserService) {
   }
 
   ngOnInit(): void {
+    this.loggedUserId = Number(localStorage.getItem('userId'));
+    console.log('this.loggedUserId: ',this.loggedUserId)
+    if (this.loggedUserId != 0) {
+      this.userService.getUserById(this.loggedUserId).subscribe(res => {
+        console.log('res: ', res)
+        this.authenticationService.currentUserSignal.set(res);
+      })
+    }
   }
 
-  shouldShowItem(item: ToolbarItem): boolean {
-    const isAuthenticated = this.authenticationService.currentUserSignal() !== undefined;
-    return isAuthenticated || !item.requiresAuth;
+  shouldShowItem(): boolean {
+    return this.authenticationService.currentUserSignal() !== undefined;
   }
 }

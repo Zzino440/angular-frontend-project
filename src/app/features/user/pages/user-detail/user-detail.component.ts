@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {ActivatedRoute} from "@angular/router";
-import {UserModel} from "../../models/user.model";
+import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -15,7 +15,7 @@ import {UserService} from "../../services/user.service";
 })
 export class UserDetailComponent implements OnInit {
 
-  currentUser: UserModel = new UserModel();
+  currentUser!: User;
   currentUserId!: number;
 
   constructor(private route: ActivatedRoute, private userService: UserService) {

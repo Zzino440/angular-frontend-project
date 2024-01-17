@@ -7,7 +7,7 @@
       <div class="col-md d-flex justify-content-end gap-2">
         @for(item of toolbarItems; track item.id){
           <ng-container>
-            @if(shouldShowItem(item)){
+            @if(shouldShowItem()){
               <button mat-flat-button color="primary" [routerLink]="item.route">
                 {{ item.name }}
               </button>

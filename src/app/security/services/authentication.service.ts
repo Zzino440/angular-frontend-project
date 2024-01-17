@@ -4,25 +4,25 @@ import {environment} from "../../../environments/environment";
 import {RegisterRequest} from "../models/register-request";
 import {Observable} from "rxjs";
 import {LoginRequest} from "../models/login-request";
-import {AuthResponse} from "../models/auth-response";
+import {User} from "../../features/user/models/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  currentUserSignal = signal<AuthResponse | undefined | null>(undefined)
+  currentUserSignal = signal<User | undefined | null>(undefined)
 
   private environment = environment.endpointUri;
 
   constructor(private httpClient: HttpClient) {
   }
 
-  registration(registerRequest: RegisterRequest): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.environment}auth/register`, registerRequest)
+  registration(registerRequest: RegisterRequest): Observable<User> {
+    return this.httpClient.post<User>(`${this.environment}auth/register`, registerRequest)
   }
 
-  authenticate(loginRequqest: LoginRequest): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.environment}auth/authenticate`, loginRequqest)
+  authenticate(loginRequqest: LoginRequest): Observable<User> {
+    return this.httpClient.post<User>(`${this.environment}auth/authenticate`, loginRequqest)
   }
 }

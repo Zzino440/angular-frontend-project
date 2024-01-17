@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
-import {UserModel} from "../models/user.model";
+import {User} from "../models/user";
 import {environment} from '../../../../environments/environment';
 
 @Injectable({
@@ -13,32 +13,32 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getUserList(): Observable<UserModel[]> {
-    return this.httpClient.get<UserModel[]>(`${this.environment}users`).pipe(
+  getUserList(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.environment}users`).pipe(
       catchError(this.handleError)
     );
   }
 
-  createUser(user: UserModel): Observable<Object> {
+  createUser(user: User): Observable<Object> {
     return this.httpClient.post(`${this.environment}users`, user).pipe(
       catchError(this.handleError)
     );
   }
 
-  getUserById(id: number): Observable<UserModel> {
-    return this.httpClient.get<UserModel>(`${this.environment}users/${id}`).pipe(
+  getUserById(id: number): Observable<User> {
+    return this.httpClient.get<User>(`${this.environment}users/${id}`).pipe(
       catchError(this.handleError)
     )
   }
 
-  updateUser(id: number, user: UserModel): Observable<UserModel> {
-    return this.httpClient.put<UserModel>(`${this.environment}users/${id}`, user).pipe(
+  updateUser(id: number, user: User): Observable<User> {
+    return this.httpClient.put<User>(`${this.environment}users/${id}`, user).pipe(
       catchError(this.handleError)
     )
   }
 
   deleteUser(id: number): Observable<Object> {
-    return this.httpClient.delete<UserModel>(`${this.environment}users/${id}`).pipe(
+    return this.httpClient.delete<User>(`${this.environment}users/${id}`).pipe(
       catchError(this.handleError)
     )
   }

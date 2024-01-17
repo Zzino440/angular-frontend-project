@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {UserModel} from "../../models/user.model";
+import {User} from "../../models/user";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -22,12 +22,12 @@ import {DeleteUserDialogComponent} from "../../components/delete-user-dialog/del
 })
 export class UserListComponent implements OnInit {
 
-  userList!: UserModel[];
+  userList!: User[];
 
 
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'actions']
 
-  datasource: MatTableDataSource<UserModel> = new MatTableDataSource<UserModel>();
+  datasource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
   constructor(private userService: UserService, public dialog: MatDialog) {
   }
@@ -40,6 +40,7 @@ export class UserListComponent implements OnInit {
     this.userService.getUserList().subscribe(res => {
       this.userList = res;
       this.datasource.data = res;
+      console.log('this.userList: ',this.userList)
     })
   }
 
