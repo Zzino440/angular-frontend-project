@@ -51,7 +51,8 @@ export class RegistrationComponent implements OnInit {
     this.userToRegister = this.registrationForm.getRawValue();
     this.authenticationService.registration(this.userToRegister).subscribe(res => {
       localStorage.setItem('token', res.token);
-      this.authenticationService.currentUserSignal.set(res)
+      localStorage.setItem('userId', String(res.id));
+      this.authenticationService.currentUserSignal.set(res);
       this.router.navigate(['/users']).then();
     })
   }

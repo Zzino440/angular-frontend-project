@@ -40,7 +40,7 @@ export class UserListComponent implements OnInit {
     this.userService.getUserList().subscribe(res => {
       this.userList = res;
       this.datasource.data = res;
-      console.log('this.userList: ',this.userList)
+      console.log('this.userList: ', this.userList)
     })
   }
 

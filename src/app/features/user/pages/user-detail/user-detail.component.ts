@@ -15,7 +15,7 @@ import {UserService} from "../../services/user.service";
 })
 export class UserDetailComponent implements OnInit {
 
-  currentUser!: User;
+  currentUser!: User
   currentUserId!: number;
 
   constructor(private route: ActivatedRoute, private userService: UserService) {
