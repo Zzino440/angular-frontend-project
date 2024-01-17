@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteUserDialogComponent} from "../../components/delete-user-dialog/delete-user-dialog.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-user-list',
@@ -20,10 +21,12 @@ import {DeleteUserDialogComponent} from "../../components/delete-user-dialog/del
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
+
+  //utils variables
+  private subscription: Subscription = new Subscription();
 
   userList!: User[];
-
 
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'actions']
 
@@ -37,11 +40,13 @@ export class UserListComponent implements OnInit {
   }
 
   getUsers() {
-    this.userService.getUserList().subscribe(res => {
-      this.userList = res;
-      this.datasource.data = res;
-      console.log('this.userList: ', this.userList)
-    })
+    this.subscription.add(
+      this.userService.getUserList().subscribe(res => {
+        this.userList = res;
+        this.datasource.data = res;
+        console.log('this.userList: ', this.userList)
+      })
+    )
   }
 
   openDeleteUserDialog(userId: number) {
@@ -49,16 +54,23 @@ export class UserListComponent implements OnInit {
       data: {userId: userId}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.status === 'success') {
-        // Gestisci il successo
-        console.log(result.message); // "User successfully deleted"
-        this.getUsers();
-      } else if (result?.status === 'cancelled') {
-        // Gestisci l'annullamento
-        console.log(result.message); // "User deletion cancelled"
-      }
-    });
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe(result => {
+        if (result?.status === 'success') {
+          // Gestisci il successo
+          console.log(result.message); // "User successfully deleted"
+          this.getUsers();
+        } else if (result?.status === 'cancelled') {
+          // Gestisci l'annullamento
+          console.log(result.message); // "User deletion cancelled"
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    console.log(this.subscription.closed);
   }
 
 }
