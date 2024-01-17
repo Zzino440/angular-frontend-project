@@ -43,6 +43,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService.getUserList().subscribe(res => {
         this.userList = res;
+        console.log('this.userList: ',this.userList)
         this.datasource.data = res;
       })
     )
