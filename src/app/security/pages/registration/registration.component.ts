@@ -46,10 +46,11 @@ export class RegistrationComponent implements OnInit {
     )
   }
 
-  submitForm() {
+  submitRegistrationForm() {
     this.userToRegister = this.registrationForm.getRawValue();
+    console.log('this.userToRegister: ', this.userToRegister)
     this.authenticationService.registration(this.userToRegister).subscribe(res => {
-      console.log('res: ', res)
+      console.log('res: ', res.token);
     })
   }
 
