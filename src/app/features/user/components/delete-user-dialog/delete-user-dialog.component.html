@@ -3,7 +3,7 @@
   <p class="text-center">Do you want to delete the selected User?</p>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-dialog-close mat-stroked-button color="warn" autofocus>Cancel</button>
+  <button (click)="closeDialog()" mat-stroked-button color="warn" autofocus>Cancel</button>
   <button (click)="deleteUser()" mat-stroked-button color="primary">Confirm</button>
 </mat-dialog-actions>
 

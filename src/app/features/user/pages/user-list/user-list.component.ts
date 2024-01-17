@@ -45,14 +45,19 @@ export class UserListComponent implements OnInit {
 
   openDeleteUserDialog(userId: number) {
     const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
-      data: {
-        userId: userId
-      },
+      data: {userId: userId}
     });
+
     dialogRef.afterClosed().subscribe(result => {
-      this.getUsers()
-      console.log(`Dialog result: ${result}`);
-    })
+      if (result?.status === 'success') {
+        // Gestisci il successo
+        console.log(result.message); // "User successfully deleted"
+        this.getUsers();
+      } else if (result?.status === 'cancelled') {
+        // Gestisci l'annullamento
+        console.log(result.message); // "User deletion cancelled"
+      }
+    });
   }
 
 }
