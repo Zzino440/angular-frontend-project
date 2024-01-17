@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
-import {ToolbarItemsConfig} from "../config/toolbarItemsConfig";
+import {ToolbarItemsConfig} from "../../config/toolbarItemsConfig";
 import {RouterLink} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
-import {AuthenticationService} from "../../security/services/authentication.service";
-import {UserService} from "../../features/user/services/user.service";
+import {AuthenticationService} from "../../../security/services/authentication.service";
+import {UserService} from "../../../features/user/services/user.service";
 
 @Component({
   selector: 'app-toolbar',
