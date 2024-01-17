@@ -1,0 +1,78 @@
+<div class="container pt-4">
+  <h1 class="text-center fw-bold"> Add User</h1>
+
+  <mat-card class="mat-elevation-z8">
+    <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
+
+      <div class="d-flex flex-column gap-2">
+        <div class="row pt-4">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName" appPreventNumbers>
+              @if (firstNameControl?.errors?.['required']) {
+                <mat-error>First Name is <strong>required</strong></mat-error>
+              }
+              @if (firstNameControl?.errors?.['forbiddenCharacters']) {
+                <mat-error>Only letters <strong>allowed</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName" appPreventNumbers>
+              @if (lastNameControl?.errors?.['required']) {
+                <mat-error>Last Name is <strong>required</strong></mat-error>
+              }
+              @if (lastNameControl?.errors?.['forbiddenCharacters']) {
+                <mat-error>Only letters <strong>allowed</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email">
+              @if (email?.errors?.['required']) {
+                <mat-error>Email is <strong>required</strong></mat-error>
+              }
+              @if (email?.errors?.['email']) {
+                <mat-error>Not a valid <strong>Email</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput formControlName="password">
+              @if (password?.errors?.['required']) {
+                <mat-error>Password is <strong>required</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row py-4">
+        <div class="col-md d-flex justify-content-center align-items-center">
+          <button [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)" type="submit"
+                  color="primary" mat-flat-button>
+            Register
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </mat-card>
+</div>
+

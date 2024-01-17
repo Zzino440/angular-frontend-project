@@ -3,7 +3,7 @@ import {Routes} from '@angular/router';
 export const routes: Routes = [
   {
     path: 'registration',
-    loadComponent: () => import('./security/registration/registration.component').then(c => c.RegistrationComponent)
+    loadComponent: () => import('./security/pages/registration/registration.component').then(c => c.RegistrationComponent)
   },
   {
     path: 'users',
