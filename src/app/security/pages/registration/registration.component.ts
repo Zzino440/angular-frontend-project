@@ -8,7 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
 import {RegisterRequest} from "../../models/register-request";
-import {AuthResponse} from "../../models/auth-response";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registration',
@@ -29,9 +29,9 @@ export class RegistrationComponent implements OnInit {
 
   registrationForm!: FormGroup;
   userToRegister!: RegisterRequest;
-  authResponse!: AuthResponse;
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router) {
 
   }
 
@@ -52,7 +52,7 @@ export class RegistrationComponent implements OnInit {
     this.authenticationService.registration(this.userToRegister).subscribe(res => {
       localStorage.setItem('token', res.token);
       this.authenticationService.currentUserSignal.set(res)
-      console.log('this.authenticationService.currentUserSignal: ',this.authenticationService.currentUserSignal)
+      this.router.navigate(['/users']).then();
     })
   }
 

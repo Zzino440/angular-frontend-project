@@ -7,7 +7,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
-import {AuthResponse} from "../../models/auth-response";
 import {Router} from "@angular/router";
 
 @Component({
@@ -29,7 +28,6 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   userToLogin!: LoginRequest;
-  authResponse!: AuthResponse;
 
   constructor(private authenticationService: AuthenticationService, private router:Router) {
   }
