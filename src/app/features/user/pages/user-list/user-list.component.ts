@@ -44,7 +44,6 @@ export class UserListComponent implements OnInit, OnDestroy {
       this.userService.getUserList().subscribe(res => {
         this.userList = res;
         this.datasource.data = res;
-        console.log('this.userList: ', this.userList)
       })
     )
   }
@@ -57,12 +56,8 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterClosed().subscribe(result => {
         if (result?.status === 'success') {
-          // Gestisci il successo
-          console.log(result.message); // "User successfully deleted"
           this.getUsers();
         } else if (result?.status === 'cancelled') {
-          // Gestisci l'annullamento
-          console.log(result.message); // "User deletion cancelled"
         }
       })
     );
