@@ -11,7 +11,7 @@ import {User} from "../../features/user/models/user";
 })
 export class AuthenticationService {
 
-  currentUserSignal = signal<User | undefined | null>(undefined)
+  currentUserSignal = signal<User | undefined | null>(undefined);
 
   private environment = environment.endpointUri;
 
