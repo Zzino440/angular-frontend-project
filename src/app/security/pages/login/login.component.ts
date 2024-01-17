@@ -7,6 +7,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
+import {AuthResponse} from "../../models/auth-response";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -26,10 +28,10 @@ import {AuthenticationService} from "../../services/authentication.service";
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-
   userToLogin!: LoginRequest;
+  authResponse!: AuthResponse;
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private router:Router) {
   }
 
   ngOnInit() {
@@ -42,11 +44,11 @@ export class LoginComponent implements OnInit {
   submitLoginForm() {
     this.userToLogin = this.loginForm.getRawValue();
     this.authenticationService.authenticate(this.userToLogin).subscribe(res => {
-      console.log('res.token: ',res.token)
+      localStorage.setItem('token', res.token);
+      this.authenticationService.currentUserSignal.set(res);
+      this.router.navigate(['/users']).then();
     })
-
   }
-
 
   get email() {
     return this.loginForm.get(['email']);

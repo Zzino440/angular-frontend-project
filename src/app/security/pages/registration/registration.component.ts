@@ -8,6 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
 import {RegisterRequest} from "../../models/register-request";
+import {AuthResponse} from "../../models/auth-response";
 
 @Component({
   selector: 'app-registration',
@@ -27,8 +28,8 @@ import {RegisterRequest} from "../../models/register-request";
 export class RegistrationComponent implements OnInit {
 
   registrationForm!: FormGroup;
-
   userToRegister!: RegisterRequest;
+  authResponse!: AuthResponse;
 
   constructor(private authenticationService: AuthenticationService) {
 
@@ -48,9 +49,10 @@ export class RegistrationComponent implements OnInit {
 
   submitRegistrationForm() {
     this.userToRegister = this.registrationForm.getRawValue();
-    console.log('this.userToRegister: ', this.userToRegister)
     this.authenticationService.registration(this.userToRegister).subscribe(res => {
-      console.log('res: ', res.token);
+      localStorage.setItem('token', res.token);
+      this.authenticationService.currentUserSignal.set(res)
+      console.log('this.authenticationService.currentUserSignal: ',this.authenticationService.currentUserSignal)
     })
   }
 
