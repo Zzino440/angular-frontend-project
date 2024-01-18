@@ -32,18 +32,19 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.loggedUserId = Number(localStorage.getItem('userId'));
     console.log('this.loggedUserId: ', this.loggedUserId)
-      this.userService.getUserById(this.loggedUserId)
-        .subscribe({
-          next: (res) => {
-            this.authenticationService.currentUserSignal.set(res);
-          },
-          error: () => {
-            this.authenticationService.currentUserSignal.set(undefined);
-          },
-          complete: () => {
-            console.log('completed get user Id http call')
-          }
-        })
+    this.userService.getUserById(this.loggedUserId)
+      .subscribe({
+        next: (res) => {
+          this.authenticationService.currentUserSignal.set(res);
+        },
+        error: () => {
+          this.authenticationService.currentUserSignal.set(undefined);
+          localStorage.clear();
+        },
+        complete: () => {
+          console.log('completed get user Id http call')
+        }
+      })
   }
 
   shouldShowItem(): boolean {
@@ -51,7 +52,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear()
+    localStorage.clear();
     this.authenticationService.currentUserSignal.set(undefined);
   }
 }
