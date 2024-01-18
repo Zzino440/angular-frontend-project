@@ -29,7 +29,7 @@ import {JsonPipe, NgIf} from "@angular/common";
 })
 export class UserAddComponent implements OnInit {
   //main variables
-  user!: User;
+  user: User = new User();
   userForm!: FormGroup;
 
   //utility variables
