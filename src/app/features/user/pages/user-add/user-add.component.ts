@@ -4,7 +4,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {UserModel} from "../../models/user.model";
+import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
@@ -29,7 +29,7 @@ import {JsonPipe, NgIf} from "@angular/common";
 })
 export class UserAddComponent implements OnInit {
   //main variables
-  user: UserModel = new UserModel();
+  user: User = new User();
   userForm!: FormGroup;
 
   //utility variables
@@ -51,7 +51,7 @@ export class UserAddComponent implements OnInit {
       {
         firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
         lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        emailID: new FormControl('', [Validators.required, Validators.email])
+        email: new FormControl('', [Validators.required, Validators.email])
       }
     )
     this.setFormValues();
@@ -81,7 +81,7 @@ export class UserAddComponent implements OnInit {
   getFormValues() {
     this.user.firstName = this.firstNameControl?.value;
     this.user.lastName = this.lastNameControl?.value;
-    this.user.emailID = this.emailId?.value;
+    this.user.email = this.email?.value;
   }
 
   setFormValues() {
@@ -90,7 +90,7 @@ export class UserAddComponent implements OnInit {
         this.user = res;
         this.firstNameControl?.setValue(this.user.firstName);
         this.lastNameControl?.setValue(this.user.lastName);
-        this.emailId?.setValue(this.user.emailID);
+        this.email?.setValue(this.user.email);
         this.userForm.markAllAsTouched();
       })
     }
@@ -109,8 +109,8 @@ export class UserAddComponent implements OnInit {
     return this.userForm.get(['lastName']);
   }
 
-  get emailId() {
-    return this.userForm.get(['emailID']);
+  get email() {
+    return this.userForm.get(['email']);
   }
 
 }

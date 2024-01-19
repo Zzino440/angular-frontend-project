@@ -2,7 +2,7 @@
   <h1 class="text-center fw-bold"> Add User</h1>
 
   <mat-card class="mat-elevation-z8">
-    <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+    <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
 
       <div class="d-flex flex-column gap-2">
         <div class="row pt-4">
@@ -50,16 +50,24 @@
             </mat-form-field>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput formControlName="password">
+              @if (password?.errors?.['required']) {
+                <mat-error>Password is <strong>required</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="userForm.invalid || (!userForm.dirty && !userForm.touched)" type="submit"
+          <button [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)" type="submit"
                   color="primary" mat-flat-button>
-            @if (editUser) {
-              Edit
-            } @else {
-              Add
-            }
+            Register
           </button>
         </div>
       </div>
@@ -67,3 +75,4 @@
     </form>
   </mat-card>
 </div>
+

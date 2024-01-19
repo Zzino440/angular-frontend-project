@@ -1,6 +1,7 @@
-export class UserModel {
+export class User {
   id!: number;
+  email!:string;
   firstName!: string;
   lastName!: string;
-  emailID!: string;
+  token!:string;
 }

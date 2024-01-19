@@ -35,10 +35,13 @@ export class DeleteUserDialogComponent implements OnInit {
 
   deleteUser() {
     this.userService.deleteUser(this.data.userId).subscribe(res => {
-      this.dialogRef.close();
-      console.log('res delete user', res)
-    })
+      console.log('res delete user', res);
+      this.dialogRef.close({ status: 'success', message: 'User successfully deleted' });
+    });
+  }
 
+  closeDialog() {
+    this.dialogRef.close({ status: 'cancelled', message: 'User deletion cancelled' });
   }
 
 }
