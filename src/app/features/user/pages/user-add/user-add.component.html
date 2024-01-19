@@ -13,12 +13,14 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" appPreventNumbers>
+              <input matInput formControlName="firstName"
+                     placeholder="John"
+                     appPreventNumbers>
               @if (firstNameControl?.errors?.['required']) {
                 <mat-error>First Name is <strong>required</strong></mat-error>
               }
               @if (firstNameControl?.errors?.['forbiddenCharacters']) {
-                <mat-error>Only letters <strong>allowed</strong></mat-error>
+                <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong> spaces</mat-error>
               }
             </mat-form-field>
           </div>
@@ -29,12 +31,14 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" appPreventNumbers>
+              <input matInput formControlName="lastName"
+                     placeholder="Smith"
+                     appPreventNumbers>
               @if (lastNameControl?.errors?.['required']) {
                 <mat-error>Last Name is <strong>required</strong></mat-error>
               }
               @if (lastNameControl?.errors?.['forbiddenCharacters']) {
-                <mat-error>Only letters <strong>allowed</strong></mat-error>
+                <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong> spaces</mat-error>
               }
             </mat-form-field>
           </div>
@@ -44,7 +48,7 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="email">
+              <input placeholder="example@example.com" matInput formControlName="email">
               @if (emailControl?.errors?.['required']) {
                 <mat-error>Email is <strong>required</strong></mat-error>
               }
@@ -78,6 +82,9 @@
                   </mat-option>
                 }
               </mat-select>
+              @if(roleControl?.errors?.['required']){
+                <mat-error>Role is <strong>required</strong></mat-error>
+              }
             </mat-form-field>
           </div>
         </div>
@@ -85,14 +92,17 @@
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="userForm.invalid || (!userForm.dirty && !userForm.touched)" type="submit"
-                  color="primary" mat-flat-button>
-            @if (isEditUser) {
+          @if(isEditUser){
+            <button [disabled]="userForm.invalid || (!userForm.dirty)" type="submit"
+                    color="primary" mat-flat-button>
               Edit
-            } @else {
+            </button>
+          } @else {
+            <button [disabled]="userForm.invalid || (!userForm.dirty && !userForm.touched)" type="submit"
+                    color="primary" mat-flat-button>
               Add
-            }
-          </button>
+            </button>
+          }
         </div>
       </div>
 

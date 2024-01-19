@@ -12,6 +12,7 @@ import {CustomValidators} from "../../../../shared/validators/custom-validators"
 import {JsonPipe, NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {Role} from "../../models/role.enum";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Component({
   selector: 'app-user-add',
@@ -61,11 +62,11 @@ export class UserAddComponent implements OnInit {
         role: new FormControl('', [Validators.required])
       }
     )
-    this.setFormValues();
+    this.setFormValuesAndValidatorsAndState();
   }
 
   submitForm() {
-    this.getFormValues();
+    this.user = this.userForm.getRawValue();
     this.isEditUser ? this.updateUser() : this.addUser();
   }
 
@@ -84,29 +85,13 @@ export class UserAddComponent implements OnInit {
     })
   }
 
-  // form get and set
-  getFormValues() {
-    console.log('this.userForm.value: ', this.userForm.value);
-    this.user.firstName = this.firstNameControl?.value;
-    this.user.lastName = this.lastNameControl?.value;
-    this.user.email = this.emailControl?.value;
-    this.user.password = this.passwordControl?.value;
-    this.user.role = this.roleControl?.value;
-  }
-
-  setFormValues() {
+  setFormValuesAndValidatorsAndState() {
     if (this.isEditUser) {
       this.passwordControl?.clearValidators();
       this.passwordControl?.updateValueAndValidity();
-
       this.userService.getUserById(this.currentUserId).subscribe(res => {
         this.user = res;
-        console.log('res: ',res)
-        /*this.userForm.setValue(this.user);*/
-        this.firstNameControl?.setValue(this.user.firstName);
-        this.lastNameControl?.setValue(this.user.lastName);
-        this.emailControl?.setValue(this.user.email);
-        this.roleControl?.setValue(this.user.role);
+        this.userForm.patchValue({...this.user});
         this.userForm.markAllAsTouched();
       })
     }
