@@ -12,7 +12,6 @@ import {CustomValidators} from "../../../../shared/validators/custom-validators"
 import {JsonPipe, NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {Role} from "../../models/role.enum";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Component({
   selector: 'app-user-add',
