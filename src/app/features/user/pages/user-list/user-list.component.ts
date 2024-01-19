@@ -43,7 +43,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService.getUserList().subscribe(res => {
         this.userList = res;
-        console.log('this.userList: ',this.userList)
         this.datasource.data = res;
       })
     )
@@ -66,6 +65,5 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    console.log(this.subscription.closed);
   }
 }

@@ -31,7 +31,6 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedUserId = Number(localStorage.getItem('userId'));
-    console.log('this.loggedUserId: ', this.loggedUserId)
     this.userService.getUserById(this.loggedUserId)
       .subscribe({
         next: (res) => {
@@ -42,7 +41,6 @@ export class ToolbarComponent implements OnInit {
           localStorage.clear();
         },
         complete: () => {
-          console.log('completed get user Id http call')
         }
       })
   }

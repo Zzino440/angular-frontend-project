@@ -43,20 +43,18 @@ export class LoginComponent implements OnInit {
     this.userToLogin = this.loginForm.getRawValue();
     this.authenticationService.authenticate(this.userToLogin)
       .subscribe(res => {
-        console.log('res: ',res)
         localStorage.setItem('token', res.token);
         localStorage.setItem('userId', String(res.id));
         this.authenticationService.currentUserSignal.set(res);
-        console.log('this.authenticationService.currentUserSignal() === null: ', this.authenticationService.currentUserSignal() === null)
         this.router.navigate(['/users']).then();
       })
   }
 
-  get email() {
+  get emailControl() {
     return this.loginForm.get(['email']);
   }
 
-  get password() {
+  get passwordControl() {
     return this.loginForm.get(['password']);
   }
 }

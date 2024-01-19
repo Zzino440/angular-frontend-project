@@ -10,6 +10,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {CustomValidators} from "../../../../shared/validators/custom-validators";
 import {JsonPipe, NgIf} from "@angular/common";
+import {MatSelectModule} from "@angular/material/select";
+import {Role} from "../../models/role.enum";
 
 @Component({
   selector: 'app-user-add',
@@ -23,6 +25,7 @@ import {JsonPipe, NgIf} from "@angular/common";
     PreventNumbersDirective,
     NgIf,
     JsonPipe,
+    MatSelectModule,
   ],
   templateUrl: './user-add.component.html',
   styleUrl: './user-add.component.scss'
@@ -34,7 +37,9 @@ export class UserAddComponent implements OnInit {
 
   //utility variables
   currentUserId!: number;
-  editUser!: boolean;
+  isEditUser!: boolean;
+
+  roleOptions = Object.values(Role);
 
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
@@ -43,7 +48,7 @@ export class UserAddComponent implements OnInit {
       this.currentUserId = Number(params.get('id'));
     });
 
-    this.editUser = !!this.currentUserId;
+    this.isEditUser = !!this.currentUserId;
   }
 
   ngOnInit(): void {
@@ -51,7 +56,9 @@ export class UserAddComponent implements OnInit {
       {
         firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
         lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        email: new FormControl('', [Validators.required, Validators.email])
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required]),
+        role: new FormControl('', [Validators.required])
       }
     )
     this.setFormValues();
@@ -59,7 +66,7 @@ export class UserAddComponent implements OnInit {
 
   submitForm() {
     this.getFormValues();
-    this.editUser ? this.updateUser() : this.addUser();
+    this.isEditUser ? this.updateUser() : this.addUser();
   }
 
   addUser() {
@@ -79,18 +86,27 @@ export class UserAddComponent implements OnInit {
 
   // form get and set
   getFormValues() {
+    console.log('this.userForm.value: ', this.userForm.value);
     this.user.firstName = this.firstNameControl?.value;
     this.user.lastName = this.lastNameControl?.value;
-    this.user.email = this.email?.value;
+    this.user.email = this.emailControl?.value;
+    this.user.password = this.passwordControl?.value;
+    this.user.role = this.roleControl?.value;
   }
 
   setFormValues() {
-    if (this.editUser) {
+    if (this.isEditUser) {
+      this.passwordControl?.clearValidators();
+      this.passwordControl?.updateValueAndValidity();
+
       this.userService.getUserById(this.currentUserId).subscribe(res => {
         this.user = res;
+        console.log('res: ',res)
+        /*this.userForm.setValue(this.user);*/
         this.firstNameControl?.setValue(this.user.firstName);
         this.lastNameControl?.setValue(this.user.lastName);
-        this.email?.setValue(this.user.email);
+        this.emailControl?.setValue(this.user.email);
+        this.roleControl?.setValue(this.user.role);
         this.userForm.markAllAsTouched();
       })
     }
@@ -109,8 +125,16 @@ export class UserAddComponent implements OnInit {
     return this.userForm.get(['lastName']);
   }
 
-  get email() {
+  get emailControl() {
     return this.userForm.get(['email']);
+  }
+
+  get passwordControl() {
+    return this.userForm.get(['password']);
+  }
+
+  get roleControl() {
+    return this.userForm.get(['role']);
   }
 
 }

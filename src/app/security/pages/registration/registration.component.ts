@@ -66,11 +66,11 @@ export class RegistrationComponent implements OnInit {
     return this.registrationForm.get(['lastName']);
   }
 
-  get email() {
+  get emailControl() {
     return this.registrationForm.get(['email']);
   }
 
-  get password() {
+  get passwordControl() {
     return this.registrationForm.get(['password']);
   }
 
