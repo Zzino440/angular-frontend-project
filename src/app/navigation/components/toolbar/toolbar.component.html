@@ -4,21 +4,16 @@
       <div class="col-md-4 d-flex justify-content-start align-items-center">
         <div>Angular Front-End Project</div>
       </div>
-      <div class="col-md d-flex justify-content-end gap-2">
-        @for (item of toolbarItems; track $index) {
-          <ng-container>
-            @if (shouldShowItem()) {
-              <button mat-flat-button color="primary" [routerLink]="item.route">
-                {{ item.name }}
-              </button>
-            }
-          </ng-container>
-        }
-        @if (shouldShowItem()) {
+      @if (shouldShowItem()) {
+        <div class="col-md d-flex justify-content-end gap-2">
+          @for (item of toolbarItems; track $index) {
+            <button mat-flat-button color="primary" [routerLink]="item.route">
+              {{ item.name }}
+            </button>
+          }
           <button mat-flat-button color="warn" [routerLink]="['/login']" (click)="logout()">Logout</button>
-        }
-
-      </div>
+        </div>
+      }
     </div>
   </div>
 </mat-toolbar>
