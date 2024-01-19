@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../shared/validators/custom-validators";
 import {MatButtonModule} from "@angular/material/button";
@@ -26,6 +26,7 @@ import {Router} from "@angular/router";
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent implements OnInit {
+  customValidators= inject(CustomValidators);
 
   registrationForm!: FormGroup;
   userToRegister!: RegisterRequest;
@@ -39,8 +40,8 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.registrationForm = new FormGroup(
       {
-        firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
+        firstName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        lastName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
         email: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required]),
       }

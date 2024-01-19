@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -12,6 +12,9 @@ import {CustomValidators} from "../../../../shared/validators/custom-validators"
 import {JsonPipe, NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {Role} from "../../models/role.enum";
+import {UtilService} from "../../../../shared/services/util.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-user-add',
@@ -26,11 +29,15 @@ import {Role} from "../../models/role.enum";
     NgIf,
     JsonPipe,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
   ],
   templateUrl: './user-add.component.html',
   styleUrl: './user-add.component.scss'
 })
 export class UserAddComponent implements OnInit {
+  utilService = inject(UtilService);
+  customValidators= inject(CustomValidators);
   //main variables
   user: User = new User();
   userForm!: FormGroup;
@@ -54,9 +61,13 @@ export class UserAddComponent implements OnInit {
   ngOnInit(): void {
     this.userForm = new FormGroup(
       {
-        firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        email: new FormControl('', [Validators.required, Validators.email]),
+        firstName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        lastName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        email: new FormControl('', {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: [this.customValidators.emailExistsValidator()],
+          updateOn: 'blur' // o 'change', a seconda di quando vuoi che il validator venga attivato
+        }),
         password: new FormControl('', [Validators.required]),
         role: new FormControl('', [Validators.required])
       }

@@ -49,11 +49,24 @@
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
               <input placeholder="example@example.com" matInput formControlName="email">
+              <mat-progress-spinner
+                matSuffix
+                [mode]="'indeterminate'"
+                [diameter]="20"
+                *ngIf="emailControl?.pending"
+              >
+              </mat-progress-spinner>
+              <mat-icon matSuffix *ngIf="!emailControl?.pending && emailControl?.valid">
+                done
+              </mat-icon>
               @if (emailControl?.errors?.['required']) {
                 <mat-error>Email is <strong>required</strong></mat-error>
               }
               @if (emailControl?.errors?.['email']) {
                 <mat-error>Not a valid <strong>Email</strong></mat-error>
+              }
+              @if (emailControl?.errors?.['emailExists']) {
+                <mat-error>This email already <strong>exists</strong></mat-error>
               }
             </mat-form-field>
           </div>
@@ -82,7 +95,7 @@
                   </mat-option>
                 }
               </mat-select>
-              @if(roleControl?.errors?.['required']){
+              @if (roleControl?.errors?.['required']) {
                 <mat-error>Role is <strong>required</strong></mat-error>
               }
             </mat-form-field>
@@ -92,7 +105,7 @@
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          @if(isEditUser){
+          @if (isEditUser) {
             <button [disabled]="userForm.invalid || (!userForm.dirty)" type="submit"
                     color="primary" mat-flat-button>
               Edit
