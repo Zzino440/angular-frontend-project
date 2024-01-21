@@ -10,6 +10,7 @@ import {DeleteUserDialogComponent} from "../../components/delete-user-dialog/del
 import {Observable} from "rxjs";
 import {AsyncPipe} from "@angular/common";
 import {DatasourcePipe} from "../../../../shared/pipes/datasource.pipe";
+import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 
 @Component({
   selector: 'app-user-list',
@@ -20,7 +21,8 @@ import {DatasourcePipe} from "../../../../shared/pipes/datasource.pipe";
     MatIconModule,
     RouterLink,
     AsyncPipe,
-    DatasourcePipe
+    DatasourcePipe,
+    CamelCasePipe
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
@@ -30,7 +32,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   userList$!: Observable<User[]>;
 
   //utils variables
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'actions']
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions']
 
   constructor(private userService: UserService, public dialog: MatDialog) {
   }
