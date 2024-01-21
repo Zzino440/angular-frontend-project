@@ -8,7 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
 import {RegisterRequest} from "../../models/register-request";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {NgIf} from "@angular/common";
@@ -26,7 +26,8 @@ import {NgIf} from "@angular/common";
     ReactiveFormsModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'

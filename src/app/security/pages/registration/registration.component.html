@@ -1,5 +1,5 @@
 <div class="container pt-4">
-  <h1 class="text-center fw-bold"> Add User</h1>
+  <h1 class="text-center fw-bold"> Registration</h1>
 
   <mat-card class="mat-elevation-z8">
     <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
@@ -49,7 +49,7 @@
                   *ngIf="emailControl?.pending"
                 >
                 </mat-progress-spinner>
-              } @else if(!emailControl?.pending && emailControl?.valid) {
+              } @else if (!emailControl?.pending && emailControl?.valid) {
                 <mat-icon matSuffix>
                   done
                 </mat-icon>
@@ -79,9 +79,10 @@
           </div>
         </div>
       </div>
-      <div class="row py-4">
+      <div class="row py-2">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)" type="submit"
+          <button [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)"
+                  type="submit"
                   color="primary" mat-flat-button>
             Register
           </button>
@@ -89,6 +90,19 @@
       </div>
 
     </form>
+
+
+    <div class="row py-2">
+      <div class="col-md d-flex justify-content-center align-items-center">
+        <div>Already <strong>registered?</strong></div>
+      </div>
+    </div>
+
+    <div class="row py-2">
+      <div class="col-md d-flex justify-content-center align-items-center">
+        <button mat-flat-button color="primary" routerLink="/login">Go to Login</button>
+      </div>
+    </div>
   </mat-card>
 </div>
 

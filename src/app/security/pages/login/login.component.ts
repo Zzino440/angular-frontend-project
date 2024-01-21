@@ -7,7 +7,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,8 @@ import {Router} from "@angular/router";
     MatFormFieldModule,
     MatInputModule,
     PreventNumbersDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
