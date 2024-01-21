@@ -33,10 +33,12 @@ import {NgIf} from "@angular/common";
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent implements OnInit {
-  customValidators= inject(CustomValidators);
+  customValidators = inject(CustomValidators);
 
   registrationForm!: FormGroup;
   userToRegister!: RegisterRequest;
+
+  hide = true;
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router) {

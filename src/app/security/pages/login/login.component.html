@@ -24,7 +24,14 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Password</mat-label>
-              <input type="password" matInput formControlName="password">
+              <input type="password" matInput
+                     [type]="hide ? 'password' : 'text'"
+                     formControlName="password">
+              <button mat-icon-button matSuffix type="button" color="primary" (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide">
+                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
               @if (passwordControl?.errors?.['required']) {
                 <mat-error>Password is <strong>required</strong></mat-error>
               }
@@ -51,7 +58,7 @@
 
     <div class="row py-2">
       <div class="col-md d-flex justify-content-center align-items-center">
-        <button mat-flat-button color="primary" routerLink="/registration">Go to registration</button>
+        <button mat-flat-button color="primary" routerLink="/registration" type="button">Go to registration</button>
       </div>
     </div>
 

@@ -37,7 +37,7 @@ export class ToolbarComponent implements OnInit {
           this.authenticationService.currentUserSignal.set(res);
         },
         error: () => {
-          this.authenticationService.currentUserSignal.set(undefined);
+          this.authenticationService.logout();
           localStorage.clear();
         },
         complete: () => {
@@ -46,11 +46,11 @@ export class ToolbarComponent implements OnInit {
   }
 
   shouldShowItem(): boolean {
-    return this.authenticationService.currentUserSignal() !== undefined;
+    return this.authenticationService.isLoggedIn();
   }
 
   logout() {
     localStorage.clear();
-    this.authenticationService.currentUserSignal.set(undefined);
+    this.authenticationService.logout();
   }
 }

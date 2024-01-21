@@ -8,6 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router, RouterLink} from "@angular/router";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ import {Router, RouterLink} from "@angular/router";
     MatInputModule,
     PreventNumbersDirective,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    MatIconModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -29,6 +31,8 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   userToLogin!: LoginRequest;
+
+  hide = true;
 
   constructor(private authenticationService: AuthenticationService, private router: Router) {
   }

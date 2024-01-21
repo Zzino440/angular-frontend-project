@@ -46,6 +46,8 @@ export class UserAddComponent implements OnInit {
 
   roleOptions = Object.values(Role);
 
+  hide = true;
+
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
     //get id from the route

@@ -27,6 +27,14 @@ export class AuthenticationService {
     return this.httpClient.post<User>(`${this.environment}${this.authUri}authenticate`, loginRequqest)
   }
 
+  isLoggedIn(){
+    return this.currentUserSignal() !== undefined;
+  }
+
+  logout(){
+    return this.currentUserSignal.set(undefined);
+  }
+
   checkEmail(email: string): Observable<string> {
     const params = new HttpParams().set('email', email);
     return this.httpClient.get<string>(`${this.environment}${this.authUri}check-email`, { params });
