@@ -3,7 +3,7 @@
     <div class="row w-100">
       @if (shouldShowItem()) {
         <div class="col-md-4 d-flex justify-content-start align-items-center">
-          <div>Benvenuto {{ authenticationService.currentUserSignal()?.email }}</div>
+          <div>Welcome <strong>{{ authenticationService.currentUserSignal()?.email }} </strong></div>
         </div>
       } @else {
         <div class="col-md-4 d-flex justify-content-start align-items-center">
