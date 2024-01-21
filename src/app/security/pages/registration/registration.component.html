@@ -40,12 +40,28 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="email">
+              <input placeholder="example@example.com" matInput formControlName="email">
+              @if (emailControl?.pending) {
+                <mat-progress-spinner
+                  matSuffix
+                  [mode]="'indeterminate'"
+                  [diameter]="20"
+                  *ngIf="emailControl?.pending"
+                >
+                </mat-progress-spinner>
+              } @else if(!emailControl?.pending && emailControl?.valid) {
+                <mat-icon matSuffix>
+                  done
+                </mat-icon>
+              }
               @if (emailControl?.errors?.['required']) {
                 <mat-error>Email is <strong>required</strong></mat-error>
               }
               @if (emailControl?.errors?.['email']) {
                 <mat-error>Not a valid <strong>Email</strong></mat-error>
+              }
+              @if (emailControl?.errors?.['emailExists']) {
+                <mat-error>This email already <strong>exists</strong></mat-error>
               }
             </mat-form-field>
           </div>

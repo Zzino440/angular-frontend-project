@@ -9,6 +9,9 @@ import {PreventNumbersDirective} from "../../../shared/directives/prevent-number
 import {AuthenticationService} from "../../services/authentication.service";
 import {RegisterRequest} from "../../models/register-request";
 import {Router} from "@angular/router";
+import {MatIconModule} from "@angular/material/icon";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +23,10 @@ import {Router} from "@angular/router";
     MatFormFieldModule,
     MatInputModule,
     PreventNumbersDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    NgIf
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
@@ -42,7 +48,11 @@ export class RegistrationComponent implements OnInit {
       {
         firstName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
         lastName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
-        email: new FormControl('', [Validators.required]),
+        email: new FormControl('', {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: [this.customValidators.emailExistsValidator()],
+          updateOn: 'blur', // o 'change', a seconda di quando vuoi che il validator venga attivato
+        }),
         password: new FormControl('', [Validators.required]),
       }
     )
