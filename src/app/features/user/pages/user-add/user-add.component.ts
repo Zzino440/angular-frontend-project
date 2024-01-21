@@ -12,7 +12,6 @@ import {CustomValidators} from "../../../../shared/validators/custom-validators"
 import {JsonPipe, NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {Role} from "../../models/role.enum";
-import {UtilService} from "../../../../shared/services/util.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatIconModule} from "@angular/material/icon";
 
@@ -36,7 +35,6 @@ import {MatIconModule} from "@angular/material/icon";
   styleUrl: './user-add.component.scss'
 })
 export class UserAddComponent implements OnInit {
-  utilService = inject(UtilService);
   customValidators= inject(CustomValidators);
   //main variables
   user: User = new User();
@@ -66,7 +64,7 @@ export class UserAddComponent implements OnInit {
         email: new FormControl('', {
           validators: [Validators.required, Validators.email],
           asyncValidators: [this.customValidators.emailExistsValidator()],
-          updateOn: 'blur' // o 'change', a seconda di quando vuoi che il validator venga attivato
+          updateOn: 'blur', // o 'change', a seconda di quando vuoi che il validator venga attivato
         }),
         password: new FormControl('', [Validators.required]),
         role: new FormControl('', [Validators.required])
@@ -98,6 +96,8 @@ export class UserAddComponent implements OnInit {
   setFormValuesAndValidatorsAndState() {
     if (this.isEditUser) {
       this.passwordControl?.clearValidators();
+      this.passwordControl?.updateValueAndValidity();
+      this.emailControl?.clearAsyncValidators();
       this.passwordControl?.updateValueAndValidity();
       this.userService.getUserById(this.currentUserId).subscribe(res => {
         this.user = res;

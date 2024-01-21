@@ -2,11 +2,13 @@ import {AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn} from '
 import {map, Observable} from "rxjs";
 import {inject, Injectable} from "@angular/core";
 import {UtilService} from "../services/util.service";
+import {AuthenticationService} from "../../security/services/authentication.service";
 
 @Injectable({providedIn: 'root'})
 export class CustomValidators {
 
   utilService = inject(UtilService);
+  authenticationService = inject(AuthenticationService)
 
   lettersOnlyValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -23,7 +25,7 @@ export class CustomValidators {
 
   emailExistsValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.utilService.checkEmail(control.value).pipe(
+      return this.authenticationService.checkEmail(control.value).pipe(
         map(emailExists => {
           // Se l'email esiste, ritorna un errore
           return emailExists ? {emailExists: true} : null;

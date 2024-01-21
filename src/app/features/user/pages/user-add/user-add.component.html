@@ -49,16 +49,19 @@
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
               <input placeholder="example@example.com" matInput formControlName="email">
-              <mat-progress-spinner
-                matSuffix
-                [mode]="'indeterminate'"
-                [diameter]="20"
-                *ngIf="emailControl?.pending"
-              >
-              </mat-progress-spinner>
-              <mat-icon matSuffix *ngIf="!emailControl?.pending && emailControl?.valid">
-                done
-              </mat-icon>
+              @if (emailControl?.pending) {
+                <mat-progress-spinner
+                  matSuffix
+                  [mode]="'indeterminate'"
+                  [diameter]="20"
+                  *ngIf="emailControl?.pending"
+                >
+                </mat-progress-spinner>
+              } @else if(!isEditUser && (!emailControl?.pending && emailControl?.valid)) {
+                <mat-icon matSuffix>
+                  done
+                </mat-icon>
+              }
               @if (emailControl?.errors?.['required']) {
                 <mat-error>Email is <strong>required</strong></mat-error>
               }
