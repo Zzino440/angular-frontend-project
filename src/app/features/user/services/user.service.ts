@@ -19,6 +19,12 @@ export class UserService {
     );
   }
 
+  getUserListExceptCurrent(id: number | undefined): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.environment}users-not-current/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   createUser(user: User): Observable<Object> {
     return this.httpClient.post(`${this.environment}users`, user).pipe(
       catchError(this.handleError)
@@ -46,7 +52,7 @@ export class UserService {
 
   private handleError(error: HttpErrorResponse) {
     // Logica per gestire l'errore
-    console.error('An error occured:', error.error);
+    console.error('errore segnalato dal userService:', error.error);
 
     // Restituisce un Observable che emette l'errore
     return throwError(() => error);

@@ -35,7 +35,7 @@ import {MatIconModule} from "@angular/material/icon";
   styleUrl: './user-add.component.scss'
 })
 export class UserAddComponent implements OnInit {
-  customValidators= inject(CustomValidators);
+  customValidators = inject(CustomValidators);
   //main variables
   user: User = new User();
   userForm!: FormGroup;
@@ -96,11 +96,12 @@ export class UserAddComponent implements OnInit {
   }
 
   setFormValuesAndValidatorsAndState() {
+    console.log('this.userForm.dirty  ', this.userForm.dirty)
     if (this.isEditUser) {
       this.passwordControl?.clearValidators();
       this.passwordControl?.updateValueAndValidity();
       this.emailControl?.clearAsyncValidators();
-      this.passwordControl?.updateValueAndValidity();
+      this.emailControl?.updateValueAndValidity();
       this.userService.getUserById(this.currentUserId).subscribe(res => {
         this.user = res;
         this.userForm.patchValue({...this.user});

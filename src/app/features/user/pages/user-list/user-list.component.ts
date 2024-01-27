@@ -11,6 +11,7 @@ import {Observable} from "rxjs";
 import {AsyncPipe} from "@angular/common";
 import {DatasourcePipe} from "../../../../shared/pipes/datasource.pipe";
 import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
+import {AuthenticationService} from "../../../../security/services/authentication.service";
 
 @Component({
   selector: 'app-user-list',
@@ -34,15 +35,21 @@ export class UserListComponent implements OnInit, OnDestroy {
   //utils variables
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions']
 
-  constructor(private userService: UserService, public dialog: MatDialog) {
+  constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit(): void {
-    this.getUsers();
+/*    this.getUsers();*/
+    this.getUserexceptCurrent();
   }
 
   getUsers() {
     this.userList$ = this.userService.getUserList();
+  }
+
+  getUserexceptCurrent(){
+    let currentUserId = this.authenticationService.currentUserSignal()?.id
+    this.userList$ = this.userService.getUserListExceptCurrent(currentUserId)
   }
 
   openDeleteUserDialog(userId: number) {
