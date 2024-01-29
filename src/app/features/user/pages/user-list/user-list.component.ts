@@ -42,6 +42,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     pageIndex:0,
     previousPageIndex:0
   };
+
   dataSource!: MatTableDataSource<User>;
 
   //utils variables
