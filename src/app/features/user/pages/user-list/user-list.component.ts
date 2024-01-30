@@ -11,8 +11,9 @@ import {AsyncPipe} from "@angular/common";
 import {DatasourcePipe} from "../../../../shared/pipes/datasource.pipe";
 import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
-import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
+import {MatPaginator, MatPaginatorDefaultOptions, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
+import {PagedResponse} from "../../../../shared/models/paged-response";
 
 @Component({
   selector: 'app-user-list',
@@ -37,10 +38,14 @@ export class UserListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
 
   pageEvent: PageEvent = {
-    length:0,
-    pageSize:10,
-    pageIndex:0,
-    previousPageIndex:0
+    length: 0,
+    pageSize: 10,
+    pageIndex: 0,
+  };
+
+  paginatorOption: MatPaginatorDefaultOptions = {
+    formFieldAppearance: "outline",
+    hidePageSize:true
   };
 
   dataSource!: MatTableDataSource<User>;
@@ -53,16 +58,19 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+
+    /*    this.paginatorOption.formFieldAppearance = "fill";*/
+    console.log('this.paginatorOption: ', this.paginatorOption)
   }
 
   getUserexceptCurrent(page: number, size: number) {
     let currentUserId = this.authenticationService.currentUserSignal()?.id;
     this.userService.getUserListExceptCurrent(currentUserId, page, size)
-      .subscribe(response => {
-        this.dataSource = new MatTableDataSource(response.content);
+      .subscribe(usersResponse => {
+        this.dataSource = new MatTableDataSource(usersResponse.content);
         this.dataSource.sort = this.sort;
-        this.pageEvent.length = response.totalElements
-        this.pageEvent.pageSize = response.size
+        this.pageEvent.length = usersResponse.totalElements;
+        this.pageEvent.pageSize = usersResponse.size;
       });
   }
 

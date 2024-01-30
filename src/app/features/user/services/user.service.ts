@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {User} from "../models/user";
 import {environment} from '../../../../environments/environment';
+import {PagedResponse} from "../../../shared/models/paged-response";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class UserService {
     );
   }
 
-  getUserListExceptCurrent(id: number | undefined, page: number, size: number): Observable<any> {
+  getUserListExceptCurrent(id: number | undefined, page: number, size: number): Observable<PagedResponse<User>> {
     let params = new HttpParams()
       .set('currentUserId', id ? id : '')
       .set('page', page)
