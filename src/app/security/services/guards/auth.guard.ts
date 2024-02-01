@@ -13,18 +13,16 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const userService = inject(UserService);
 
   const loggedUserId = Number(localStorage.getItem('userId'));
-  console.log('loggedUserId: ', loggedUserId)
   try {
     const user = await lastValueFrom(userService.getUserById(loggedUserId));
     authenticationService.currentUserSignal.set(user);
   } catch (error) {
-    authenticationService.currentUserSignal.set(undefined);
+    authenticationService.logout()
     localStorage.clear();
     console.log('Error fetching user:', error);
   }
 
-  const isAuthenticated = authenticationService.currentUserSignal() !== undefined;
-  console.log('isAuthenticated: ', isAuthenticated);
+  const isAuthenticated = authenticationService.isLoggedIn();
 
   if (isAuthenticated) {
     return true;

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -7,7 +7,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteUserDialogComponent} from "../../components/delete-user-dialog/delete-user-dialog.component";
-import {Subscription} from "rxjs";
+import {AsyncPipe} from "@angular/common";
+import {DatasourcePipe} from "../../../../shared/pipes/datasource.pipe";
+import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
+import {AuthenticationService} from "../../../../security/services/authentication.service";
+import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
+import {MatSort, MatSortModule} from "@angular/material/sort";
 
 @Component({
   selector: 'app-user-list',
@@ -16,56 +21,71 @@ import {Subscription} from "rxjs";
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    RouterLink
+    RouterLink,
+    AsyncPipe,
+    DatasourcePipe,
+    CamelCasePipe,
+    MatPaginatorModule,
+    MatSortModule
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit, OnDestroy {
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  pageEvent: PageEvent = {
+    length: 0,
+    pageSize: 10,
+    pageIndex: 0,
+  };
+
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
+
+  dataSource!: MatTableDataSource<User>;
+
+
   //utils variables
-  private subscription: Subscription = new Subscription();
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
 
-  userList!: User[];
-
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'actions']
-
-  datasource: MatTableDataSource<User> = new MatTableDataSource<User>();
-
-  constructor(private userService: UserService, public dialog: MatDialog) {
+  constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit(): void {
-    this.getUsers()
+    this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
   }
 
-  getUsers() {
-    this.subscription.add(
-      this.userService.getUserList().subscribe(res => {
-        this.userList = res;
-        console.log('this.userList: ',this.userList)
-        this.datasource.data = res;
-      })
-    )
+  getUserexceptCurrent(page: number, size: number) {
+    let currentUserId = this.authenticationService.currentUserSignal()?.id;
+    this.userService.getUserListExceptCurrent(currentUserId, page, size)
+      .subscribe(usersResponse => {
+        this.dataSource = new MatTableDataSource(usersResponse.content);
+        this.dataSource.sort = this.sort;
+        this.pageEvent.length = usersResponse.totalElements;
+        this.pageEvent.pageSize = usersResponse.size;
+      });
   }
+
+  onChangePage(pe: PageEvent) {
+    this.getUserexceptCurrent(pe.pageIndex, pe.pageSize);
+  }
+
 
   openDeleteUserDialog(userId: number) {
     const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
       data: {userId: userId}
     });
-
-    this.subscription.add(
-      dialogRef.afterClosed().subscribe(result => {
-        if (result?.status === 'success') {
-          this.getUsers();
-        } else if (result?.status === 'cancelled') {
-        }
-      })
-    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.status === 'success') {
+        this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+      } else if (result?.status === 'cancelled') {
+      }
+    })
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    console.log(this.subscription.closed);
   }
 }

@@ -1,6 +1,7 @@
 <div class="container pt-4 pb-2">
   <h1 class="fw-bold">User List</h1>
-  <table mat-table [dataSource]="datasource" class="mat-elevation-z8">
+  <table mat-table matSort matSortActive="email" matSortDirection="asc" [dataSource]="dataSource"
+         class="mat-elevation-z8">
     <ng-container matColumnDef="firstName">
       <th mat-header-cell *matHeaderCellDef>First Name</th>
       <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
@@ -12,8 +13,13 @@
     </ng-container>
 
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="email" disableClear>Email</th>
       <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="role">Role</th>
+      <td mat-cell *matCellDef="let element">{{ element.role | camelCase }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
@@ -34,6 +40,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator [pageIndex]="pageEvent.pageIndex" [length]="pageEvent.length" [pageSize]="pageEvent.pageSize" [pageSizeOptions]="pageSizeOptions"
+                 (page)="onChangePage($event)">
+  </mat-paginator>
+
 </div>
 
 

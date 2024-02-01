@@ -5,7 +5,6 @@ import {ToolbarItemsConfig} from "../../config/toolbarItemsConfig";
 import {RouterLink} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import {AuthenticationService} from "../../../security/services/authentication.service";
-import {UserService} from "../../../features/user/services/user.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -24,35 +23,18 @@ export class ToolbarComponent implements OnInit {
   authenticationService = inject(AuthenticationService);
   toolbarItems = ToolbarItemsConfig;
 
-  loggedUserId!: number;
-
-  constructor(private userService: UserService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.loggedUserId = Number(localStorage.getItem('userId'));
-    console.log('this.loggedUserId: ', this.loggedUserId)
-    this.userService.getUserById(this.loggedUserId)
-      .subscribe({
-        next: (res) => {
-          this.authenticationService.currentUserSignal.set(res);
-        },
-        error: () => {
-          this.authenticationService.currentUserSignal.set(undefined);
-          localStorage.clear();
-        },
-        complete: () => {
-          console.log('completed get user Id http call')
-        }
-      })
   }
 
   shouldShowItem(): boolean {
-    return this.authenticationService.currentUserSignal() !== undefined;
+    return this.authenticationService.isLoggedIn();
   }
 
   logout() {
     localStorage.clear();
-    this.authenticationService.currentUserSignal.set(undefined);
+    this.authenticationService.logout();
   }
 }

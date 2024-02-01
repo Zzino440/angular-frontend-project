@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../shared/validators/custom-validators";
 import {MatButtonModule} from "@angular/material/button";
@@ -8,7 +8,10 @@ import {MatInputModule} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
 import {RegisterRequest} from "../../models/register-request";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {MatIconModule} from "@angular/material/icon";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-registration',
@@ -20,15 +23,22 @@ import {Router} from "@angular/router";
     MatFormFieldModule,
     MatInputModule,
     PreventNumbersDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    NgIf,
+    RouterLink
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent implements OnInit {
+  customValidators = inject(CustomValidators);
 
   registrationForm!: FormGroup;
   userToRegister!: RegisterRequest;
+
+  hide = true;
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router) {
@@ -39,9 +49,13 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.registrationForm = new FormGroup(
       {
-        firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        email: new FormControl('', [Validators.required]),
+        firstName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        lastName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        email: new FormControl('', {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: [this.customValidators.emailExistsValidator()],
+          updateOn: 'blur', // o 'change', a seconda di quando vuoi che il validator venga attivato
+        }),
         password: new FormControl('', [Validators.required]),
       }
     )
@@ -66,11 +80,11 @@ export class RegistrationComponent implements OnInit {
     return this.registrationForm.get(['lastName']);
   }
 
-  get email() {
+  get emailControl() {
     return this.registrationForm.get(['email']);
   }
 
-  get password() {
+  get passwordControl() {
     return this.registrationForm.get(['password']);
   }
 
