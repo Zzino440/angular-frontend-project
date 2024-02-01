@@ -11,9 +11,8 @@ import {AsyncPipe} from "@angular/common";
 import {DatasourcePipe} from "../../../../shared/pipes/datasource.pipe";
 import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
-import {MatPaginator, MatPaginatorDefaultOptions, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
+import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
-import {PagedResponse} from "../../../../shared/models/paged-response";
 
 @Component({
   selector: 'app-user-list',
@@ -43,24 +42,20 @@ export class UserListComponent implements OnInit, OnDestroy {
     pageIndex: 0,
   };
 
-  paginatorOption: MatPaginatorDefaultOptions = {
-    formFieldAppearance: "outline",
-    hidePageSize:true
-  };
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
 
   dataSource!: MatTableDataSource<User>;
 
+
   //utils variables
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions']
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
 
   constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit(): void {
     this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
-
-    /*    this.paginatorOption.formFieldAppearance = "fill";*/
-    console.log('this.paginatorOption: ', this.paginatorOption)
   }
 
   getUserexceptCurrent(page: number, size: number) {
