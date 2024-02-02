@@ -1,8 +1,8 @@
 import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {MatInputModule} from "@angular/material/input";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule,} from "@angular/forms";
 import {UserFiltersService} from "../../services/user-filters.service";
-import {debounceTime, distinctUntilChanged, filter, of, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from "rxjs";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({

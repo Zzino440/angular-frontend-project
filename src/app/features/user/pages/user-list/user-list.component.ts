@@ -13,7 +13,7 @@ import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
 import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
-import {switchMap, tap} from "rxjs";
+import {tap} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 
 @Component({
