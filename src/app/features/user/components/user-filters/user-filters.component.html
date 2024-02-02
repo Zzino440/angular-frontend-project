@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-12 d-flex">
+    <form action="" [formGroup]="userFiltersForm" class="d-flex w-100">
+      <mat-form-field class="w-25" appearance="fill">
+        <input matInput placeholder="Search" type="text"
+               [matAutocomplete]="userEmailAutoComplelete"
+               formControlName="emailFilterControl">
+        <mat-autocomplete
+          (optionSelected)="onOptionSelected($event)"
+          #userEmailAutoComplelete="matAutocomplete">
+          @for (option of emailFilterOptions; track $index) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+

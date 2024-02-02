@@ -13,6 +13,8 @@ import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
 import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
+import {switchMap, tap} from "rxjs";
+import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 
 @Component({
   selector: 'app-user-list',
@@ -26,7 +28,8 @@ import {MatSort, MatSortModule} from "@angular/material/sort";
     DatasourcePipe,
     CamelCasePipe,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    UserFiltersComponent
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
@@ -44,9 +47,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
-
   dataSource!: MatTableDataSource<User>;
-
 
   //utils variables
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
@@ -59,14 +60,20 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   getUserexceptCurrent(page: number, size: number) {
-    let currentUserId = this.authenticationService.currentUserSignal()?.id;
-    this.userService.getUserListExceptCurrent(currentUserId, page, size)
-      .subscribe(usersResponse => {
+    const currentUserId = this.authenticationService.currentUserSignal()?.id;
+    return this.userService.getUserListExceptCurrent(currentUserId, page, size).pipe(
+      tap(usersResponse => {
+        // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
         this.dataSource = new MatTableDataSource(usersResponse.content);
         this.dataSource.sort = this.sort;
         this.pageEvent.length = usersResponse.totalElements;
         this.pageEvent.pageSize = usersResponse.size;
-      });
+      }),
+    ).subscribe();
+  }
+
+  handleSelectedEmail(email: string) {
+    console.log('Selected email:', email);
   }
 
   onChangePage(pe: PageEvent) {
