@@ -2,7 +2,8 @@
   <div class="col-md-12 d-flex">
     <form action="" [formGroup]="userFiltersForm" class="d-flex w-100">
       <mat-form-field class="w-25" appearance="fill">
-        <input matInput placeholder="Search" type="text"
+        <mat-label>Filter by email</mat-label>
+        <input matInput placeholder="Email" type="text"
                [matAutocomplete]="userEmailAutoComplelete"
                formControlName="emailFilterControl">
         <mat-autocomplete

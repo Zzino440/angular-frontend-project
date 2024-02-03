@@ -20,13 +20,14 @@ export class UserService {
     );
   }
 
-  getUserListExceptCurrent(id: number | undefined, page: number, size: number): Observable<PagedResponse<User>> {
+  getUserListExceptCurrent(id: number | undefined, email: string, page: number, size: number): Observable<PagedResponse<User>> {
     let params = new HttpParams()
       .set('currentUserId', id ? id : '')
+      .set('userEmail', email ? email: '')
       .set('page', page)
       .set('size', size);
 
-    return this.httpClient.get<any>(`${this.environment}users-not-current`, { params })
+    return this.httpClient.get<any>(`${this.environment}users-not-current`, {params})
       .pipe(catchError(this.handleError));
   }
 

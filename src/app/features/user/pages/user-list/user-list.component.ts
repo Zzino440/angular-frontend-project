@@ -13,7 +13,7 @@ import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
 import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
-import {tap} from "rxjs";
+import {Subject, Subscription, takeUntil, tap} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 
 @Component({
@@ -44,13 +44,19 @@ export class UserListComponent implements OnInit, OnDestroy {
     pageSize: 10,
     pageIndex: 0,
   };
-
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   dataSource!: MatTableDataSource<User>;
 
+  //filters variables
+  filterEmail: string = '';
+
   //utils variables
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
+
+  //subscription variables
+  private subscriptionManager = new Subject<void>();
+
 
   constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
   }
@@ -61,18 +67,22 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   getUserexceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
-    return this.userService.getUserListExceptCurrent(currentUserId, page, size).pipe(
-      tap(usersResponse => {
-        // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
-        this.dataSource = new MatTableDataSource(usersResponse.content);
-        this.dataSource.sort = this.sort;
-        this.pageEvent.length = usersResponse.totalElements;
-        this.pageEvent.pageSize = usersResponse.size;
-      }),
-    ).subscribe();
+    this.subscriptionManager.next();
+    return this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
+      takeUntil(this.subscriptionManager),
+    ).subscribe(usersResponse => {
+      // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
+      this.dataSource = new MatTableDataSource(usersResponse.content);
+      this.dataSource.sort = this.sort;
+      this.pageEvent.length = usersResponse.totalElements;
+      this.pageEvent.pageSize = usersResponse.size;
+      console.log('usersResponse: ', usersResponse)
+    });
   }
 
   handleSelectedEmail(email: string) {
+    this.filterEmail = email;
+    this.getUserexceptCurrent(0, 10)
     console.log('Selected email:', email);
   }
 
@@ -93,6 +103,8 @@ export class UserListComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
+    this.subscriptionManager.next();
+    this.subscriptionManager.complete();
   }
 }

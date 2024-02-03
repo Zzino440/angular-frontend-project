@@ -24,6 +24,8 @@ export class UserFiltersComponent implements OnInit {
   userFilterService = inject(UserFiltersService);
   userFiltersForm!: FormGroup;
 
+  selectedFromAutocomplete = false;
+
   //email Filter variables
   emailFilterOptions!: string[];
 
@@ -41,8 +43,14 @@ export class UserFiltersComponent implements OnInit {
   getUsersByEmail() {
     this.getEmailFilterControl()?.valueChanges.pipe(
       debounceTime(500),
-      // Applica il filtro per valori vuoti o valori con lunghezza >= 3
-      filter(emailFilterValue => emailFilterValue === '' || emailFilterValue.length >= 3),
+      filter(emailFilterValue => {
+        // Se il valore proviene dall'autocomplete, salta la chiamata al servizio
+        if (this.selectedFromAutocomplete) {
+          this.selectedFromAutocomplete = false; // Reimposta il flag
+          return false; // Salta questa iterazione
+        }
+        return emailFilterValue === '' || emailFilterValue.length >= 3;
+      }),
       distinctUntilChanged(),
       switchMap(emailFilterValue =>
         this.userFilterService.getUsersByEmail(emailFilterValue)
@@ -53,9 +61,12 @@ export class UserFiltersComponent implements OnInit {
     ).subscribe();
   }
 
+
   onOptionSelected(event: MatAutocompleteSelectedEvent) {
+    this.selectedFromAutocomplete = true;
+    // Ora puoi anche emettere il valore selezionato qui, se necessario
     const selectedValue = event.option.value;
-    this.selectedEmail.emit(selectedValue); // Assicurati che `selectedEmail` sia di tipo `EventEmitter<string>`
+    this.selectedEmail.emit(selectedValue);
   }
 
 
