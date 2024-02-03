@@ -15,6 +15,7 @@ import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/pag
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {Subject, Subscription, takeUntil, tap} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-user-list',
@@ -41,7 +42,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   pageEvent: PageEvent = {
     length: 0,
-    pageSize: 10,
+    pageSize: 1000,
     pageIndex: 0,
   };
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -54,9 +55,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   //utils variables
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
 
-  //subscription variables
-  private subscriptionManager = new Subject<void>();
 
+  private cancelRequest = new Subject<void>();
 
   constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
   }
@@ -67,9 +67,9 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   getUserexceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
-    this.subscriptionManager.next();
-    return this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
-      takeUntil(this.subscriptionManager),
+    this.cancelRequest.next();
+    this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
+      takeUntil(this.cancelRequest)
     ).subscribe(usersResponse => {
       // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
       this.dataSource = new MatTableDataSource(usersResponse.content);
@@ -104,7 +104,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptionManager.next();
-    this.subscriptionManager.complete();
+    this.cancelRequest.next();
+    this.cancelRequest.complete();
   }
 }
