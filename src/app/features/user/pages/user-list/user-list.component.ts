@@ -13,9 +13,8 @@ import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
 import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
-import {Subject, Subscription, takeUntil, tap} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-user-list',
@@ -42,7 +41,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   pageEvent: PageEvent = {
     length: 0,
-    pageSize: 1000,
+    pageSize: 10,
     pageIndex: 0,
   };
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -55,8 +54,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   //utils variables
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
 
-
-  private cancelRequest = new Subject<void>();
+  //subject that controls if the component is destroyed or another request has been submitted
+  //controls the subscription to getUser
+  private getUsersRequestManager = new Subject<void>();
 
   constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
   }
@@ -67,23 +67,24 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   getUserexceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
-    this.cancelRequest.next();
+    this.getUsersRequestManager.next();
     this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
-      takeUntil(this.cancelRequest)
+      takeUntil(this.getUsersRequestManager)
     ).subscribe(usersResponse => {
       // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
       this.dataSource = new MatTableDataSource(usersResponse.content);
       this.dataSource.sort = this.sort;
       this.pageEvent.length = usersResponse.totalElements;
       this.pageEvent.pageSize = usersResponse.size;
-      console.log('usersResponse: ', usersResponse)
     });
   }
 
   handleSelectedEmail(email: string) {
     this.filterEmail = email;
-    this.getUserexceptCurrent(0, 10)
-    console.log('Selected email:', email);
+    this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+    //resetto il pageIndex quando applico il filtro
+    //in questo modo quando filtro che sono su una pagina differente dalla prima, mi torna sulla prima pagina
+    this.paginator.pageIndex = 0;
   }
 
   onChangePage(pe: PageEvent) {
@@ -98,13 +99,14 @@ export class UserListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result?.status === 'success') {
         this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+        this.paginator.pageIndex = 0;
       } else if (result?.status === 'cancelled') {
       }
     })
   }
 
   ngOnDestroy() {
-    this.cancelRequest.next();
-    this.cancelRequest.complete();
+    this.getUsersRequestManager.next();
+    this.getUsersRequestManager.complete();
   }
 }

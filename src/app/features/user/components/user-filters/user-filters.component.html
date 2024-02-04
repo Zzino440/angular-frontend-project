@@ -6,6 +6,9 @@
         <input matInput placeholder="Email" type="text"
                [matAutocomplete]="userEmailAutoComplelete"
                formControlName="emailFilterControl">
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="resetFilter()">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-autocomplete
           (optionSelected)="onOptionSelected($event)"
           #userEmailAutoComplelete="matAutocomplete">
