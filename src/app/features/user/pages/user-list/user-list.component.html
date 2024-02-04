@@ -1,5 +1,6 @@
 <div class="container pt-4 pb-2">
   <h1 class="fw-bold">User List</h1>
+  <app-user-filters (selectedEmail)="handleSelectedEmail($event)"></app-user-filters>
   <table mat-table matSort matSortActive="email" matSortDirection="asc" [dataSource]="dataSource"
          class="mat-elevation-z8">
     <ng-container matColumnDef="firstName">
@@ -40,7 +41,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageIndex]="pageEvent.pageIndex" [length]="pageEvent.length" [pageSize]="pageEvent.pageSize" [pageSizeOptions]="pageSizeOptions"
+  <mat-paginator [pageIndex]="pageEvent.pageIndex" [length]="pageEvent.length" [pageSize]="pageEvent.pageSize"
+                 showFirstLastButtons
+                 [pageSizeOptions]="pageSizeOptions"
                  (page)="onChangePage($event)">
   </mat-paginator>
 

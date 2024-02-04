@@ -4,7 +4,6 @@ import {AuthenticationService} from "../authentication.service";
 import {UserService} from "../../../features/user/services/user.service";
 import {lastValueFrom} from "rxjs";
 
-
 /**canActivate method (guard)**/
 export const authGuard: CanActivateFn = async (route, state) => {
   //injections
