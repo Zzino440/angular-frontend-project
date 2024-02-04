@@ -4,6 +4,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {User} from "../models/user";
 import {environment} from '../../../../environments/environment';
 import {PagedResponse} from "../../../shared/models/paged-response";
+import {Role} from "../models/role.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class UserService {
   getUserListExceptCurrent(id: number | undefined, email: string, page: number, size: number): Observable<PagedResponse<User>> {
     let params = new HttpParams()
       .set('currentUserId', id ? id : '')
-      .set('userEmail', email ? email: '')
+      .set('userEmail', email ? email : '')
       .set('page', page)
       .set('size', size);
 
@@ -56,12 +57,15 @@ export class UserService {
     )
   }
 
-
   private handleError(error: HttpErrorResponse) {
     // Logica per gestire l'errore
     console.error('errore segnalato dal userService:', error.error);
 
     // Restituisce un Observable che emette l'errore
     return throwError(() => error);
+  }
+
+  getRolesAsArray(): Role[] {
+    return Object.values(Role)
   }
 }

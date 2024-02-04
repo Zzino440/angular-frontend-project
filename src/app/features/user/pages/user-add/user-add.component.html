@@ -99,7 +99,7 @@
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Choose a Role</mat-label>
               <mat-select formControlName="role">
-                @for (role of roleOptions; track $index) {
+                @for (role of userService.getRolesAsArray(); track $index) {
                   <mat-option [value]="role">
                     {{ role }}
                   </mat-option>

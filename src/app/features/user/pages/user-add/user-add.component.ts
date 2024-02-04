@@ -36,6 +36,7 @@ import {MatIconModule} from "@angular/material/icon";
 })
 export class UserAddComponent implements OnInit {
   customValidators = inject(CustomValidators);
+  userService = inject(UserService);
   //main variables
   user: User = new User();
   userForm!: FormGroup;
@@ -49,7 +50,7 @@ export class UserAddComponent implements OnInit {
   hide = true;
 
 
-  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute) {
     //get id from the route
     this.route.paramMap.subscribe(params => {
       this.currentUserId = Number(params.get('id'));

@@ -1,22 +1,38 @@
 <div class="row">
   <div class="col-md-12 d-flex">
     <form action="" [formGroup]="userFiltersForm" class="d-flex w-100">
-      <mat-form-field class="w-25" appearance="fill">
-        <mat-label>Filter by email</mat-label>
-        <input matInput placeholder="Email" type="text"
-               [matAutocomplete]="userEmailAutoComplelete"
-               formControlName="emailFilterControl">
-        <button matSuffix mat-icon-button aria-label="Clear" (click)="resetFilter()">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-autocomplete
-          (optionSelected)="onOptionSelected($event)"
-          #userEmailAutoComplelete="matAutocomplete">
-          @for (option of emailFilterOptions; track $index) {
-            <mat-option [value]="option">{{ option }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
+      <div class="row w-100 ">
+        <div class="col-md-3 d-flex">
+          <mat-form-field class="" appearance="fill">
+            <mat-label>Filter by email</mat-label>
+            <input matInput placeholder="Email" type="text"
+                   [matAutocomplete]="userEmailAutoComplelete"
+                   formControlName="emailFilterControl">
+            <button [disabled]="getEmailFilterControl()?.value == ''" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="resetFilter()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete
+              (optionSelected)="onOptionSelected($event)"
+              #userEmailAutoComplelete="matAutocomplete">
+              @for (option of emailFilterOptions; track $index) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-3 d-flex">
+          <mat-form-field class="" appearance="fill">
+            <mat-select formControlName="roleFilterControl" multiple>
+              @for (role of userService.getRolesAsArray(); track $index) {
+                <mat-option [value]="role">{{ role }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
     </form>
   </div>
 </div>
