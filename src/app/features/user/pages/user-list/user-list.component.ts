@@ -71,7 +71,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
       takeUntil(this.getUsersRequestManager)
     ).subscribe(usersResponse => {
-      // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
       this.dataSource = new MatTableDataSource(usersResponse.content);
       this.dataSource.sort = this.sort;
       this.pageEvent.length = usersResponse.totalElements;
