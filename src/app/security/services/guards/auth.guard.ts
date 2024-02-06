@@ -16,7 +16,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
     const user = await lastValueFrom(userService.getUserById(loggedUserId));
     authenticationService.currentUserSignal.set(user);
   } catch (error) {
-    authenticationService.logout()
+    authenticationService.logout();
     localStorage.clear();
     console.log('Error fetching user:', error);
   }
