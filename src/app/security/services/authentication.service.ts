@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {LoginRequest} from "../models/login-request";
 import {User} from "../../features/user/models/user";
 import {Permission} from "../../features/user/models/permission";
+import {Role} from "../../features/user/models/role.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,10 @@ export class AuthenticationService {
 
   userHasOneOfTheAuthorities(permissions: Permission[]) {
     return permissions.some(permission => this.currentUserSignal()?.authorities.includes(permission));
+  }
+
+  userHasOneOfTheRoles(roles: Role[]){
+    return roles.some(role => this.currentUserSignal()?.role.includes(role))
   }
 
   checkEmail(email: string): Observable<string> {

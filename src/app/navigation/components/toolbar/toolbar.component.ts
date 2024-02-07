@@ -3,7 +3,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {ToolbarItemsConfig} from "../../config/toolbarItemsConfig";
 import {RouterLink} from "@angular/router";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {AuthenticationService} from "../../../security/services/authentication.service";
 
 @Component({
@@ -14,7 +14,8 @@ import {AuthenticationService} from "../../../security/services/authentication.s
     MatButtonModule,
     RouterLink,
     NgForOf,
-    NgIf
+    NgIf,
+    TitleCasePipe
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'
