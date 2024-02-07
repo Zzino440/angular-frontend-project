@@ -29,9 +29,11 @@
         <button [routerLink]="['/user-detail', element.id]" color="primary" mat-icon-button>
           <mat-icon>visibility</mat-icon>
         </button>
-        <button [routerLink]="['/user-edit', element.id]" color="primary" mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
+        @if(authenticationService.userHasOneOfTheAuthorities([Permission.ADMIN_CREATE])){
+          <button [routerLink]="['/user-edit', element.id]" color="primary" mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+        }
         <button (click)="openDeleteUserDialog(element.id)" color="warn" mat-icon-button>
           <mat-icon>delete</mat-icon>
         </button>

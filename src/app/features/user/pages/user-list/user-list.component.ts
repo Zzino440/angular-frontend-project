@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -15,6 +15,7 @@ import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/pag
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {Subject, takeUntil} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
+import {Permission} from "../../models/permission";
 
 @Component({
   selector: 'app-user-list',
@@ -35,6 +36,9 @@ import {UserFiltersComponent} from "../../components/user-filters/user-filters.c
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit, OnDestroy {
+
+  //direct injection cause i need to use it in html
+  authenticationService = inject(AuthenticationService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,11 +62,13 @@ export class UserListComponent implements OnInit, OnDestroy {
   //controls the subscription to getUser
   private getUsersRequestManager = new Subject<void>();
 
-  constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
+  constructor(private userService: UserService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+
+    console.log(this.authenticationService.currentUserSignal()?.authorities);
   }
 
   getUserexceptCurrent(page: number, size: number) {
@@ -109,4 +115,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.getUsersRequestManager.next();
     this.getUsersRequestManager.complete();
   }
+
+  protected readonly Permission = Permission;
 }
