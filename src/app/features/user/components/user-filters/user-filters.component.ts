@@ -21,8 +21,6 @@ import {MatButtonModule} from "@angular/material/button";
 })
 export class UserFiltersComponent implements OnInit {
   @ViewChild('userEmailAutoComplelete') userEmailFilterAutocomplete!: MatAutocomplete;
-
-
   @Output() selectedEmail = new EventEmitter<string>();
 
   //injections

@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', res.token);
         localStorage.setItem('userId', String(res.id));
         this.authenticationService.currentUserSignal.set(res);
+        console.log(this.authenticationService.currentUserSignal()?.token)
         this.router.navigate(['/users']).then();
       })
   }

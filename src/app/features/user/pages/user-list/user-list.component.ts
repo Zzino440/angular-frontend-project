@@ -16,7 +16,6 @@ import {MatSort, MatSortModule} from "@angular/material/sort";
 import {Subject, takeUntil} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 import {Permission} from "../../models/permission";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-user-list',

@@ -46,7 +46,7 @@ export class AuthenticationService {
   }
 
   userHasOneOfTheRoles(roles: Role[]){
-    return roles.some(role => this.currentUserSignal()?.role.includes(role))
+      return roles.some(role => this.currentUserSignal()?.role?.includes(role))
   }
 
   checkEmail(email: string): Observable<string> {
