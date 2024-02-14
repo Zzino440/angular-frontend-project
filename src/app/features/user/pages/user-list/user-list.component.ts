@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -15,6 +15,7 @@ import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/pag
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {Subject, takeUntil} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
+import {Permission} from "../../models/permission";
 
 @Component({
   selector: 'app-user-list',
@@ -35,6 +36,9 @@ import {UserFiltersComponent} from "../../components/user-filters/user-filters.c
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit, OnDestroy {
+
+  //direct injection cause i need to use it in html
+  authenticationService = inject(AuthenticationService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,7 +62,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   //controls the subscription to getUser
   private getUsersRequestManager = new Subject<void>();
 
-  constructor(private userService: UserService, public dialog: MatDialog, private authenticationService: AuthenticationService) {
+  constructor(private userService: UserService, public dialog: MatDialog, private destroyRef: DestroyRef) {
   }
 
   ngOnInit(): void {
@@ -69,7 +73,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
     this.getUsersRequestManager.next();
     this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
-      takeUntil(this.getUsersRequestManager)
+      takeUntil(this.getUsersRequestManager),
     ).subscribe(usersResponse => {
       // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
       this.dataSource = new MatTableDataSource(usersResponse.content);
@@ -78,6 +82,11 @@ export class UserListComponent implements OnInit, OnDestroy {
       this.pageEvent.pageSize = usersResponse.size;
     });
   }
+
+  getUserExceptCurrent() {
+
+  }
+
 
   handleSelectedEmail(email: string) {
     this.filterEmail = email;
@@ -109,4 +118,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.getUsersRequestManager.next();
     this.getUsersRequestManager.complete();
   }
+
+  protected readonly Permission = Permission;
 }
