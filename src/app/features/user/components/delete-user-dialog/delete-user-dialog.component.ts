@@ -26,7 +26,7 @@ import {UserService} from "../../services/user.service";
 })
 export class DeleteUserDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService, public dialogRef: MatDialogRef<DeleteUserDialogComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { userId:number }, private userService: UserService, public dialogRef: MatDialogRef<DeleteUserDialogComponent>) {
   }
 
   ngOnInit() {

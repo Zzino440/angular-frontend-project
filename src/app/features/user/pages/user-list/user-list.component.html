@@ -1,6 +1,8 @@
 <div class="container pt-4 pb-2">
   <h1 class="fw-bold">User List</h1>
-  <table mat-table [dataSource]="datasource" class="mat-elevation-z8">
+  <app-user-filters (selectedEmail)="handleSelectedEmail($event)"></app-user-filters>
+  <table mat-table matSort matSortActive="email" matSortDirection="asc" [dataSource]="dataSource"
+         class="mat-elevation-z8">
     <ng-container matColumnDef="firstName">
       <th mat-header-cell *matHeaderCellDef>First Name</th>
       <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
@@ -12,8 +14,13 @@
     </ng-container>
 
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="email" disableClear>Email</th>
       <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="role">Role</th>
+      <td mat-cell *matCellDef="let element">{{ element.role | camelCase }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
@@ -22,18 +29,29 @@
         <button [routerLink]="['/user-detail', element.id]" color="primary" mat-icon-button>
           <mat-icon>visibility</mat-icon>
         </button>
-        <button [routerLink]="['/user-edit', element.id]" color="primary" mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button (click)="openDeleteUserDialog(element.id)" color="warn" mat-icon-button>
-          <mat-icon>delete</mat-icon>
-        </button>
+
+        @if(authenticationService.userHasOneOfTheAuthorities([Permission.ADMIN_UPDATE])){
+          <button [routerLink]="['/user-edit', element.id]" color="primary" mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+        }
+        @if (authenticationService.userHasOneOfTheAuthorities([Permission.ADMIN_DELETE])){
+          <button (click)="openDeleteUserDialog(element.id)" color="warn" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        }
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator [pageIndex]="pageEvent.pageIndex" [length]="pageEvent.length" [pageSize]="pageEvent.pageSize"
+                 showFirstLastButtons
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="onChangePage($event)">
+  </mat-paginator>
+
 </div>
 
 

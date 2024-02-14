@@ -1,15 +1,23 @@
 <mat-toolbar color="primary" class="w-100">
   <div class="container">
     <div class="row w-100">
-      <div class="col-md-4 d-flex justify-content-start align-items-center">
-        <div>Angular Front-End Project</div>
-      </div>
+      @if (shouldShowItem()) {
+        <div class="col-md-4 d-flex justify-content-start align-items-center">
+          <div>Welcome <strong>{{ authenticationService.currentUserSignal()?.email }} </strong>({{authenticationService.currentUserSignal()?.role | titlecase}})</div>
+        </div>
+      } @else {
+        <div class="col-md-4 d-flex justify-content-start align-items-center">
+          <div>Angular Front-End Project</div>
+        </div>
+      }
       @if (shouldShowItem()) {
         <div class="col-md d-flex justify-content-end gap-2">
           @for (item of toolbarItems; track $index) {
-            <button mat-flat-button color="primary" [routerLink]="item.route">
-              {{ item.name }}
-            </button>
+            @if (authenticationService.userHasOneOfTheRoles(item.roles)) {
+              <button mat-flat-button color="primary" [routerLink]="item.route">
+                {{ item.name }}
+              </button>
+            }
           }
           <button mat-flat-button color="warn" [routerLink]="['/login']" (click)="logout()">Logout</button>
         </div>

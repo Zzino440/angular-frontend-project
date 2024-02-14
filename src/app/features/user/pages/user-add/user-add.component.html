@@ -1,5 +1,9 @@
 <div class="container pt-4">
-  <h1 class="text-center fw-bold"> Add User</h1>
+  <h1 class="text-center fw-bold">@if (isEditUser) {
+    Edit User
+  } @else {
+    Add User
+  }</h1>
 
   <mat-card class="mat-elevation-z8">
     <form [formGroup]="userForm" (ngSubmit)="submitForm()">
@@ -9,12 +13,14 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" appPreventNumbers>
+              <input matInput formControlName="firstName"
+                     placeholder="John"
+                     appPreventNumbers>
               @if (firstNameControl?.errors?.['required']) {
                 <mat-error>First Name is <strong>required</strong></mat-error>
               }
               @if (firstNameControl?.errors?.['forbiddenCharacters']) {
-                <mat-error>Only letters <strong>allowed</strong></mat-error>
+                <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong> spaces</mat-error>
               }
             </mat-form-field>
           </div>
@@ -25,12 +31,14 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" appPreventNumbers>
+              <input matInput formControlName="lastName"
+                     placeholder="Smith"
+                     appPreventNumbers>
               @if (lastNameControl?.errors?.['required']) {
                 <mat-error>Last Name is <strong>required</strong></mat-error>
               }
               @if (lastNameControl?.errors?.['forbiddenCharacters']) {
-                <mat-error>Only letters <strong>allowed</strong></mat-error>
+                <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong> spaces</mat-error>
               }
             </mat-form-field>
           </div>
@@ -40,27 +48,84 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="email">
-              @if (email?.errors?.['required']) {
+              <input placeholder="example@example.com" matInput formControlName="email">
+              @if (emailControl?.pending) {
+                <mat-progress-spinner
+                  matSuffix
+                  [mode]="'indeterminate'"
+                  [diameter]="20"
+                  *ngIf="emailControl?.pending"
+                >
+                </mat-progress-spinner>
+              } @else if(!isEditUser && (!emailControl?.pending && emailControl?.valid)) {
+                <mat-icon matSuffix>
+                  done
+                </mat-icon>
+              }
+              @if (emailControl?.errors?.['required']) {
                 <mat-error>Email is <strong>required</strong></mat-error>
               }
-              @if (email?.errors?.['email']) {
+              @if (emailControl?.errors?.['email']) {
                 <mat-error>Not a valid <strong>Email</strong></mat-error>
+              }
+              @if (emailControl?.errors?.['emailExists']) {
+                <mat-error>This email already <strong>exists</strong></mat-error>
               }
             </mat-form-field>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput
+                     [type]="hide ? 'password' : 'text'"
+                     formControlName="password">
+              <button mat-icon-button matSuffix type="button" color="primary" (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide">
+                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              @if (passwordControl?.errors?.['required']) {
+                <mat-error>Password is <strong>required</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Choose a Role</mat-label>
+              <mat-select formControlName="role">
+                @for (role of roleOptions; track $index) {
+                  <mat-option [value]="role">
+                    {{ role }}
+                  </mat-option>
+                }
+              </mat-select>
+              @if (roleControl?.errors?.['required']) {
+                <mat-error>Role is <strong>required</strong></mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="userForm.invalid || (!userForm.dirty && !userForm.touched)" type="submit"
-                  color="primary" mat-flat-button>
-            @if (editUser) {
+          @if (isEditUser) {
+            <button [disabled]="userForm.invalid || (!userForm.dirty)" type="submit"
+                    color="primary" mat-flat-button>
               Edit
-            } @else {
+            </button>
+          } @else {
+            <button [disabled]="userForm.invalid || (!userForm.dirty && !userForm.touched)" type="submit"
+                    color="primary" mat-flat-button>
               Add
-            }
-          </button>
+            </button>
+          }
         </div>
       </div>
 

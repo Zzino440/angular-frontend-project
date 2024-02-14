@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -10,6 +10,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {CustomValidators} from "../../../../shared/validators/custom-validators";
 import {JsonPipe, NgIf} from "@angular/common";
+import {MatSelectModule} from "@angular/material/select";
+import {Role} from "../../models/role.enum";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-user-add',
@@ -23,18 +27,26 @@ import {JsonPipe, NgIf} from "@angular/common";
     PreventNumbersDirective,
     NgIf,
     JsonPipe,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
   ],
   templateUrl: './user-add.component.html',
   styleUrl: './user-add.component.scss'
 })
 export class UserAddComponent implements OnInit {
+  customValidators = inject(CustomValidators);
   //main variables
   user: User = new User();
   userForm!: FormGroup;
 
   //utility variables
   currentUserId!: number;
-  editUser!: boolean;
+  isEditUser!: boolean;
+
+  roleOptions = Object.values(Role);
+
+  hide = true;
 
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
@@ -43,23 +55,29 @@ export class UserAddComponent implements OnInit {
       this.currentUserId = Number(params.get('id'));
     });
 
-    this.editUser = !!this.currentUserId;
+    this.isEditUser = !!this.currentUserId;
   }
 
   ngOnInit(): void {
     this.userForm = new FormGroup(
       {
-        firstName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        lastName: new FormControl('', [Validators.required, CustomValidators.lettersOnlyValidator()]),
-        email: new FormControl('', [Validators.required, Validators.email])
+        firstName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        lastName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        email: new FormControl('', {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: [this.customValidators.emailExistsValidator()],
+          updateOn: 'blur', // o 'change', a seconda di quando vuoi che il validator venga attivato
+        }),
+        password: new FormControl('', [Validators.required]),
+        role: new FormControl('', [Validators.required])
       }
     )
-    this.setFormValues();
+    this.setFormValuesAndValidatorsAndState();
   }
 
   submitForm() {
-    this.getFormValues();
-    this.editUser ? this.updateUser() : this.addUser();
+    this.user = this.userForm.getRawValue();
+    this.isEditUser ? this.updateUser() : this.addUser();
   }
 
   addUser() {
@@ -77,20 +95,16 @@ export class UserAddComponent implements OnInit {
     })
   }
 
-  // form get and set
-  getFormValues() {
-    this.user.firstName = this.firstNameControl?.value;
-    this.user.lastName = this.lastNameControl?.value;
-    this.user.email = this.email?.value;
-  }
-
-  setFormValues() {
-    if (this.editUser) {
+  setFormValuesAndValidatorsAndState() {
+    console.log('this.userForm.dirty  ', this.userForm.dirty)
+    if (this.isEditUser) {
+      this.passwordControl?.clearValidators();
+      this.passwordControl?.updateValueAndValidity();
+      this.emailControl?.clearAsyncValidators();
+      this.emailControl?.updateValueAndValidity();
       this.userService.getUserById(this.currentUserId).subscribe(res => {
         this.user = res;
-        this.firstNameControl?.setValue(this.user.firstName);
-        this.lastNameControl?.setValue(this.user.lastName);
-        this.email?.setValue(this.user.email);
+        this.userForm.patchValue({...this.user});
         this.userForm.markAllAsTouched();
       })
     }
@@ -109,8 +123,16 @@ export class UserAddComponent implements OnInit {
     return this.userForm.get(['lastName']);
   }
 
-  get email() {
+  get emailControl() {
     return this.userForm.get(['email']);
+  }
+
+  get passwordControl() {
+    return this.userForm.get(['password']);
+  }
+
+  get roleControl() {
+    return this.userForm.get(['role']);
   }
 
 }
