@@ -2,18 +2,20 @@
   <div class="container">
     <div class="row w-100">
       @if (shouldShowItem()) {
-<!--          <button
-            type="button"
-            aria-label="Toggle sidenav"
-            mat-icon-button
-            class="me-2"
-            (click)="drawer.toggle()">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-          </button>-->
+        <!--          <button
+                    type="button"
+                    aria-label="Toggle sidenav"
+                    mat-icon-button
+                    class="me-2"
+                    (click)="drawer.toggle()">
+                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                  </button>-->
         <div class="col-md-4 d-flex justify-content-start align-items-center">
-          <div>Welcome
-            <strong>{{ authenticationService.currentUserSignal()?.email }} </strong>({{ authenticationService.currentUserSignal()?.role | titlecase }}
-            )
+          <div class="text-center">Welcome
+            <strong>
+              {{ authenticationService.currentUserSignal()?.email }}
+            </strong>
+            ({{ authenticationService.currentUserSignal()?.role | titlecase }})
           </div>
         </div>
       } @else {
