@@ -4,11 +4,12 @@ import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {UserListComponent} from "./features/user/pages/user-list/user-list.component";
 import {ToolbarComponent} from "./navigation/components/toolbar/toolbar.component";
 import {AuthenticationService} from "./security/services/authentication.service";
+import {NavigationComponent} from "./navigation/pages/navigation.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, UserListComponent, ToolbarComponent],
+  imports: [CommonModule, RouterOutlet, UserListComponent, ToolbarComponent, NavigationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -22,7 +23,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   hideAppMethod() {

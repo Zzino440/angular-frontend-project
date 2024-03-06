@@ -1,10 +1,12 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {ToolbarItemsConfig} from "../../config/toolbarItemsConfig";
 import {RouterLink} from "@angular/router";
-import {NgForOf, NgIf, TitleCasePipe} from "@angular/common";
+import {JsonPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {AuthenticationService} from "../../../security/services/authentication.service";
+import {MatSidenav} from "@angular/material/sidenav";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-toolbar',
@@ -15,12 +17,16 @@ import {AuthenticationService} from "../../../security/services/authentication.s
     RouterLink,
     NgForOf,
     NgIf,
-    TitleCasePipe
+    TitleCasePipe,
+    JsonPipe,
+    MatIcon
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'
 })
 export class ToolbarComponent implements OnInit {
+
+  @Input() drawer!: MatSidenav;
   authenticationService = inject(AuthenticationService);
   toolbarItems = ToolbarItemsConfig;
 
