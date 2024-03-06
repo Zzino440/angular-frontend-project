@@ -3,7 +3,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {ToolbarItemsConfig} from "../../config/toolbarItemsConfig";
 import {RouterLink} from "@angular/router";
-import {NgForOf, NgIf, TitleCasePipe} from "@angular/common";
+import {JsonPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {AuthenticationService} from "../../../security/services/authentication.service";
 
 @Component({
@@ -15,7 +15,8 @@ import {AuthenticationService} from "../../../security/services/authentication.s
     RouterLink,
     NgForOf,
     NgIf,
-    TitleCasePipe
+    TitleCasePipe,
+    JsonPipe
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'
@@ -28,6 +29,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   shouldShowItem(): boolean {
