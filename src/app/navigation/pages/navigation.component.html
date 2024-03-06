@@ -4,9 +4,9 @@
                  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                  [mode]="(isHandset$ | async) ? 'over' : 'side'"
                  [opened]="(isHandset$ | async) === false">
-      <mat-toolbar>
+      <mat-toolbar color="primary">
         <button mat-icon-button (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          <mat-icon>close</mat-icon>
         </button>
       </mat-toolbar>
       <mat-nav-list>
@@ -17,7 +17,13 @@
     </mat-sidenav>
   }
   <mat-sidenav-content>
-    <app-toolbar></app-toolbar>
+    <app-toolbar [drawer]="drawer"></app-toolbar>
+    <!--    <div class="row" style="width: 50px; margin-left: ">
+          <div class="d-flex flex-column"></div>
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>{{ drawer.opened ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+          </button>
+        </div>-->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

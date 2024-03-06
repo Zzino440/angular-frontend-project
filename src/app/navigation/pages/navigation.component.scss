@@ -1,17 +1,27 @@
 .sidenav-container {
   height: 100%;
+  position: relative;
+
+  .toggle-button {
+    position: absolute;
+    top: 10px; // Adegua questo valore in base alla tua UI
+    right: 0; // Modifica questo se vuoi che la freccetta appaia sul lato destro della sidenav
+    z-index: 100; // Assicurati che il pulsante sia sempre cliccabile
+  }
 }
 
 .sidenav {
   width: 200px;
 }
 
-.sidenav .mat-toolbar {
+
+/*.sidenav .mat-toolbar {
   background: inherit;
-}
+}*/
 
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
   z-index: 1;
 }
+
