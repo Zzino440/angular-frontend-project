@@ -12,6 +12,9 @@
         <mat-autocomplete
           (optionSelected)="onOptionSelected($event)"
           #userEmailAutoComplelete="matAutocomplete">
+          @if (emailFilterOptions?.length == 0) {
+            <mat-option class="pe-none" value="">Email doesn't exist</mat-option>
+          }
           @for (option of emailFilterOptions; track $index) {
             <mat-option [value]="option">{{ option }}</mat-option>
           }

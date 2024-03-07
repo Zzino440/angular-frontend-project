@@ -5,7 +5,6 @@ import {User} from "../models/user";
 import {environment} from '../../../../environments/environment';
 import {PagedResponse} from "../../../shared/models/paged-response";
 import {SnackBarNotificationService} from "../../../shared/services/snack-bar-notification.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Injectable({
@@ -14,7 +13,6 @@ import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum
 export class UserService {
   //injections
   snackBarNotificationService = inject(SnackBarNotificationService);
-  snackBar = inject(MatSnackBar)
 
   private environment = environment.endpointUri
   private usersUri = "users/"
