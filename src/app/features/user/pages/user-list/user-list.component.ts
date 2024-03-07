@@ -36,6 +36,8 @@ import {Permission} from "../../models/permission";
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit, OnDestroy {
+  //variable to use it in the html
+  protected readonly Permission = Permission;
 
   //direct injection cause i need to use it in html
   authenticationService = inject(AuthenticationService);
@@ -83,10 +85,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     });
   }
 
-  getUserExceptCurrent() {
-
-  }
-
 
   handleSelectedEmail(email: string) {
     this.filterEmail = email;
@@ -118,6 +116,4 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.getUsersRequestManager.next();
     this.getUsersRequestManager.complete();
   }
-
-  protected readonly Permission = Permission;
 }

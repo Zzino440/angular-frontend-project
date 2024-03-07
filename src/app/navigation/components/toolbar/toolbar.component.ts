@@ -27,6 +27,7 @@ import {MatIcon} from "@angular/material/icon";
 export class ToolbarComponent implements OnInit {
 
   @Input() drawer!: MatSidenav;
+
   authenticationService = inject(AuthenticationService);
   toolbarItems = ToolbarItemsConfig;
 

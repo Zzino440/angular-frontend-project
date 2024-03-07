@@ -1,4 +1,3 @@
-// toolbar-items.config.ts
 import {ToolbarItem} from "../models/toolbarItem.model";
 import {Role} from "../../features/user/models/role.enum";
 
