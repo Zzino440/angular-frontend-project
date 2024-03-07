@@ -29,7 +29,7 @@ import {NotificationTypeEnum} from "../../enums/notification-type.enum";
   template: `
     <div class="container snack-bar-container">
       <div class="row d-flex align-items-center">
-        <div class="col-md-1">
+        <div class="col-md-1 d-flex align-items-center">
           <button class="pe-none" role="button" mat-icon-button>
             <mat-icon
               [ngClass]="{

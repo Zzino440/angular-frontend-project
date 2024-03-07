@@ -15,9 +15,10 @@ $custom-colors: (
 
 @use '@angular/material' as mat;
 
-
+//notification colors
 $success-color: mat.get-color-from-palette(mat.$green-palette, 500);
 $error-color: mat.get-color-from-palette(mat.$red-palette, 500);
 $warn-color: mat.get-color-from-palette(mat.$yellow-palette, 500);
 $info-color: mat.get-color-from-palette(mat.$indigo-palette, 500);
+
 

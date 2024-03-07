@@ -9,7 +9,7 @@ import {NotificationTypeEnum} from "../enums/notification-type.enum";
 export class SnackBarNotificationService {
 
   //injections
-  snackBar = inject(MatSnackBar)
+  snackBar = inject(MatSnackBar);
 
   //variables
   durationInSeconds: number = 10;
@@ -17,15 +17,16 @@ export class SnackBarNotificationService {
   constructor() {
   }
 
-
-  showError(message: string, action?: string, type?: NotificationTypeEnum) {
+  notify(message: string, action?: string, type?: NotificationTypeEnum) {
     this.snackBar.openFromComponent(CustomSnackbarComponent, {
       data: {
-        message: message,
+        message: message || 'ERROR',
         action: action,
         type: type
       },
-      duration: this.durationInSeconds * 1000
+      duration: this.durationInSeconds * 1000,
+      direction:'ltr',
+      horizontalPosition:'center',
     })
   }
 }
