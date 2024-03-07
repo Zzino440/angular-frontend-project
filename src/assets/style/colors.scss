@@ -1,0 +1,23 @@
+/*@use '@angular/material' as mat;
+
+$primary: mat.$indigo-palette;
+$accent: mat.$pink-palette;
+
+$custom-colors: (
+  primary: mat.get-theme-color($primary, 500),
+  primary-light: mat.get-theme-color($primary, 300),
+  primary-dark: mat.get-theme-color($primary, 700),
+  accent: mat.get-theme-color($accent, A200),
+  accent-light: mat.get-theme-color($accent, A100),
+  accent-dark: mat.get-theme-color($accent, A400),
+  // Aggiungi altri colori qui...
+);*/
+
+@use '@angular/material' as mat;
+
+
+$success-color: mat.get-color-from-palette(mat.$green-palette, 500);
+$error-color: mat.get-color-from-palette(mat.$red-palette, 500);
+$warn-color: mat.get-color-from-palette(mat.$yellow-palette, 500);
+$info-color: mat.get-color-from-palette(mat.$indigo-palette, 500);
+
