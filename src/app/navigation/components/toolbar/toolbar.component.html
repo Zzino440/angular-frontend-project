@@ -32,7 +32,9 @@
               </button>
             }
           }
-          <button mat-flat-button color="warn" [routerLink]="['/login']" (click)="logout()">Logout</button>
+          <button mat-flat-button color="warn" [routerLink]="['/login']" (click)="authenticationService.logout()">
+            Logout
+          </button>
         </div>
       }
     </div>
