@@ -38,6 +38,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    localStorage.clear();
     return this.currentUserSignal.set(undefined);
   }
 
@@ -61,7 +62,6 @@ export class AuthenticationService {
     } catch (error) {
       // In caso di errore nel recupero dei dettagli utente, esegue il logout e pulisce il localStorage.
       this.logout();
-      localStorage.clear();
       console.log('Error fetching user:', error);
     }
 

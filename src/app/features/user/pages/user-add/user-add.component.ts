@@ -14,6 +14,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {Role} from "../../models/role.enum";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatIconModule} from "@angular/material/icon";
+import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
 
 @Component({
   selector: 'app-user-add',
@@ -35,6 +36,9 @@ import {MatIconModule} from "@angular/material/icon";
   styleUrl: './user-add.component.scss'
 })
 export class UserAddComponent implements OnInit {
+
+  snackBarNotificationService = inject(SnackBarNotificationService);
+
   customValidators = inject(CustomValidators);
   //main variables
   user: User = new User();
@@ -90,9 +94,10 @@ export class UserAddComponent implements OnInit {
 
   updateUser() {
     this.userService.updateUser(this.currentUserId, this.user).subscribe(res => {
-      console.log('res update', res)
-      this.goToUserList();
-    })
+        console.log('res update', res)
+        this.goToUserList();
+      }
+    )
   }
 
   setFormValuesAndValidatorsAndState() {

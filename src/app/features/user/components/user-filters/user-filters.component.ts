@@ -6,6 +6,8 @@ import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from "rxjs";
 import {MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {CustomValidators} from "../../../../shared/validators/custom-validators";
+
 @Component({
   selector: 'app-user-filters',
   standalone: true,
@@ -25,6 +27,9 @@ export class UserFiltersComponent implements OnInit {
 
   //injections
   userFilterService = inject(UserFiltersService);
+  customValidators = inject(CustomValidators);
+
+
   userFiltersForm!: FormGroup;
 
   selectedFromAutocomplete = false;
@@ -44,7 +49,7 @@ export class UserFiltersComponent implements OnInit {
   }
 
   getUsersByEmail() {
-    this.getEmailFilterControl()?.valueChanges.pipe(
+    this.emailFilterControl?.valueChanges.pipe(
       debounceTime(500),
       filter(emailFilterValue => {
         // Se il valore proviene dall'autocomplete, salta la chiamata al servizio
@@ -60,6 +65,8 @@ export class UserFiltersComponent implements OnInit {
       ),
       tap(res => {
         this.emailFilterOptions = res;
+        this.emailFilterControl?.addAsyncValidators([this.customValidators.emailNoExistsValidator()])
+        console.log('this.emailFilterControl?.validator: ', this.emailFilterControl?.validator)
       }),
     ).subscribe();
   }
@@ -72,12 +79,12 @@ export class UserFiltersComponent implements OnInit {
 
   // logica per aggiornare/refreshare la tabella una volta svuotato il filtro per email
   resetFilter() {
-    this.getEmailFilterControl()?.setValue("");
-    this.selectedEmail.emit(this.getEmailFilterControl()?.value);
+    this.emailFilterControl?.setValue("");
+    this.selectedEmail.emit(this.emailFilterControl?.value);
     this.selectedFromAutocomplete = true;
   }
 
-  getEmailFilterControl() {
+  get emailFilterControl() {
     return this.userFiltersForm.get(['emailFilterControl'])
   }
 

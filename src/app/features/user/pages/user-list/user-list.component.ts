@@ -68,10 +68,10 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+    this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
   }
 
-  getUserexceptCurrent(page: number, size: number) {
+  getUsersExceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
     this.getUsersRequestManager.next();
     this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
@@ -88,14 +88,14 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   handleSelectedEmail(email: string) {
     this.filterEmail = email;
-    this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+    this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
     //resetto il pageIndex quando applico il filtro
     //in questo modo quando filtro che sono su una pagina differente dalla prima, mi torna sulla prima pagina
     this.paginator.pageIndex = 0;
   }
 
   onChangePage(pe: PageEvent) {
-    this.getUserexceptCurrent(pe.pageIndex, pe.pageSize);
+    this.getUsersExceptCurrent(pe.pageIndex, pe.pageSize);
   }
 
 
@@ -105,7 +105,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result?.status === 'success') {
-        this.getUserexceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+        this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
         this.paginator.pageIndex = 0;
       } else if (result?.status === 'cancelled') {
       }

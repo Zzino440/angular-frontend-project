@@ -40,9 +40,4 @@ export class ToolbarComponent implements OnInit {
   shouldShowItem(): boolean {
     return this.authenticationService.isLoggedIn();
   }
-
-  logout() {
-    localStorage.clear();
-    this.authenticationService.logout();
-  }
 }
