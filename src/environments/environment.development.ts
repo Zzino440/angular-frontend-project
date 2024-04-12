@@ -1,3 +1,3 @@
 export const environment = {
-  endpointUri:'http://localhost:8080/api/v1/'
+  endpointUri:'http://my-proj-dev.eu-west-1.elasticbeanstalk.com/api/v1/'
 };
