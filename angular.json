@@ -84,7 +84,7 @@
               "buildTarget": "angular-frontend-project:build:production"
             },
             "development": {
-              "buildTarget": "angular-frontend-project:build:development",
+              "buildTarget": "angular-frontend-project:build:development"
             },
             "local": {
               "buildTarget": "angular-frontend-project:build:local"
