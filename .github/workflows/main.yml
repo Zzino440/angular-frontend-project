@@ -51,7 +51,7 @@ jobs:
       # 6. Copy to S3 bucket.
       - name: Copy to S3 Bucket
         run: |
-          aws s3 cp ./dist/* s3://my-proj-fe-dev
+          aws s3 cp ./dist/angular-frontend-project/browser/* s3://my-proj-fe-dev
 
       # 7. (Optional) Invalidate CloudFront
       - name: Invalidate CloudFront
