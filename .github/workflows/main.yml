@@ -52,8 +52,3 @@ jobs:
       - name: Copy to S3 Bucket
         run: |
           aws s3 cp ./dist/angular-frontend-project/ s3://my-proj-fe-dev/ --recursive
-
-      # 7. (Optional) Invalidate CloudFront
-      - name: Invalidate CloudFront
-        run: |
-          aws cloudfront create-invalidation --distribution-id <CLOUDFRONT DISTRIBUTION ID> --paths "/*"
