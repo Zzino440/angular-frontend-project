@@ -25,6 +25,7 @@ jobs:
           DATE=$(date +%Y/%m/%d)
           aws s3 cp s3://my-proj-fe-dev/ s3://my-proj-fe-dev/BU/$DATE/ --recursive
   build_and_deploy_job:
+    needs: backup_s3
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
