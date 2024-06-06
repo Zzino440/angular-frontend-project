@@ -16,6 +16,7 @@ import {MatSort, MatSortModule} from "@angular/material/sort";
 import {Subject, takeUntil} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 import {Permission} from "../../models/permission";
+import {TestPageComponent} from "my-lib";
 
 @Component({
   selector: 'app-user-list',
@@ -30,7 +31,8 @@ import {Permission} from "../../models/permission";
     CamelCasePipe,
     MatPaginatorModule,
     MatSortModule,
-    UserFiltersComponent
+    UserFiltersComponent,
+    TestPageComponent
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
