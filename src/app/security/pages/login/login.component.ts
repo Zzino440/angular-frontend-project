@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {LoginRequest} from "../../models/login-request";
 import {MatButtonModule} from "@angular/material/button";
@@ -9,6 +9,9 @@ import {PreventNumbersDirective} from "../../../shared/directives/prevent-number
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router, RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
+import {CustomValidators} from "../../../shared/validators/custom-validators";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login',
@@ -22,12 +25,16 @@ import {MatIconModule} from "@angular/material/icon";
     PreventNumbersDirective,
     ReactiveFormsModule,
     RouterLink,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinner,
+    NgIf
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
+
+  customValidators = inject(CustomValidators);
 
   loginForm!: FormGroup;
   userToLogin!: LoginRequest;
@@ -39,7 +46,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: [this.customValidators.emailNoExistsValidator()],
+        updateOn: 'change',
+      }),
       password: new FormControl('', [Validators.required]),
     })
   }

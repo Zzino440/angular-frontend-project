@@ -10,11 +10,28 @@
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
               <input matInput formControlName="email">
+              @if (emailControl?.pending) {
+                <mat-progress-spinner
+                  class="custom-spinner spin-position"
+                  matSuffix
+                  [mode]="'indeterminate'"
+                  [diameter]="20"
+                  *ngIf="emailControl?.pending"
+                >
+                </mat-progress-spinner>
+              } @else if (!emailControl?.pending && emailControl?.valid) {
+                <mat-icon matSuffix>
+                  done
+                </mat-icon>
+              }
               @if (emailControl?.errors?.['required']) {
                 <mat-error>Email is <strong>required</strong></mat-error>
               }
               @if (emailControl?.errors?.['email']) {
                 <mat-error>Not a valid <strong>Email</strong></mat-error>
+              }
+              @if (emailControl?.errors?.['emailNoExists']) {
+                <mat-error>This email is <strong>not registered</strong></mat-error>
               }
             </mat-form-field>
           </div>

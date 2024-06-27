@@ -66,7 +66,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   //controls the subscription to getUser
   private getUsersRequestManager = new Subject<void>();
 
-  constructor(private userService: UserService, public dialog: MatDialog, private destroyRef: DestroyRef) {
+  constructor(private userService: UserService,
+              public dialog: MatDialog,
+              private destroyRef: DestroyRef,) {
   }
 
   ngOnInit(): void {

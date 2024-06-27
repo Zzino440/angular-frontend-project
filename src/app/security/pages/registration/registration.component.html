@@ -43,6 +43,7 @@
               <input placeholder="example@example.com" matInput formControlName="email">
               @if (emailControl?.pending) {
                 <mat-progress-spinner
+                  class="custom-spinner spin-position"
                   matSuffix
                   [mode]="'indeterminate'"
                   [diameter]="20"
