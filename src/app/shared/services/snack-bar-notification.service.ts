@@ -24,7 +24,7 @@ export class SnackBarNotificationService {
         action: action,
         type: type
       },
-/*      duration: this.durationInSeconds * 1000,*/
+      duration: this.durationInSeconds * 1000,
       direction:'ltr',
       horizontalPosition:'center',
     })
