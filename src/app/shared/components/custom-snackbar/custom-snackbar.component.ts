@@ -27,7 +27,7 @@ import {NotificationTypeEnum} from "../../enums/notification-type.enum";
     NgSwitchCase
   ],
   template: `
-    <div class="container snack-bar-container">
+    <div class="container custom-snackbar snack-bar-container">
       <div class="row d-flex align-items-center">
         <div class="col-md-1 d-flex align-items-center">
           <button class="pe-none" role="button" mat-icon-button>
@@ -55,7 +55,7 @@ import {NotificationTypeEnum} from "../../enums/notification-type.enum";
           </div>
         </div>
         <div class="col-md-2 d-flex justify-content-center align-items-center text-white" matSnackBarActions>
-          <button mat-button class="text-white" (click)="snackBarRef.dismissWithAction()"
+          <button mat-button class="text-white rounded-5" (click)="snackBarRef.dismissWithAction()"
                   matSnackBarAction>{{ data.action }}
           </button>
         </div>

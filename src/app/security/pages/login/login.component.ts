@@ -12,6 +12,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {CustomValidators} from "../../../shared/validators/custom-validators";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgIf} from "@angular/common";
+import {SnackBarNotificationService} from "../../../shared/services/snack-bar-notification.service";
+import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Component({
   selector: 'app-login',
@@ -35,6 +37,7 @@ import {NgIf} from "@angular/common";
 export class LoginComponent implements OnInit {
 
   customValidators = inject(CustomValidators);
+  snackBarNotificationService = inject(SnackBarNotificationService);
 
   loginForm!: FormGroup;
   userToLogin!: LoginRequest;
@@ -64,6 +67,7 @@ export class LoginComponent implements OnInit {
         this.authenticationService.currentUserSignal.set(res);
         console.log(this.authenticationService.currentUserSignal()?.token)
         this.router.navigate(['/users']).then();
+        this.snackBarNotificationService.notify('Logged in succesfully', 'OK', NotificationTypeEnum.SUCCESS);
       })
   }
 

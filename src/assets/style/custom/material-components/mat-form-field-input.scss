@@ -5,6 +5,11 @@
   --mdc-outlined-text-field-container-shape: 28px;
 }
 
+
+.mdc-text-field--filled{
+  --mdc-filled-text-field-container-shape: 28px;
+}
+
 /*.custom-input {
   &.shape {
     --mdc-outlined-text-field-container-shape: 28px !important;

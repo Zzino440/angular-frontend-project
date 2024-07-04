@@ -27,12 +27,12 @@
         <div class="col-md d-flex justify-content-end gap-2">
           @for (item of toolbarItems; track $index) {
             @if (authenticationService.userHasOneOfTheRoles(item.roles)) {
-              <button mat-flat-button color="primary" [routerLink]="item.route">
+              <button class="rounded-5" mat-flat-button color="primary" [routerLink]="item.route">
                 {{ item.name }}
               </button>
             }
           }
-          <button mat-flat-button color="warn" [routerLink]="['/login']" (click)="authenticationService.logout()">
+          <button class="rounded-5" mat-flat-button color="warn" [routerLink]="['/login']" (click)="authenticationService.logout()">
             Logout
           </button>
         </div>

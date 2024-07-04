@@ -9,7 +9,7 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="email">
+              <input autocomplete="email" matInput formControlName="email">
               @if (emailControl?.pending) {
                 <mat-progress-spinner
                   class="custom-spinner spin-position"
@@ -41,7 +41,7 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Password</mat-label>
-              <input type="password" matInput
+              <input autocomplete="current-password" type="password" matInput
                      [type]="hide ? 'password' : 'text'"
                      formControlName="password">
               <button mat-icon-button matSuffix type="button" color="primary" (click)="hide = !hide"
@@ -59,7 +59,7 @@
 
       <div class="row py-2">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="loginForm.invalid || (!loginForm.dirty && !loginForm.touched)" type="submit"
+          <button class="rounded-5" [disabled]="loginForm.invalid || (!loginForm.dirty && !loginForm.touched)" type="submit"
                   color="primary" mat-flat-button>
             Login
           </button>
@@ -75,7 +75,7 @@
 
     <div class="row py-2">
       <div class="col-md d-flex justify-content-center align-items-center">
-        <button mat-flat-button color="primary" routerLink="/registration" type="button">Go to registration</button>
+        <button class="rounded-5" mat-flat-button color="primary" routerLink="/registration" type="button">Go to registration</button>
       </div>
     </div>
 

@@ -17,6 +17,8 @@ import {Subject, takeUntil} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 import {Permission} from "../../models/permission";
 import {TestPageComponent} from "my-lib";
+import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
+import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
 
 @Component({
   selector: 'app-user-list',
@@ -43,6 +45,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   //direct injection cause i need to use it in html
   authenticationService = inject(AuthenticationService);
+  snackBarNotificationService = inject(SnackBarNotificationService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -111,6 +114,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       if (result?.status === 'success') {
         this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
         this.paginator.pageIndex = 0;
+        this.snackBarNotificationService.notify('User deleted', 'OK', NotificationTypeEnum.INFO);
       } else if (result?.status === 'cancelled') {
       }
     })
