@@ -4,10 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start-dev": "ng serve -c development",
     "start-local": "ng serve -c local",
     "start-docker": "ng serve -c docker",
-    "build-dev": "ng build -c development",
     "build": "ng build",
     "build-docker": "ng build -c docker",
     "watch": "ng build --watch --configuration development",
