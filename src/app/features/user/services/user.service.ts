@@ -67,7 +67,7 @@ export class UserService {
 
   private handleError(error: HttpErrorResponse) {
     // Logica per gestire l'errore
-    console.error('errore segnalato dal userService:', error.error);
+    console.error('errore segnalato da userService:', error.error);
     this.snackBarNotificationService.notify(error.error, 'OK', NotificationTypeEnum.ERROR)
     // Restituisce un Observable che emette l'errore
     return throwError(() => error);

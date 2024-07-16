@@ -1,0 +1,41 @@
+@use '@angular/material' as mat;
+@import "../../../style/colors.scss";
+
+.mdc-text-field--outlined{
+  --mdc-outlined-text-field-container-shape: 28px;
+}
+
+
+.mdc-text-field--filled{
+  --mdc-filled-text-field-container-shape: 28px;
+}
+
+/*.custom-input {
+  &.shape {
+    --mdc-outlined-text-field-container-shape: 28px !important;
+    --mdc-outlined-text-field-caret-color: #9c27b0!important;
+    --mdc-outlined-text-field-focus-outline-color: #9c27b0!important;
+    --mdc-outlined-text-field-focus-label-text-color: rgba(156, 39, 176, .87)!important;
+    --mdc-outlined-text-field-outline-color: rgba(156, 39, 176, .87)!important;
+
+
+  }*/
+
+  /*
+  .mdc-text-field--outlined{
+    --mdc-outlined-text-field-container-shape: 28px;
+
+    --mdc-outlined-text-field-caret-color: rgba(156, 39, 176, .87);
+    --mdc-outlined-text-field-focus-outline-color: rgba(156, 39, 176, .87);
+    --mdc-outlined-text-field-label-text-color:rgba(156, 39, 176, .87);
+    --mdc-outlined-text-field-focus-label-text-color: rgba(156, 39, 176, .87);
+    --mdc-outlined-text-field-outline-color: rgba(156, 39, 176, .87);
+    --mdc-outlined-text-field-hover-outline-color: rgba(156, 39, 176, .87);
+    --mdc-outlined-text-field-error-outline-color: red;
+    --mdc-outlined-text-field-error-focus-outline-color: red;
+    --mdc-outlined-text-field-error-hover-outline-color: red;
+
+    --mdc-outlined-text-field-outline-width: 1px;
+    --mdc-outlined-text-field-focus-outline-width: 2px;
+  }
+  */

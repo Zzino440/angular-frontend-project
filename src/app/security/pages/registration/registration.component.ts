@@ -12,6 +12,8 @@ import {Router, RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {NgIf} from "@angular/common";
+import {SnackBarNotificationService} from "../../../shared/services/snack-bar-notification.service";
+import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Component({
   selector: 'app-registration',
@@ -34,6 +36,7 @@ import {NgIf} from "@angular/common";
 })
 export class RegistrationComponent implements OnInit {
   customValidators = inject(CustomValidators);
+  snackBarNotificationService = inject(SnackBarNotificationService);
 
   registrationForm!: FormGroup;
   userToRegister!: RegisterRequest;
@@ -68,6 +71,7 @@ export class RegistrationComponent implements OnInit {
       localStorage.setItem('userId', String(res.id));
       this.authenticationService.currentUserSignal.set(res);
       this.router.navigate(['/users']).then();
+      this.snackBarNotificationService.notify('Registration succesful', 'OK', NotificationTypeEnum.SUCCESS)
     })
   }
 

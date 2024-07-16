@@ -9,7 +9,7 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" appPreventNumbers>
+              <input autocomplete="given-name" matInput formControlName="firstName" appPreventNumbers>
               @if (firstNameControl?.errors?.['required']) {
                 <mat-error>First Name is <strong>required</strong></mat-error>
               }
@@ -25,7 +25,7 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" appPreventNumbers>
+              <input autocomplete="family-name" matInput formControlName="lastName" appPreventNumbers>
               @if (lastNameControl?.errors?.['required']) {
                 <mat-error>Last Name is <strong>required</strong></mat-error>
               }
@@ -40,9 +40,10 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
-              <input placeholder="example@example.com" matInput formControlName="email">
+              <input autocomplete="email" placeholder="example@example.com" matInput formControlName="email">
               @if (emailControl?.pending) {
                 <mat-progress-spinner
+                  class="custom-spinner spin-position"
                   matSuffix
                   [mode]="'indeterminate'"
                   [diameter]="20"
@@ -71,7 +72,7 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Password</mat-label>
-              <input type="password" matInput
+              <input autocomplete="new-password" type="password" matInput
                      [type]="hide ? 'password' : 'text'"
                      formControlName="password">
               <button mat-icon-button matSuffix type="button" color="primary" (click)="hide = !hide"
@@ -88,7 +89,7 @@
       </div>
       <div class="row py-2">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)"
+          <button class="rounded-5" [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)"
                   type="submit"
                   color="primary" mat-flat-button>
             Register
@@ -107,7 +108,7 @@
 
     <div class="row py-2">
       <div class="col-md d-flex justify-content-center align-items-center">
-        <button mat-flat-button color="primary" routerLink="/login" type="button">Go to Login</button>
+        <button class="rounded-5" mat-flat-button color="primary" routerLink="/login" type="button">Go to Login</button>
       </div>
     </div>
   </mat-card>

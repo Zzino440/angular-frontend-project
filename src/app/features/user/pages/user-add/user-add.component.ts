@@ -15,6 +15,7 @@ import {Role} from "../../models/role.enum";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatIconModule} from "@angular/material/icon";
 import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
+import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
 
 @Component({
   selector: 'app-user-add',
@@ -65,7 +66,7 @@ export class UserAddComponent implements OnInit {
   ngOnInit(): void {
     this.userForm = new FormGroup(
       {
-        firstName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
+        firstName: new FormControl('', [this.customValidators.lettersOnlyValidator()]),
         lastName: new FormControl('', [Validators.required, this.customValidators.lettersOnlyValidator()]),
         email: new FormControl('', {
           validators: [Validators.required, Validators.email],
@@ -87,6 +88,7 @@ export class UserAddComponent implements OnInit {
   addUser() {
     this.userService.createUser(this.user).subscribe(res => {
         console.log('res save', res)
+        this.snackBarNotificationService.notify('User created successfully', 'OK', NotificationTypeEnum.SUCCESS);
         this.goToUserList();
       }
     )
@@ -95,6 +97,7 @@ export class UserAddComponent implements OnInit {
   updateUser() {
     this.userService.updateUser(this.currentUserId, this.user).subscribe(res => {
         console.log('res update', res)
+        this.snackBarNotificationService.notify('User updated successfully', 'OK', NotificationTypeEnum.SUCCESS);
         this.goToUserList();
       }
     )

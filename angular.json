@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "preserveSymlinks": true,
             "outputPath": "dist/angular-frontend-project",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -73,6 +74,17 @@
                   "with": "src/environments/environment.local.ts"
                 }
               ]
+            },
+            "docker": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.docker.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -88,6 +100,9 @@
             },
             "local": {
               "buildTarget": "angular-frontend-project:build:local"
+            },
+            "docker": {
+              "buildTarget": "angular-frontend-project:build:docker"
             }
           },
           "defaultConfiguration": "development"

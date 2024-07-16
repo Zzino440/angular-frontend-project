@@ -1,0 +1,7 @@
+//position for the spinner at the right of the email
+
+.custom-spinner.mat-mdc-progress-spinner {
+  &.spin-position {
+    right: 20px;
+  }
+}

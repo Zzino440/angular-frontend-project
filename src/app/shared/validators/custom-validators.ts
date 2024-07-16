@@ -36,18 +36,12 @@ export class CustomValidators {
 
   emailNoExistsValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return new Observable<ValidationErrors | null>(observer => {
-        const isEmpty = control.value.length === 0;
-        // Aggiungi una logica asincrona qui se necessario, ad esempio un timeout per simulare un delay
-        setTimeout(() => {
-          if (isEmpty) {
-            observer.next({'emailNoExists': {value: control.value}});
-          } else {
-            observer.next(null);
-          }
-          observer.complete();
-        }, 1000); // Simula un delay di 1 secondo
-      });
+      return this.authenticationService.checkEmail(control.value).pipe(
+        map(emailExists => {
+          // Se l'email non esiste, ritorna un errore
+          return !emailExists ? {emailNoExists: true} : null;
+        })
+      );
     };
   }
 

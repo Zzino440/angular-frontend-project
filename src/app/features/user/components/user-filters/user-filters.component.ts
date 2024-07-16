@@ -65,8 +65,6 @@ export class UserFiltersComponent implements OnInit {
       ),
       tap(res => {
         this.emailFilterOptions = res;
-        this.emailFilterControl?.addAsyncValidators([this.customValidators.emailNoExistsValidator()])
-        console.log('this.emailFilterControl?.validator: ', this.emailFilterControl?.validator)
       }),
     ).subscribe();
   }
