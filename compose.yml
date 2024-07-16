@@ -1,0 +1,15 @@
+services:
+    web:
+      container_name: frontend
+      build: .
+      image: angular-frontend-project
+      restart: on-failure
+      ports:
+        - "4200:80"
+      expose:
+        - "80"
+      networks:
+        - frontend-network
+networks:
+    frontend-network:
+        driver: bridge

@@ -6,8 +6,10 @@
     "start": "ng serve",
     "start-dev": "ng serve -c development",
     "start-local": "ng serve -c local",
+    "start-docker": "ng serve -c docker",
     "build-dev": "ng build -c development",
     "build": "ng build",
+    "build-docker": "ng build -c docker",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -26,8 +28,7 @@
     "bootstrap": "^5.3.3",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.3",
-    "zone.js": "~0.14.6",
-    "my-lib": "file:C:/Users/Zzino/WebstormProjects/my-libraries/dist/my-lib"
+    "zone.js": "~0.14.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.0.2",
@@ -40,6 +41,7 @@
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.4.5",
+    "esbuild": "^0.21.5"
   }
 }
