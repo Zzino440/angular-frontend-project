@@ -10,6 +10,10 @@
   --mdc-filled-text-field-container-shape: 28px;
 }
 
+html{
+  @include mat.form-field-density(-2);
+}
+
 /*.custom-input {
   &.shape {
     --mdc-outlined-text-field-container-shape: 28px !important;

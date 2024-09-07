@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+
+$my-light-theme: mat.define-theme((
+  typography: (
+    brand-family: 'Comic Sans MS',
+    bold-weight: 900,
+    plain-family: 'Comic Sans MS',
+  ),
+  density: (
+    scale: -2
+  )
+));
+
+//html {
+//  @include mat.all-component-themes($my-light-theme);
+//}

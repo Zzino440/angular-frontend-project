@@ -121,7 +121,7 @@
               Edit
             </button>
           } @else {
-            <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty && !userForm.touched)" type="submit"
+            <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty && userForm.untouched)" type="submit"
                     color="primary" mat-flat-button>
               Add
             </button>
