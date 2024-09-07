@@ -1,30 +1,31 @@
 <mat-toolbar color="primary" class="w-100">
   <div class="container">
     <div class="row w-100">
-      @if (shouldShowItem()) {
-        <!--          <button
-                    type="button"
-                    aria-label="Toggle sidenav"
-                    mat-icon-button
-                    class="me-2"
-                    (click)="drawer.toggle()">
-                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-                  </button>-->
-        <div class="col-md-4 d-flex justify-content-start align-items-center">
-          <div class="text-center">Welcome
-            <strong>
-              {{ authenticationService.currentUserSignal()?.email }}
-            </strong>
-            ({{ authenticationService.currentUserSignal()?.role | titlecase }})
+        @if (shouldShowItem()) {
+          <!--          <button
+                      type="button"
+                      aria-label="Toggle sidenav"
+                      mat-icon-button
+                      class="me-2"
+                      (click)="drawer.toggle()">
+                      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                    </button>-->
+          <div class="col-sm-8 col-md-4 d-flex justify-content-start align-items-center">
+            <div class="text-center">Welcome
+              <strong>
+                {{ authenticationService.currentUserSignal()?.email }}
+              </strong>
+              ({{ authenticationService.currentUserSignal()?.role | titlecase }})
+            </div>
           </div>
-        </div>
-      } @else {
-        <div class="col-md-4 d-flex justify-content-start align-items-center">
-          <div>Angular Front-End Project</div>
-        </div>
-      }
+        } @else {
+          <div class="col-md-4 d-flex justify-content-start align-items-center">
+            <div>Angular Front-End Project</div>
+          </div>
+        }
+
       @if (shouldShowItem()) {
-        <div class="col-md d-flex justify-content-end gap-2">
+        <div class="col-sm-3 col-md d-flex justify-content-end align-items-center gap-2">
           @for (item of toolbarItems; track $index) {
             @if (authenticationService.userHasOneOfTheRoles(item.roles)) {
               <button class="rounded-5" mat-flat-button color="primary" [routerLink]="item.route">
@@ -32,9 +33,26 @@
               </button>
             }
           }
-          <button class="rounded-5" mat-flat-button color="warn" [routerLink]="['/login']" (click)="authenticationService.logout()">
-            Logout
+        </div>
+
+
+        <div class="col-sm-1 col-md-1 d-flex justify-content-end p-0 align-items-center">
+          <button [matMenuTriggerFor]="profileMenu" mat-icon-button>
+            <mat-icon>account_circle</mat-icon>
           </button>
+
+          <mat-menu xPosition="after" #profileMenu="matMenu">
+            <button mat-menu-item>
+              <span>Profile Detail</span>
+              <mat-icon>person</mat-icon>
+            </button>
+            <mat-divider></mat-divider>
+
+            <button class="custom-menu-item" (click)="logout()" [routerLink]="['/login']" mat-menu-item>
+              <span>Logout</span>
+              <mat-icon>logout</mat-icon>
+            </button>
+          </mat-menu>
         </div>
       }
     </div>
