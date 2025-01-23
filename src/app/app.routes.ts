@@ -2,6 +2,13 @@ import {Routes} from '@angular/router';
 import {authGuard} from "./security/services/guards/auth.guard";
 
 export const routes: Routes = [
+
+  {
+    path: 'settings',
+    // do not use loadComponent here as you do not want to leak the internals of your feature into your app
+    loadChildren: () => import('./features/settings/routes').then(feature => feature.routes),
+    canActivate:[authGuard],
+  },
   {
     path: 'login',
     loadComponent: () => import('./security/pages/login/login.component').then(c => c.LoginComponent)
@@ -14,7 +21,6 @@ export const routes: Routes = [
     path: 'users',
     loadComponent: () => import('./features/user/pages/user-list/user-list.component').then(c => c.UserListComponent),
     canActivate:[authGuard],
-
   },
   {
     path: 'add-user',
