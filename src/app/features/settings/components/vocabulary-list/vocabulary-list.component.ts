@@ -44,8 +44,15 @@ export class VocabularyListComponent implements OnInit {
   getAllVocabularies() {
     this.vocabularyService.getAllVocabularies().subscribe(vocabularies => {
       this.vocabularies = vocabularies;
+
+      // Pre-seleziona il vocabolario "Legal Entity" con id = 2
+      const defaultVocabulary = vocabularies.find(v => v.id === 2);
+      if (defaultVocabulary) {
+        this.onVocabularySelected(defaultVocabulary);
+      }
     });
   }
+
 
   onVocabularySelected(vocabulary: Vocabulary) {
     this.selectedVocabulary = vocabulary;

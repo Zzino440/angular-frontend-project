@@ -8,11 +8,16 @@
     <div class="row">
       <div class="col-md-3">
         <mat-action-list>
-          <button class="fw-bold" mat-list-item *ngFor="let vocabulary of vocabularies"
-                  (click)="onVocabularySelected(vocabulary)">
+          <button
+            class="fw-bold"
+            mat-list-item
+            *ngFor="let vocabulary of vocabularies"
+            [class.selected]="vocabulary.id === selectedVocabulary?.id"
+            (click)="onVocabularySelected(vocabulary)">
             {{ vocabulary.name }}
           </button>
         </mat-action-list>
+
       </div>
       <div class="col-md-9">
         <app-category-list class="" [categories]="categories"

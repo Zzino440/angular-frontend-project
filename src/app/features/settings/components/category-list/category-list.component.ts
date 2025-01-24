@@ -34,19 +34,19 @@ import {BehaviorSubject} from "rxjs";
 })
 export class CategoryListComponent implements OnInit {
 
+  //RJXS SUBJECTS AND OBSERVABLES - FOR STATE MANAGEMENT
   private categoriesSubject = new BehaviorSubject<Category[]>([]);
   categories$ = this.categoriesSubject.asObservable();
 
   @Input() set categories(value: Category[]) {
     this.categoriesSubject.next(value); // Aggiorna i dati quando l'input cambia
   }
-
-  categoryFormService = inject(CategoryFormService);
-
   @Input() selectedVocabulary!: Vocabulary;
 
+  //INJECTIONS
+  categoryFormService = inject(CategoryFormService);
+  //FORM VARS
   categoryFormArray: FormArray<FormGroup<CategoryForm>> = new FormArray<FormGroup<CategoryForm>>([]);
-
 
   constructor() {
     this.categories$.subscribe(categories => {
