@@ -4,8 +4,8 @@ export class Category {
   description!: string
   vocabularyId!: number
   vocabularyName!: string
-  parentCategoryId!: any
-  parentCategoryName!: any
+  parentCategoryId!: number
+  parentCategoryName!: string
   subCategories!: SubCategory[]
 }
 

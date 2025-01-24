@@ -1,1 +1,68 @@
-<p>category-list works!</p>
+@if (selectedVocabulary) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ selectedVocabulary.name }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let categoryFormGroup of categoryFormArray.controls; let i = index"
+            [formGroup]="categoryFormGroup">
+
+          <td>
+            <mat-form-field appearance="outline">
+              <input matInput [formControl]="categoryFormGroup.controls.id" readonly>
+            </mat-form-field>
+          </td>
+          <td class="">
+            <mat-form-field appearance="outline">
+              <input matInput [formControl]="categoryFormGroup.controls.name">
+            </mat-form-field>
+          </td>
+
+          <td class="">
+            <mat-form-field appearance="outline">
+              <input matInput [formControl]="categoryFormGroup.controls.description">
+            </mat-form-field>
+          </td>
+
+          <td class="d-flex align-items-center">
+            <button mat-flat-button color="primary"
+                    *ngIf="(categoryFormService.editingRowIndex$ | async) === i"
+                    (click)="undoEdit()">
+              <mat-icon>edit</mat-icon>
+              <span>Undo</span>
+            </button>
+
+            <button mat-flat-button color="primary"
+                    *ngIf="(categoryFormService.editingRowIndex$ | async) !== i"
+                    [disabled]="(categoryFormService.editingRowIndex$ | async) !== null"
+                    (click)="enableCategoryFormGroupAtIndex(i)">
+              <mat-icon>undo</mat-icon>
+              <span>Edit</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>No content</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+}
+

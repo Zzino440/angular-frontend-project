@@ -6,6 +6,7 @@ import {NgForOf} from "@angular/common";
 import {Vocabulary} from "../../../../shared/models/vocabulary";
 import {CategoryListComponent} from "../category-list/category-list.component";
 import {CategoryService} from "../../../../shared/services/category.service";
+import {Category} from "../../../../shared/models/category";
 
 @Component({
   selector: 'app-vocabulary-list',
@@ -29,6 +30,9 @@ export class VocabularyListComponent implements OnInit {
   categoryService = inject(CategoryService);
 
   vocabularies: Vocabulary[] = [];
+  categories: Category[] = [];
+
+  selectedVocabulary!: Vocabulary;
 
   constructor() {
   }
@@ -40,13 +44,13 @@ export class VocabularyListComponent implements OnInit {
   getAllVocabularies() {
     this.vocabularyService.getAllVocabularies().subscribe(vocabularies => {
       this.vocabularies = vocabularies;
-      console.log(vocabularies);
     });
   }
 
   onVocabularySelected(vocabulary: Vocabulary) {
+    this.selectedVocabulary = vocabulary;
     this.categoryService.getCategoriesByVocabularyId(vocabulary.id).subscribe(categories => {
-      console.log(categories);
+      this.categories = categories;
     });
   }
 }
