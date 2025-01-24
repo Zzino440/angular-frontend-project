@@ -49,6 +49,7 @@ export class VocabularyListComponent implements OnInit {
       const defaultVocabulary = vocabularies.find(v => v.id === 2);
       if (defaultVocabulary) {
         this.onVocabularySelected(defaultVocabulary);
+        this.selectedVocabulary = defaultVocabulary;
       }
     });
   }
@@ -58,7 +59,7 @@ export class VocabularyListComponent implements OnInit {
     this.selectedVocabulary = vocabulary;
     this.categoryService.getCategoriesByVocabularyId(vocabulary.id).subscribe(categories => {
       this.categories = categories;
-      console.log('this.categories:   ',this.categories)
+        console.log('this.categories:   ', this.categories)
     });
   }
 }

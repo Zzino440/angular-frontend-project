@@ -7,10 +7,14 @@
     <mat-card-content>
       <table class="table">
         <thead>
-        <tr>
-          <th>Id</th>
+        <tr class="">
           <th>Name</th>
           <th>Description</th>
+          <!--HEADERS ONLY FOR BUSINESS UNIT BEGIN-->
+          @if (selectedVocabulary.id === VocabulariesEnum.BUSINESS_UNIT) {
+            <th>Legal Entity</th>
+          }
+          <!--HEADERS ONLY FOR BUSINESS UNIT ENDS-->
           <th>Actions</th>
         </tr>
         </thead>
@@ -18,12 +22,6 @@
         <tbody>
         <tr *ngFor="let categoryFormGroup of categoryFormArray.controls; let i = index"
             [formGroup]="categoryFormGroup">
-
-          <td>
-            <mat-form-field appearance="outline">
-              <input matInput [formControl]="categoryFormGroup.controls.id" readonly>
-            </mat-form-field>
-          </td>
           <td class="">
             <mat-form-field appearance="outline">
               <input matInput [formControl]="categoryFormGroup.controls.name">
@@ -35,6 +33,20 @@
               <input matInput [formControl]="categoryFormGroup.controls.description">
             </mat-form-field>
           </td>
+
+
+          @if (selectedVocabulary.id === VocabulariesEnum.BUSINESS_UNIT) {
+            <td class="">
+              <mat-form-field appearance="outline">
+                <mat-select [formControl]="categoryFormGroup.controls.parentCategoryId">
+                  @for (legalEntity of legalEntities; track legalEntity.id) {
+                    <mat-option [value]="legalEntity.id">{{ legalEntity.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </td>
+          }
+
 
           <td class="d-flex align-items-center">
             <button mat-flat-button color="primary"

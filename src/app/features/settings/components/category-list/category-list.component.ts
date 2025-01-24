@@ -11,6 +11,9 @@ import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {BehaviorSubject} from "rxjs";
+import {MatOption, MatSelect} from "@angular/material/select";
+import {CategoryService} from "../../../../shared/services/category.service";
+import {VocabulariesEnum} from "../../../../shared/enums/vocabularies.enum";
 
 @Component({
   selector: 'app-category-list',
@@ -27,7 +30,9 @@ import {BehaviorSubject} from "rxjs";
     MatButton,
     MatIcon,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss'
@@ -41,16 +46,26 @@ export class CategoryListComponent implements OnInit {
   @Input() set categories(value: Category[]) {
     this.categoriesSubject.next(value); // Aggiorna i dati quando l'input cambia
   }
+
   @Input() selectedVocabulary!: Vocabulary;
 
   //INJECTIONS
   categoryFormService = inject(CategoryFormService);
+  categoryService = inject(CategoryService);
   //FORM VARS
   categoryFormArray: FormArray<FormGroup<CategoryForm>> = new FormArray<FormGroup<CategoryForm>>([]);
+
+  legalEntities: Category[] = [];
 
   constructor() {
     this.categories$.subscribe(categories => {
       this.populateCategoryFormArray(categories);
+
+      if (this.selectedVocabulary?.id === VocabulariesEnum.BUSINESS_UNIT) {
+        this.categoryService.getCategoriesByVocabularyId(VocabulariesEnum.LEGAL_ENTITY).subscribe(categories => {
+          this.legalEntities = categories;
+        })
+      }
     });
   }
 
@@ -90,4 +105,6 @@ export class CategoryListComponent implements OnInit {
     }
 
   }
+
+  protected readonly VocabulariesEnum = VocabulariesEnum;
 }

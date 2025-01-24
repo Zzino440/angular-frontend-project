@@ -21,5 +21,9 @@ export class CategoryService {
     return this.httpClient.get<Category[]>(`${this.environment + this.categoryUri + this.vocabularyUri}${vocabularyId}`);
   }
 
+/*  public getCategorieById(categoryId: number) {
+    return this.httpClient.get<Category[]>(`${this.environment + this.categoryUri}${categoryId}`);
+  }*/
+
 
 }
