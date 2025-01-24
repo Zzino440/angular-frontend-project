@@ -51,6 +51,7 @@ export class VocabularyListComponent implements OnInit {
     this.selectedVocabulary = vocabulary;
     this.categoryService.getCategoriesByVocabularyId(vocabulary.id).subscribe(categories => {
       this.categories = categories;
+      console.log('this.categories:   ',this.categories)
     });
   }
 }

@@ -10,6 +10,7 @@ import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-category-list',
@@ -31,33 +32,38 @@ import {MatIcon} from "@angular/material/icon";
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss'
 })
-export class CategoryListComponent implements OnInit, OnChanges {
+export class CategoryListComponent implements OnInit {
+
+  private categoriesSubject = new BehaviorSubject<Category[]>([]);
+  categories$ = this.categoriesSubject.asObservable();
+
+  @Input() set categories(value: Category[]) {
+    this.categoriesSubject.next(value); // Aggiorna i dati quando l'input cambia
+  }
 
   categoryFormService = inject(CategoryFormService);
 
-  @Input() categories: Category[] = [];
   @Input() selectedVocabulary!: Vocabulary;
 
-  categoryFormArray!: FormArray<FormGroup<CategoryForm>>;
+  categoryFormArray: FormArray<FormGroup<CategoryForm>> = new FormArray<FormGroup<CategoryForm>>([]);
+
 
   constructor() {
+    this.categories$.subscribe(categories => {
+      this.populateCategoryFormArray(categories);
+    });
   }
 
   ngOnInit(): void {
-    this.categoryFormArray = new FormArray<FormGroup<CategoryForm>>([]);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.populateCategoryFormArray();
   }
 
   //popolo il form array coi dati delle categories
-  populateCategoryFormArray() {
-    this.categoryFormArray?.clear();
-    this.categories.forEach(category => {
+  populateCategoryFormArray(categories: Category[]) {
+    this.categoryFormArray.clear();
+    categories.forEach(category => {
       const categoryForm = this.categoryFormService.createCategoryForm(category);
-      this.categoryFormArray?.push(categoryForm)
-    })
+      this.categoryFormArray.push(categoryForm);
+    });
   }
 
   enableCategoryFormGroupAtIndex(index: number) {
@@ -74,7 +80,6 @@ export class CategoryListComponent implements OnInit, OnChanges {
     });
 
   }
-
 
   undoEdit() {
     const editingIndex = this.categoryFormService.getEditingRowIndex();
