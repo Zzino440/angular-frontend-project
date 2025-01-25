@@ -19,11 +19,12 @@ export class CategoryFormService {
 
   public createCategoryForm(category: Category): FormGroup<CategoryForm> {
     const categoryForm = this.fb.group<CategoryForm>({
-      id: new FormControl<number>({value: category.id ?? 0, disabled: true}),
+      id: new FormControl<number>({value: category.id ?? null, disabled: true}),
       description: new FormControl<string>({value: category.description ?? '', disabled: true}),
       name: new FormControl<string>({value: category.name ?? '', disabled: true}),
-      parentCategoryId: new FormControl<number>({value: category.parentCategoryId ?? 0, disabled: true}),
-      parentCategoryName: new FormControl<string>({value: category.parentCategoryName ?? '', disabled: true}),
+      vocabularyId: new FormControl<number>({value: category.vocabularyId ?? null, disabled: true}),
+      parentCategoryId: new FormControl<number>({value: category.parentCategoryId ?? null, disabled: true}),
+      parentCategoryName: new FormControl<string>({value: category.parentCategoryName ?? null, disabled: true}),
     });
     return categoryForm;
   }

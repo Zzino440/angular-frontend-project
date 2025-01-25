@@ -21,9 +21,26 @@ export class CategoryService {
     return this.httpClient.get<Category[]>(`${this.environment + this.categoryUri + this.vocabularyUri}${vocabularyId}`);
   }
 
-/*  public getCategorieById(categoryId: number) {
-    return this.httpClient.get<Category[]>(`${this.environment + this.categoryUri}${categoryId}`);
-  }*/
+  public saveUpdateCategory(category: Category) {
+    if (category.id) {
+      // Aggiornamento (ID presente)
+      return this.httpClient.patch<Category>(
+        `${this.environment + this.categoryUri}${category.id}`,
+        category
+      );
+    } else {
+      // Creazione (no ID)
+      return this.httpClient.post<Category>(
+        `${this.environment + this.categoryUri}`,
+        category
+      );
+    }
+  }
+
+
+  /*  public getCategorieById(categoryId: number) {
+      return this.httpClient.get<Category[]>(`${this.environment + this.categoryUri}${categoryId}`);
+    }*/
 
 
 }

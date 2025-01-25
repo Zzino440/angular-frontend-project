@@ -12,7 +12,7 @@
             class="fw-bold"
             mat-list-item
             *ngFor="let vocabulary of vocabularies"
-            [class.selected]="vocabulary.id === selectedVocabulary?.id"
+            [class.selected]="vocabulary.id === selectedVocabulary.id"
             (click)="onVocabularySelected(vocabulary)">
             {{ vocabulary.name }}
           </button>

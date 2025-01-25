@@ -70,6 +70,46 @@ export class CategoryListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchCategories();
+  }
+
+  fetchCategories() {
+    this.categoryService.getCategoriesByVocabularyId(this.selectedVocabulary.id).subscribe({
+      next: (categories) => {
+        this.categoriesSubject.next(categories);
+      },
+      error: (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    });
+  }
+
+
+  addNewCategoryForm() {
+    const newCategoryForm = this.categoryFormService.createCategoryForm(new Category());
+    newCategoryForm.enable();
+    this.categoryFormArray.push(newCategoryForm);
+    this.enableCategoryFormGroupAtIndex(this.categoryFormArray.length - 1);
+  }
+
+  saveUpdateCategory(i: number) {
+    let category = this.categoryFormArray.at(i).value as Category;
+    category.vocabularyId = this.selectedVocabulary.id
+    this.categoryService.saveUpdateCategory(category).subscribe({
+      next: (updatedCategory) => {
+        console.log('updatedCategory: ', updatedCategory)
+
+      },
+      error: (error) => {
+        console.log('error in updating a category:', error)
+
+      },
+      complete: () => {
+        this.categoryFormArray.at(i).disable();
+        this.categoryFormService.setEditingRowIndex(null);
+        this.fetchCategories()
+      }
+    })
   }
 
   //popolo il form array coi dati delle categories
@@ -103,7 +143,6 @@ export class CategoryListComponent implements OnInit {
       this.categoryFormArray.at(editingIndex).disable();
       this.categoryFormService.setEditingRowIndex(null);
     }
-
   }
 
   protected readonly VocabulariesEnum = VocabulariesEnum;

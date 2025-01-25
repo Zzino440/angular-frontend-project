@@ -3,13 +3,13 @@ export class Category {
   name!: string
   description!: string
   vocabularyId!: number
-  vocabularyName!: string
+  // vocabularyName!: string
   parentCategoryId!: number
   parentCategoryName!: string
-  subCategories!: SubCategory[]
+/*  subCategories!: SubCategory[]*/
 }
 
-export interface SubCategory {
+/*export interface SubCategory {
   id: number
   name: string
-}
+}*/
