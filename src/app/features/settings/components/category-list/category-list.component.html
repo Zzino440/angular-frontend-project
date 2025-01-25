@@ -89,9 +89,9 @@
 
             <button mat-flat-button color="primary"
                     [disabled]="(categoryFormService.editingRowIndex$ | async) !== null"
-                    (click)="saveUpdateCategory(i)">
-              <mat-icon>check_circle</mat-icon>
-              <span>delete</span>
+                    (click)="deleteCategory(i)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
             </button>
           </td>
         </tr>

@@ -73,6 +73,10 @@ export class CategoryListComponent implements OnInit {
     this.fetchCategories();
   }
 
+  deleteCategory(i: number) {
+
+  }
+
   fetchCategories() {
     this.categoryService.getCategoriesByVocabularyId(this.selectedVocabulary.id).subscribe({
       next: (categories) => {
