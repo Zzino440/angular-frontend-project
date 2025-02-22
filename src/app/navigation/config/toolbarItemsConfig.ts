@@ -11,7 +11,12 @@ export const ToolbarItemsConfig: ToolbarItem[] = [
     name: 'Add User',
     route: 'add-user',
     roles: [Role.ADMIN]
-  }
+  },
+  {
+    name: 'Settings',
+    route: 'settings',
+    roles: [Role.ADMIN]
+  },
 
   // Aggiungi qui altre voci
 ];
