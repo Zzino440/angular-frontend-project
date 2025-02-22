@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, computed, inject, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -7,8 +7,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteUserDialogComponent} from "../../components/delete-user-dialog/delete-user-dialog.component";
-import {AsyncPipe} from "@angular/common";
-import {DatasourcePipe} from "../../../../shared/pipes/datasource.pipe";
 import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
 import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
@@ -27,8 +25,6 @@ import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.e
     MatButtonModule,
     MatIconModule,
     RouterLink,
-    AsyncPipe,
-    DatasourcePipe,
     CamelCasePipe,
     MatPaginatorModule,
     MatSortModule,
@@ -38,6 +34,10 @@ import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.e
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit, OnDestroy {
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   //variable to use it in the html
   protected readonly Permission = Permission;
 
@@ -45,9 +45,17 @@ export class UserListComponent implements OnInit, OnDestroy {
   authenticationService = inject(AuthenticationService);
   snackBarNotificationService = inject(SnackBarNotificationService);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  //comp variables
+  private users = signal<User[]>([]);
+  protected datasource = computed(() => new MatTableDataSource(this.users()));
 
+  //filters variables
+  private filterEmail = signal('');
+
+  //utils variables
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
+
+  //pagination variables
   pageEvent: PageEvent = {
     length: 0,
     pageSize: 10,
@@ -55,21 +63,13 @@ export class UserListComponent implements OnInit, OnDestroy {
   };
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
-  dataSource!: MatTableDataSource<User>;
-
-  //filters variables
-  filterEmail: string = '';
-
-  //utils variables
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
 
   //subject that controls if the component is destroyed or another request has been submitted
   //controls the subscription to getUser
   private getUsersRequestManager = new Subject<void>();
 
   constructor(private userService: UserService,
-              public dialog: MatDialog,
-              private destroyRef: DestroyRef,) {
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -79,12 +79,11 @@ export class UserListComponent implements OnInit, OnDestroy {
   getUsersExceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
     this.getUsersRequestManager.next();
-    this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail, page, size).pipe(
+    this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail(), page, size).pipe(
       takeUntil(this.getUsersRequestManager),
     ).subscribe(usersResponse => {
-      // Utilizziamo 'tap' per effetti collaterali, come l'aggiornamento della dataSource
-      this.dataSource = new MatTableDataSource(usersResponse.content);
-      this.dataSource.sort = this.sort;
+      this.users.set(usersResponse.content);
+      this.datasource().sort = this.sort;
       this.pageEvent.length = usersResponse.totalElements;
       this.pageEvent.pageSize = usersResponse.size;
     });
@@ -92,7 +91,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
 
   handleSelectedEmail(email: string) {
-    this.filterEmail = email;
+    this.filterEmail.update(() => email);
     this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
     //resetto il pageIndex quando applico il filtro
     //in questo modo quando filtro che sono su una pagina differente dalla prima, mi torna sulla prima pagina

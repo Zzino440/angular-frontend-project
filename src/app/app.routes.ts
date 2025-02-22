@@ -4,10 +4,17 @@ import {authGuard} from "./security/services/guards/auth.guard";
 export const routes: Routes = [
 
   {
+    path: 'signals',
+    // do not use loadComponent here as you do not want to leak the internals of your feature into your app
+    loadChildren: () => import('./features/training/routes').then(feature => feature.routes),
+    canActivate: [authGuard],
+  },
+
+  {
     path: 'settings',
     // do not use loadComponent here as you do not want to leak the internals of your feature into your app
     loadChildren: () => import('./features/settings/routes').then(feature => feature.routes),
-    canActivate:[authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'login',
@@ -20,22 +27,22 @@ export const routes: Routes = [
   {
     path: 'users',
     loadComponent: () => import('./features/user/pages/user-list/user-list.component').then(c => c.UserListComponent),
-    canActivate:[authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'add-user',
     loadComponent: () => import('./features/user/pages/user-add/user-add.component').then(c => c.UserAddComponent),
-    canActivate:[authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'user-detail/:id',
     loadComponent: () => import('./features/user/pages/user-detail/user-detail.component').then(c => c.UserDetailComponent),
-    canActivate:[authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'user-edit/:id',
     loadComponent: () => import('./features/user/pages/user-add/user-add.component').then(c => c.UserAddComponent),
-    canActivate:[authGuard],
+    canActivate: [authGuard],
   },
   {
     path: '', redirectTo: 'users', pathMatch: 'full',

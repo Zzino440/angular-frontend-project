@@ -1,7 +1,7 @@
 <div class="container pt-4 pb-2">
   <h1 class="fw-bold">User List</h1>
   <app-user-filters (selectedEmail)="handleSelectedEmail($event)"></app-user-filters>
-  <table mat-table matSort matSortActive="email" matSortDirection="asc" [dataSource]="dataSource"
+  <table mat-table matSort matSortActive="email" matSortDirection="asc" [dataSource]="datasource()"
          class="mat-elevation-z8">
     <ng-container matColumnDef="firstName">
       <th mat-header-cell *matHeaderCellDef>First Name</th>
@@ -30,12 +30,12 @@
           <mat-icon>visibility</mat-icon>
         </button>
 
-        @if(authenticationService.userHasOneOfTheAuthorities([Permission.ADMIN_UPDATE])){
+        @if (authenticationService.userHasOneOfTheAuthorities([Permission.ADMIN_UPDATE])) {
           <button [routerLink]="['/user-edit', element.id]" color="primary" mat-icon-button>
             <mat-icon>edit</mat-icon>
           </button>
         }
-        @if (authenticationService.userHasOneOfTheAuthorities([Permission.ADMIN_DELETE])){
+        @if (authenticationService.userHasOneOfTheAuthorities([Permission.ADMIN_DELETE])) {
           <button (click)="openDeleteUserDialog(element.id)" color="warn" mat-icon-button>
             <mat-icon>delete</mat-icon>
           </button>

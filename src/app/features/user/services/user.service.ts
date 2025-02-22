@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, Signal} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {User} from "../models/user";
@@ -40,7 +40,7 @@ export class UserService {
   }
 
 
-  createUser(user: User): Observable<Object> {
+  createUser(user: Signal<User>): Observable<Object> {
     return this.httpClient.post(`${this.environment + this.usersUri}`, user).pipe(
       catchError(error => this.handleError(error))
     );
@@ -52,7 +52,7 @@ export class UserService {
     )
   }
 
-  updateUser(id: number, user: User): Observable<User> {
+  updateUser(id: number, user: Signal<User>): Observable<User> {
     return this.httpClient.put<User>(`${this.environment + this.usersUri}${id}`, user).pipe(
       catchError(error => this.handleError(error))
     )

@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -42,7 +42,7 @@ export class UserAddComponent implements OnInit {
 
   customValidators = inject(CustomValidators);
   //main variables
-  user: User = new User();
+  private user = signal<User>(new User());
   userForm!: FormGroup;
 
   //utility variables
@@ -52,6 +52,8 @@ export class UserAddComponent implements OnInit {
   roleOptions = Object.values(Role);
 
   hide = true;
+
+  protected isFormDirty = computed(() => this.userForm?.dirty ?? false);
 
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
@@ -81,7 +83,7 @@ export class UserAddComponent implements OnInit {
   }
 
   submitForm() {
-    this.user = this.userForm.getRawValue();
+    this.user.set(this.userForm.getRawValue());
     this.isEditUser ? this.updateUser() : this.addUser();
   }
 
@@ -104,15 +106,14 @@ export class UserAddComponent implements OnInit {
   }
 
   setFormValuesAndValidatorsAndState() {
-    console.log('this.userForm.dirty  ', this.userForm.dirty)
     if (this.isEditUser) {
       this.passwordControl?.clearValidators();
       this.passwordControl?.updateValueAndValidity();
       this.emailControl?.clearAsyncValidators();
       this.emailControl?.updateValueAndValidity();
       this.userService.getUserById(this.currentUserId).subscribe(res => {
-        this.user = res;
-        this.userForm.patchValue({...this.user});
+        this.user.set(res);
+        this.userForm.patchValue({...this.user()});
         this.userForm.markAllAsTouched();
       })
     }
