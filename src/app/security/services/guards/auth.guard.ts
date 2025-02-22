@@ -5,7 +5,7 @@ import {SnackBarNotificationService} from "../../../shared/services/snack-bar-no
 import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 /**canActivate method (guard)**/
-export const authGuard: (route: any, state: any) => Promise<void> = async (route, state) => {
+export const authGuard: (route: any   , state: any) => Promise<void> = async (route, state) => {
   const authenticationService = inject(AuthenticationService);
   const router = inject(Router);
   const snackBarNotificationService = inject(SnackBarNotificationService);

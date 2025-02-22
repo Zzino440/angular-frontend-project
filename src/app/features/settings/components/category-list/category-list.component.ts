@@ -70,7 +70,9 @@ export class CategoryListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchCategories();
+    if (this.selectedVocabulary) {
+      this.fetchCategories();
+    }
   }
 
   deleteCategory(i: number) {
@@ -78,7 +80,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   fetchCategories() {
-    this.categoryService.getCategoriesByVocabularyId(this.selectedVocabulary.id).subscribe({
+    this.categoryService.getCategoriesByVocabularyId(this.selectedVocabulary?.id).subscribe({
       next: (categories) => {
         this.categoriesSubject.next(categories);
       },
@@ -102,11 +104,9 @@ export class CategoryListComponent implements OnInit {
     this.categoryService.saveUpdateCategory(category).subscribe({
       next: (updatedCategory) => {
         console.log('updatedCategory: ', updatedCategory)
-
       },
       error: (error) => {
         console.log('error in updating a category:', error)
-
       },
       complete: () => {
         this.categoryFormArray.at(i).disable();
