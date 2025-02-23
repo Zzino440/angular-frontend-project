@@ -88,7 +88,7 @@ export class UserAddComponent implements OnInit {
   }
 
   addUser() {
-    this.userService.createUser(this.user).subscribe(res => {
+    this.userService.createUser(this.user()).subscribe(res => {
         console.log('res save', res);
         this.snackBarNotificationService.notify('User created successfully', 'OK', NotificationTypeEnum.SUCCESS);
         this.goToUserList();
@@ -97,7 +97,7 @@ export class UserAddComponent implements OnInit {
   }
 
   updateUser() {
-    this.userService.updateUser(this.currentUserId, this.user).subscribe(res => {
+    this.userService.updateUser(this.currentUserId, this.user()).subscribe(res => {
         console.log('res update', res)
         this.snackBarNotificationService.notify('User updated successfully', 'OK', NotificationTypeEnum.SUCCESS);
         this.goToUserList();

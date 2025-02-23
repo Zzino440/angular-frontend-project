@@ -29,7 +29,9 @@ export class AuthenticationService {
   }
 
   registration(registerRequest: RegisterRequest): Observable<User> {
-    return this.httpClient.post<User>(`${this.environment}${this.authUri}register`, registerRequest)
+    return this.httpClient.post<User>(`${this.environment}${this.authUri}register`, registerRequest).pipe(
+      catchError(err => this.handleError(err, 'registration'))
+    )
   }
 
   authenticate(loginRequqest: LoginRequest): Observable<User> {
