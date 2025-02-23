@@ -1,0 +1,49 @@
+<div class="container pt-md-4">
+  <mat-card class="mat-elevation-z8">
+
+    <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+      <div class="d-flex flex-column gap-2">
+        <div class="row pt-md-4">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input
+                autocomplete="given-name"
+                matInput
+                [formControl]="userForm.controls.firstName"
+                placeholder="John"
+                appPreventNumbers>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input
+                autocomplete="given-name"
+                matInput
+                [formControl]="userForm.controls.lastName"
+                placeholder="Smith"
+                appPreventNumbers>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="row py-md-4">
+        <div class="col-md d-flex justify-content-center align-items-center">
+          <button mat-flat-button class="rounded-5" type="submit" color="primary">
+            Submit
+          </button>
+        </div>
+      </div>
+
+
+    </form>
+
+  </mat-card>
+</div>

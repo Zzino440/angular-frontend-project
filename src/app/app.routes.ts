@@ -31,7 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'add-user',
-    loadComponent: () => import('./features/user/pages/user-add/user-add.component').then(c => c.UserAddComponent),
+    loadComponent: () => import('./features/user/pages/new-user-add/new-user-add.component').then(c => c.NewUserAddComponent),
     canActivate: [authGuard],
   },
   {
@@ -41,7 +41,7 @@ export const routes: Routes = [
   },
   {
     path: 'user-edit/:id',
-    loadComponent: () => import('./features/user/pages/user-add/user-add.component').then(c => c.UserAddComponent),
+    loadComponent: () => import('./features/user/pages/new-user-add/new-user-add.component').then(c => c.NewUserAddComponent),
     canActivate: [authGuard],
   },
   {

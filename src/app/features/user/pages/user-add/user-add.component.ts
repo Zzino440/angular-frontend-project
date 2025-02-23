@@ -28,7 +28,6 @@ import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.e
     MatButtonModule,
     PreventNumbersDirective,
     NgIf,
-    JsonPipe,
     MatSelectModule,
     MatProgressSpinnerModule,
     MatIconModule,
@@ -79,6 +78,8 @@ export class UserAddComponent implements OnInit {
         role: new FormControl('', [Validators.required])
       }
     )
+
+    /*const val = this.userForm.value;*/
     this.setFormValuesAndValidatorsAndState();
   }
 
