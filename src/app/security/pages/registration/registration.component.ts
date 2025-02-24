@@ -77,7 +77,7 @@ export class RegistrationComponent implements OnInit {
 
 
   get firstNameControl() {
-    return this.registrationForm.get(['firstName']);
+    return this.registrationForm.get(['firstNameControl']);
   }
 
   get lastNameControl() {

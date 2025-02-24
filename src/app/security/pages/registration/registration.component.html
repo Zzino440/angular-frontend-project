@@ -9,7 +9,7 @@
           <div class="col-md d-flex justify-content-center">
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>First Name</mat-label>
-              <input autocomplete="given-name" matInput formControlName="firstName" appPreventNumbers>
+              <input autocomplete="given-name" matInput formControlName="firstNameControl" appPreventNumbers>
               @if (firstNameControl?.errors?.['required']) {
                 <mat-error>First Name is <strong>required</strong></mat-error>
               }

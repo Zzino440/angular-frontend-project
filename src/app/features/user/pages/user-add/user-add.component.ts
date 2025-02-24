@@ -126,7 +126,7 @@ export class UserAddComponent implements OnInit {
 
   //getters form values
   get firstNameControl() {
-    return this.userForm.get(['firstName']);
+    return this.userForm.get(['firstNameControl']);
   }
 
   get lastNameControl() {

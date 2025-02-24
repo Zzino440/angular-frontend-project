@@ -10,7 +10,7 @@
               <input
                 autocomplete="given-name"
                 matInput
-                [formControl]="userForm.controls.firstName"
+                [formControl]="firstNameControl"
                 placeholder="John"
                 appPreventNumbers>
             </mat-form-field>
@@ -24,9 +24,50 @@
               <input
                 autocomplete="given-name"
                 matInput
-                [formControl]="userForm.controls.lastName"
+                [formControl]="lastNameControl"
                 placeholder="Smith"
                 appPreventNumbers>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input
+                autocomplete="email"
+                placeholder="example@example.com"
+                matInput
+                [formControl]="emailControl">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input
+                autocomplete="new-password"
+                type="password"
+                matInput
+                [formControl]="passwordControl">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md d-flex justify-content-center">
+            <mat-form-field appearance="outline">
+              <mat-label>Choose a Role</mat-label>
+              <mat-select [formControl]="roleControl">
+                @for (role of roleOptions; track $index) {
+                  <mat-option [value]="role">
+                    {{ role }}
+                  </mat-option>
+                }
+              </mat-select>
             </mat-form-field>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import {Component, computed, effect, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {MatCard} from "@angular/material/card";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
@@ -10,6 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {Subject, takeUntil} from "rxjs";
 import {Role} from "../../models/role.enum";
+import {MatOption, MatSelect} from "@angular/material/select";
 
 @Component({
   selector: 'app-new-user-add',
@@ -21,7 +22,9 @@ import {Role} from "../../models/role.enum";
     MatLabel,
     MatInput,
     PreventNumbersDirective,
-    MatButton
+    MatButton,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './new-user-add.component.html',
   styleUrl: './new-user-add.component.scss'
@@ -34,12 +37,13 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
 
   //main variables
   private user = signal<User>(new User());
+
   userForm = this.formBuilder.group({
-    firstName: [''],
-    lastName: [''],
-    email: [''],
-    password: [''],
-    role: [''],
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    role: ['', [Validators.required]],
   })
 
   //utility variables
@@ -61,11 +65,9 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-
     if (this.isEditUser()) {
       this.setFormValuesAndValidatorsAndState();
     }
-
   }
 
   public submitForm() {
@@ -80,6 +82,26 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
       console.log('this.user(): ', this.user());
       this.userForm.patchValue(this.user());
     });
+  }
+
+  get firstNameControl() {
+    return this.userForm.controls.firstName;
+  }
+
+  get lastNameControl() {
+    return this.userForm.controls.lastName;
+  }
+
+  get emailControl() {
+    return this.userForm.controls.email;
+  }
+
+  get passwordControl() {
+    return this.userForm.controls.password;
+  }
+
+  get roleControl() {
+    return this.userForm.controls.role;
   }
 
   ngOnDestroy() {
