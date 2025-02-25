@@ -49,28 +49,28 @@
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Email</mat-label>
               <input autocomplete="email" placeholder="example@example.com" matInput formControlName="email">
-              @if (emailControl?.pending) {
-                <mat-progress-spinner
-                  matSuffix
-                  [mode]="'indeterminate'"
-                  [diameter]="20"
-                  *ngIf="emailControl?.pending"
-                >
-                </mat-progress-spinner>
-              } @else if(!isEditUser && (!emailControl?.pending && emailControl?.valid)) {
-                <mat-icon matSuffix>
-                  done
-                </mat-icon>
-              }
-              @if (emailControl?.errors?.['required']) {
-                <mat-error>Email is <strong>required</strong></mat-error>
-              }
-              @if (emailControl?.errors?.['email']) {
-                <mat-error>Not a valid <strong>Email</strong></mat-error>
-              }
-              @if (emailControl?.errors?.['emailExists']) {
-                <mat-error>This email already <strong>exists</strong></mat-error>
-              }
+                @if (emailControl?.pending) {
+                  <mat-progress-spinner
+                    matSuffix
+                    [mode]="'indeterminate'"
+                    [diameter]="20"
+                    *ngIf="emailControl?.pending"
+                  >
+                  </mat-progress-spinner>
+                } @else if(!isEditUser && (!emailControl?.pending && emailControl?.valid)) {
+                  <mat-icon matSuffix>
+                    done
+                  </mat-icon>
+                }
+                @if (emailControl?.errors?.['required']) {
+                  <mat-error>Email is <strong>required</strong></mat-error>
+                }
+                @if (emailControl?.errors?.['email']) {
+                  <mat-error>Not a valid <strong>Email</strong></mat-error>
+                }
+                @if (emailControl?.errors?.['emailExists']) {
+                  <mat-error>This email already <strong>exists</strong></mat-error>
+                }
             </mat-form-field>
           </div>
         </div>
@@ -115,17 +115,17 @@
       </div>
       <div class="row py-4">
         <div class="col-md d-flex justify-content-center align-items-center">
-          @if (isEditUser) {
-            <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty)" type="submit"
-                    color="primary" mat-flat-button>
-              Edit
-            </button>
-          } @else {
-            <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty && userForm.untouched)" type="submit"
-                    color="primary" mat-flat-button>
-              Add
-            </button>
-          }
+            @if (isEditUser) {
+              <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty)" type="submit"
+                      color="primary" mat-flat-button>
+                Edit
+              </button>
+            } @else {
+              <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty && userForm.untouched)" type="submit"
+                      color="primary" mat-flat-button>
+                Add
+              </button>
+            }
         </div>
       </div>
 

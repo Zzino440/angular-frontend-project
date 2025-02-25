@@ -1,7 +1,7 @@
-import {Component, computed, effect, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component, computed, effect, inject, model, OnDestroy, OnInit, signal} from '@angular/core';
 import {MatCard} from "@angular/material/card";
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {MatButton} from "@angular/material/button";
@@ -12,6 +12,12 @@ import {Subject, takeUntil} from "rxjs";
 import {Role} from "../../models/role.enum";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {CustomValidators} from "../../../../shared/validators/custom-validators";
+import {MatIcon} from "@angular/material/icon";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {NgIf} from "@angular/common";
+import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
+import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'app-new-user-add',
@@ -26,7 +32,11 @@ import {CustomValidators} from "../../../../shared/validators/custom-validators"
         MatButton,
         MatSelect,
         MatOption,
-        MatError
+        MatError,
+        MatIcon,
+        MatProgressSpinner,
+        MatSuffix,
+        NgIf
     ],
     templateUrl: './new-user-add.component.html',
     styleUrl: './new-user-add.component.scss'
@@ -36,7 +46,8 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
     formBuilder = inject(FormBuilder);
     activatedRoute = inject(ActivatedRoute);
     userService = inject(UserService);
-    private customValidators = inject(CustomValidators);
+    customValidators = inject(CustomValidators);
+    snackBarNotificationService = inject(SnackBarNotificationService);
 
     //main variables
     private user = signal<User>(new User());
@@ -91,10 +102,17 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
     }
 
     public submitForm() {
-        console.log('this.userForm.value: ', this.userForm.value);
+        this.user.set(this.userForm.value as User); // Cast to User per mandare dati a BE
+        this.isEditUser() ? this.updateUser() : this.addUser();
     }
 
     private setFormValuesAndValidatorsAndState() {
+
+        this.passwordControl.clearValidators();
+        this.passwordControl.updateValueAndValidity();
+        this.emailControl.clearAsyncValidators();
+        this.emailControl.updateValueAndValidity();
+
         this.userService.getUserById(this.currentUserId()).pipe(
             takeUntil(this.destroy$)
         ).subscribe(user => {
@@ -102,6 +120,30 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
             console.log('this.user(): ', this.user());
             this.userForm.patchValue(this.user());
         });
+    }
+
+    addUser() {
+        this.userService.createUser(this.user()).subscribe({
+            next: res => {
+                console.log('res save', res);
+                this.snackBarNotificationService.notify('User created successfully', 'OK', NotificationTypeEnum.SUCCESS);
+            },
+            error: (err: HttpErrorResponse) => {
+                console.log('err during the save ', err);
+            }
+        })
+    }
+
+    updateUser() {
+        this.userService.updateUser(this.currentUserId(), this.user()).subscribe({
+            next: res => {
+                console.log('res update', res)
+                this.snackBarNotificationService.notify('User updated successfully', 'OK', NotificationTypeEnum.SUCCESS);
+            },
+            error: (err: HttpErrorResponse) => {
+                console.log('err during the update ', err);
+            }
+        })
     }
 
     get firstNameControl() {

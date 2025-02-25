@@ -7,6 +7,14 @@ export class User {
   firstName!: string;
   lastName!: string;
   token!: string;
-  role!: Role;
+  role!: Role | string;
   authorities!: Permission[];
 }
+
+/*export class UserDTO {
+  firstName!: string;
+  lastName!: string;
+  email!: string;
+  password!: string;
+  role!: Role;
+}*/

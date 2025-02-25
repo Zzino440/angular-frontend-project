@@ -1,108 +1,148 @@
 <div class="container pt-md-4">
-  <mat-card class="mat-elevation-z8">
+    <mat-card class="mat-elevation-z8">
 
-    <form [formGroup]="userForm" (ngSubmit)="submitForm()">
-      <div class="d-flex flex-column gap-2">
-        <div class="row pt-md-4">
-          <div class="col-md d-flex justify-content-center">
-            <mat-form-field appearance="outline">
-              <mat-label>First Name</mat-label>
-              <input
-                autocomplete="given-name"
-                matInput
-                [formControl]="firstNameControl"
-                placeholder="John"
-                appPreventNumbers>
-              @if (firstNameControl?.errors?.['required']) {
-                <mat-error>First Name is <strong>required</strong></mat-error>
-              }
-              @if (firstNameControl?.errors?.['forbiddenCharacters']) {
-                <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong> spaces</mat-error>
-              }
-            </mat-form-field>
-          </div>
-        </div>
+        <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+            <div class="d-flex flex-column gap-2">
+                <div class="row pt-md-4">
+                    <div class="col-md d-flex justify-content-center">
+                        <mat-form-field appearance="outline" class="w-50">
+                            <mat-label>First Name</mat-label>
+                            <input
+                                    autocomplete="given-name"
+                                    matInput
+                                    [formControl]="firstNameControl"
+                                    placeholder="John"
+                                    appPreventNumbers>
+                            @if (firstNameControl?.errors?.['required']) {
+                                <mat-error>First Name is <strong>required</strong></mat-error>
+                            }
+                            @if (firstNameControl?.errors?.['forbiddenCharacters']) {
+                                <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong>
+                                    spaces
+                                </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-md d-flex justify-content-center">
-            <mat-form-field appearance="outline">
-              <mat-label>Last Name</mat-label>
-              <input
-                autocomplete="given-name"
-                matInput
-                [formControl]="lastNameControl"
-                placeholder="Smith"
-                appPreventNumbers>
-            </mat-form-field>
-            <!--            @if (lastNameControl?.errors?.['required']) {
-                          <mat-error>Last Name is <strong>required</strong></mat-error>
-                        }
-                        @if (lastNameControl?.errors?.['forbiddenCharacters']) {
-                          <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong> spaces</mat-error>
-                        }-->
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-md d-flex justify-content-center">
+                        <mat-form-field appearance="outline" class="w-50">
+                            <mat-label>Last Name</mat-label>
+                            <input
+                                    autocomplete="given-name"
+                                    matInput
+                                    [formControl]="lastNameControl"
+                                    placeholder="Smith"
+                                    appPreventNumbers>
+                            @if (lastNameControl?.errors?.['required']) {
+                                <mat-error>Last Name is <strong>required</strong></mat-error>
+                            }
+                            @if (lastNameControl?.errors?.['forbiddenCharacters']) {
+                                <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong>
+                                    spaces
+                                </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-md d-flex justify-content-center">
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input
-                autocomplete="email"
-                placeholder="example@example.com"
-                matInput
-                [formControl]="emailControl">
-            </mat-form-field>
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-md d-flex justify-content-center">
+                        <mat-form-field appearance="outline" class="w-50">
+                            <mat-label>Email</mat-label>
+                            <input
+                                    autocomplete="email"
+                                    placeholder="example@example.com"
+                                    matInput
+                                    [formControl]="emailControl">
+                            @if (emailControl.pending) {
+                                <mat-progress-spinner
+                                        matSuffix
+                                        [mode]="'indeterminate'"
+                                        [diameter]="20"
+                                        *ngIf="emailControl.pending"
+                                >
+                                </mat-progress-spinner>
+                            } @else if (!isEditUser && (!emailControl.pending && emailControl.valid)) {
+                                <mat-icon matSuffix>
+                                    done
+                                </mat-icon>
+                            }
+                            @if (emailControl.hasError('required')) {
+                                <mat-error>Email is <strong>required</strong></mat-error>
+                            }
+                            @if (emailControl.hasError('email')) {
+                                <mat-error>Not a valid <strong>Email</strong></mat-error>
+                            }
+                            @if (emailControl.hasError('emailExists')) {
+                                <mat-error>This email already <strong>exists</strong></mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-md d-flex justify-content-center">
-            <mat-form-field appearance="outline">
-              <mat-label>Password</mat-label>
-              <input
-                autocomplete="new-password"
-                type="password"
-                matInput
-                [formControl]="passwordControl">
-            </mat-form-field>
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-md d-flex justify-content-center">
+                        <mat-form-field appearance="outline" class="w-50">
+                            <mat-label>Password</mat-label>
+                            <input
+                                    autocomplete="new-password"
+                                    type="password"
+                                    matInput
+                                    [formControl]="passwordControl">
+                            @if (passwordControl.hasError('required')) {
+                                <mat-error>Password is <strong>required</strong></mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-md d-flex justify-content-center">
-            <mat-form-field appearance="outline">
-              <mat-label>Choose a Role</mat-label>
-              <mat-select [formControl]="roleControl">
-                @for (role of roleOptions; track $index) {
-                  <mat-option [value]="role">
-                    {{ role }}
-                  </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div class="row py-md-4">
-        <div class="col-md d-flex justify-content-center align-items-center">
-          <button mat-flat-button class="rounded-5" type="submit" color="primary">
-            Submit
-          </button>
-        </div>
-
-        <div class="col-md d-flex justify-content-center align-items-center">
-          <button mat-flat-button class="rounded-5" type="button" (click)="reset()" color="primary">
-            Reset
-          </button>
-        </div>
-      </div>
+                <div class="row">
+                    <div class="col-md d-flex justify-content-center">
+                        <mat-form-field appearance="outline" class="w-50">
+                            <mat-label>Choose a Role</mat-label>
+                            <mat-select [formControl]="roleControl">
+                                @for (role of roleOptions; track $index) {
+                                    <mat-option [value]="role">
+                                        {{ role }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                            @if (roleControl.hasError('required')) {
+                                <mat-error>Role is <strong>required</strong></mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
 
 
-    </form>
+            </div>
 
-  </mat-card>
+            <div class="row py-md-4">
+                <div class="col-md d-flex justify-content-center align-items-center">
+                    @if (isEditUser()) {
+                        <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty)" type="submit"
+                                color="primary" mat-flat-button>
+                            Edit
+                        </button>
+                    } @else {
+                        <button class="rounded-5" [disabled]="userForm.invalid || (!userForm.dirty && userForm.untouched)" type="submit"
+                                color="primary" mat-flat-button>
+                            Add
+                        </button>
+                    }
+                </div>
+
+<!--                <div class="col-md d-flex justify-content-center align-items-center">
+                    <button mat-flat-button class="rounded-5" type="button" (click)="reset()" color="primary">
+                        Reset
+                    </button>
+                </div>-->
+            </div>
+
+
+        </form>
+
+    </mat-card>
 </div>

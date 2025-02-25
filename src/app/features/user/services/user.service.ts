@@ -38,27 +38,27 @@ export class UserService {
   }
 
 
-  createUser(user: User): Observable<Object> {
+  createUser(user: Partial<User>) {
     return this.httpClient.post(`${this.environment + this.usersUri}`, user).pipe(
-      catchError(error => this.handleError(error))
+      catchError(this.handleError)
     );
   }
 
   getUserById(id: number): Observable<User> {
     return this.httpClient.get<User>(`${this.environment + this.usersUri}${id}`).pipe(
-      catchError(error => this.handleError(error))
+      catchError(this.handleError)
     )
   }
 
-  updateUser(id: number, user: User): Observable<User> {
+  updateUser(id: number, user: Partial<User>): Observable<User> {
     return this.httpClient.put<User>(`${this.environment + this.usersUri}${id}`, user).pipe(
-      catchError(error => this.handleError(error))
+      catchError(this.handleError)
     )
   }
 
   deleteUser(id: number): Observable<Object> {
     return this.httpClient.delete<User>(`${this.environment + this.usersUri}${id}`).pipe(
-      catchError(error => this.handleError(error))
+      catchError(this.handleError)
     )
   }
 
