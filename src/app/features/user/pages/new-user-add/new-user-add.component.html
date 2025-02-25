@@ -9,10 +9,10 @@
                             <mat-label>First Name</mat-label>
                             <input autocomplete="given-name" matInput [formControl]="firstNameControl"
                                    placeholder="John" appPreventNumbers>
-                            @if (firstNameControl?.errors?.['required']) {
+                            @if (firstNameControl.hasError('required')) {
                                 <mat-error>First Name is <strong>required</strong></mat-error>
                             }
-                            @if (firstNameControl?.errors?.['forbiddenCharacters']) {
+                            @if (firstNameControl.hasError('forbiddenCharacters')) {
                                 <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong>
                                     spaces
                                 </mat-error>
@@ -27,10 +27,10 @@
                             <mat-label>Last Name</mat-label>
                             <input autocomplete="given-name" matInput [formControl]="lastNameControl"
                                    placeholder="Smith" appPreventNumbers>
-                            @if (lastNameControl?.errors?.['required']) {
+                            @if (lastNameControl.hasError('required')) {
                                 <mat-error>Last Name is <strong>required</strong></mat-error>
                             }
-                            @if (lastNameControl?.errors?.['forbiddenCharacters']) {
+                            @if (lastNameControl.hasError('forbiddenCharacters')) {
                                 <mat-error>Only letters <strong>allowed</strong> - no <strong>start or end</strong>
                                     spaces
                                 </mat-error>
@@ -113,12 +113,6 @@
                         </button>
                     }
                 </div>
-
-                <!--                <div class="col-md d-flex justify-content-center align-items-center">
-                                    <button mat-flat-button class="rounded-5" type="button" (click)="reset()" color="primary">
-                                        Reset
-                                    </button>
-                                </div>-->
             </div>
 
 
