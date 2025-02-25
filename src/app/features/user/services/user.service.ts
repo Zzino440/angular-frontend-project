@@ -1,7 +1,7 @@
-import {inject, Injectable, Signal} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
-import {User, UserCreateUpdateDTO} from "../models/user";
+import {User} from "../models/user";
 import {environment} from '../../../../environments/environment';
 import {PagedResponse} from "../../../shared/models/paged-response";
 import {SnackBarNotificationService} from "../../../shared/services/snack-bar-notification.service";

@@ -11,7 +11,7 @@ export class User {
   authorities!: Permission[];
 }
 
-export class UserCreateUpdateDTO {
+/*export class UserCreateUpdateDTO {
   firstName!: string;
   lastName!: string;
   email!: string;
@@ -25,4 +25,4 @@ export class UserDTO {
   email!: string;
   role!: Role;
   authorities!: Permission[];
-}
+}*/

@@ -1,12 +1,12 @@
-import {Component, computed, effect, inject, model, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component, computed, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {MatCard} from "@angular/material/card";
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {MatButton} from "@angular/material/button";
-import {User, UserDTO} from "../../models/user";
-import {ActivatedRoute} from "@angular/router";
+import {User} from "../../models/user";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {Subject, takeUntil} from "rxjs";
 import {Role} from "../../models/role.enum";
@@ -18,7 +18,6 @@ import {NgIf} from "@angular/common";
 import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
 import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {FormUtilsService} from "../../../../shared/services/form-utils.service";
 
 @Component({
     selector: 'app-new-user-add',
@@ -49,6 +48,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
     userService = inject(UserService);
     customValidators = inject(CustomValidators);
     snackBarNotificationService = inject(SnackBarNotificationService);
+    router = inject(Router);
 
     //main variables
     private user = signal<User>(new User());
@@ -99,7 +99,6 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
     }
 
     public submitForm() {
-        /*        this.user.set(this.userForm.value as User); // Cast to User per mandare dati a BE*/
         this.isEditUser() ? this.updateUser() : this.addUser();
     }
 
@@ -123,6 +122,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
             next: res => {
                 console.log('res save', res);
                 this.snackBarNotificationService.notify('User created successfully', 'OK', NotificationTypeEnum.SUCCESS);
+                this.goToUserList();
             },
             error: (err: HttpErrorResponse) => {
                 console.log('err during the save ', err);
@@ -135,11 +135,16 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
             next: res => {
                 console.log('res update', res)
                 this.snackBarNotificationService.notify('User updated successfully', 'OK', NotificationTypeEnum.SUCCESS);
+                this.goToUserList();
             },
             error: (err: HttpErrorResponse) => {
                 console.log('err during the update ', err);
             }
         })
+    }
+
+    goToUserList() {
+        this.router.navigate(['/users']).then();
     }
 
     get firstNameControl() {
