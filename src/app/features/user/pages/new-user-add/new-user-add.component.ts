@@ -1,7 +1,7 @@
-import {Component, computed, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component, computed, effect, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {MatCard} from "@angular/material/card";
-import {FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {MatButton} from "@angular/material/button";
@@ -11,7 +11,6 @@ import {UserService} from "../../services/user.service";
 import {Subject, takeUntil} from "rxjs";
 import {Role} from "../../models/role.enum";
 import {MatOption, MatSelect} from "@angular/material/select";
-import {UserFormService} from "../../services/user-form.service";
 
 @Component({
   selector: 'app-new-user-add',
@@ -25,20 +24,27 @@ import {UserFormService} from "../../services/user-form.service";
     PreventNumbersDirective,
     MatButton,
     MatSelect,
-    MatOption,
-    MatError
+    MatOption
   ],
   templateUrl: './new-user-add.component.html',
   styleUrl: './new-user-add.component.scss'
 })
 export class NewUserAddComponent implements OnInit, OnDestroy {
+
+  formBuilder = inject(FormBuilder);
   activatedRoute = inject(ActivatedRoute);
   userService = inject(UserService);
-  userFormService = inject(UserFormService);
 
   //main variables
   private user = signal<User>(new User());
-  userForm = this.userFormService.createUserForm();
+
+  userForm = this.formBuilder.group({
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    role: ['', [Validators.required]],
+  })
 
   //utility variables
   currentUserId = signal<number>(0);
@@ -51,16 +57,16 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
   constructor() {
     this.activatedRoute.paramMap.subscribe(params => {
       this.currentUserId.set(Number(params.get('id')));
-    });
+    })
 
     console.log('this.currentUserId(): ', this.currentUserId());
     console.log('this.isEditUser(): ', this.isEditUser());
   }
 
+
   ngOnInit(): void {
     if (this.isEditUser()) {
-      this.userFormService.setupEditMode(this.userForm);
-      this.setFormValues();
+      this.setFormValuesAndValidatorsAndState();
     }
   }
 
@@ -68,7 +74,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
     console.log('this.userForm.value: ', this.userForm.value);
   }
 
-  private setFormValues() {
+  private setFormValuesAndValidatorsAndState() {
     this.userService.getUserById(this.currentUserId()).pipe(
       takeUntil(this.destroy$)
     ).subscribe(user => {
@@ -101,9 +107,5 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  reset() {
-    this.userFormService.resetForm(this.userForm, this.user());
   }
 }
