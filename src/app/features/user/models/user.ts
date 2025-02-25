@@ -11,10 +11,18 @@ export class User {
   authorities!: Permission[];
 }
 
-/*export class UserDTO {
+export class UserCreateUpdateDTO {
   firstName!: string;
   lastName!: string;
   email!: string;
   password!: string;
   role!: Role;
-}*/
+}
+
+export class UserDTO {
+  firstName!: string;
+  lastName!: string;
+  email!: string;
+  role!: Role;
+  authorities!: Permission[];
+}

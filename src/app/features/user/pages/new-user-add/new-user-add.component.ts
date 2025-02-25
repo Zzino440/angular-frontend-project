@@ -5,7 +5,7 @@ import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/for
 import {MatInput} from "@angular/material/input";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {MatButton} from "@angular/material/button";
-import {User} from "../../models/user";
+import {User, UserDTO} from "../../models/user";
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {Subject, takeUntil} from "rxjs";
@@ -18,6 +18,7 @@ import {NgIf} from "@angular/common";
 import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
 import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {FormUtilsService} from "../../../../shared/services/form-utils.service";
 
 @Component({
     selector: 'app-new-user-add',
@@ -89,11 +90,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
         this.activatedRoute.paramMap.subscribe(params => {
             this.currentUserId.set(Number(params.get('id')));
         })
-
-        console.log('this.currentUserId(): ', this.currentUserId());
-        console.log('this.isEditUser(): ', this.isEditUser());
     }
-
 
     ngOnInit(): void {
         if (this.isEditUser()) {
@@ -102,7 +99,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
     }
 
     public submitForm() {
-        this.user.set(this.userForm.value as User); // Cast to User per mandare dati a BE
+        /*        this.user.set(this.userForm.value as User); // Cast to User per mandare dati a BE*/
         this.isEditUser() ? this.updateUser() : this.addUser();
     }
 
@@ -117,13 +114,12 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
             takeUntil(this.destroy$)
         ).subscribe(user => {
             this.user.set(user);
-            console.log('this.user(): ', this.user());
             this.userForm.patchValue(this.user());
         });
     }
 
     addUser() {
-        this.userService.createUser(this.user()).subscribe({
+        this.userService.createUser(this.userForm.value).subscribe({
             next: res => {
                 console.log('res save', res);
                 this.snackBarNotificationService.notify('User created successfully', 'OK', NotificationTypeEnum.SUCCESS);
@@ -135,7 +131,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
     }
 
     updateUser() {
-        this.userService.updateUser(this.currentUserId(), this.user()).subscribe({
+        this.userService.updateUser(this.currentUserId(), this.userForm.value).subscribe({
             next: res => {
                 console.log('res update', res)
                 this.snackBarNotificationService.notify('User updated successfully', 'OK', NotificationTypeEnum.SUCCESS);

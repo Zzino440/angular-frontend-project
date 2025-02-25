@@ -51,7 +51,7 @@ export class AuthenticationService {
 
   async isAuthenticated(): Promise<boolean> {
     const loggedUserId = this.currentUserId;
-    const user: User = await lastValueFrom(this.userService.getUserById(loggedUserId));
+    const user = await lastValueFrom(this.userService.getUserById(loggedUserId));
     this.currentUserSignal.set(user);
     return this.isLoggedIn();
   }

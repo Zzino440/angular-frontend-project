@@ -1,7 +1,7 @@
 import {inject, Injectable, Signal} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
-import {User} from "../models/user";
+import {User, UserCreateUpdateDTO} from "../models/user";
 import {environment} from '../../../../environments/environment';
 import {PagedResponse} from "../../../shared/models/paged-response";
 import {SnackBarNotificationService} from "../../../shared/services/snack-bar-notification.service";
@@ -39,18 +39,18 @@ export class UserService {
 
 
   createUser(user: Partial<User>) {
-    return this.httpClient.post(`${this.environment + this.usersUri}`, user).pipe(
+    return this.httpClient.post<User>(`${this.environment + this.usersUri}`, user).pipe(
       catchError(this.handleError)
     );
   }
 
-  getUserById(id: number): Observable<User> {
+  getUserById(id: number) {
     return this.httpClient.get<User>(`${this.environment + this.usersUri}${id}`).pipe(
       catchError(this.handleError)
     )
   }
 
-  updateUser(id: number, user: Partial<User>): Observable<User> {
+  updateUser(id: number, user: Partial<User>){
     return this.httpClient.put<User>(`${this.environment + this.usersUri}${id}`, user).pipe(
       catchError(this.handleError)
     )
