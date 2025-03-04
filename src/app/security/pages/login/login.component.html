@@ -16,7 +16,6 @@
                   matSuffix
                   [mode]="'indeterminate'"
                   [diameter]="20"
-                  *ngIf="emailControl?.pending"
                 >
                 </mat-progress-spinner>
               } @else if (!emailControl?.pending && emailControl?.valid) {
