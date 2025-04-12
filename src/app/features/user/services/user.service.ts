@@ -56,7 +56,7 @@ export class UserService {
     )
   }
 
-  deleteUser(id: number): Observable<Object> {
+  deleteUser(id: number) {
     return this.httpClient.delete<User>(`${this.environment + this.usersUri}${id}`).pipe(
       catchError(this.handleError)
     )

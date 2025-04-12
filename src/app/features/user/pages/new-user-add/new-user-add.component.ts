@@ -80,7 +80,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
 
   //utility variables
   currentUserId = signal<number>(0);
-  isEditUser = computed(() => this.currentUserId() > 0);
+  isEditUser = computed(() => this.currentUserId() > -1);
 
   roleOptions = Object.values(Role);
 
@@ -120,7 +120,9 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
   }
 
   addUser() {
-    this.userService.createUser(this.userForm.value).subscribe({
+    this.userService.createUser(this.userForm.value).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: res => {
         console.log('res save', res);
         this.snackBarNotificationService.notify('User created successfully', 'OK', NotificationTypeEnum.SUCCESS);
@@ -133,7 +135,9 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
   }
 
   updateUser() {
-    this.userService.updateUser(this.currentUserId(), this.userForm.value).subscribe({
+    this.userService.updateUser(this.currentUserId(), this.userForm.value).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: res => {
         console.log('res update', res)
         this.snackBarNotificationService.notify('User updated successfully', 'OK', NotificationTypeEnum.SUCCESS);
@@ -148,25 +152,28 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
   goToUserList() {
     this.router.navigate(['/users']).then();
   }
+  get formControls() {
+    return this.userForm.controls;
+  }
 
   get firstNameControl() {
-    return this.userForm.controls.firstName;
+    return this.formControls.firstName;
   }
 
   get lastNameControl() {
-    return this.userForm.controls.lastName;
+    return this.formControls.lastName;
   }
 
   get emailControl() {
-    return this.userForm.controls.email;
+    return this.formControls.email;
   }
 
   get passwordControl() {
-    return this.userForm.controls.password;
+    return this.formControls.password;
   }
 
   get roleControl() {
-    return this.userForm.controls.role;
+    return this.formControls.role;
   }
 
 

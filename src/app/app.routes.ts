@@ -5,7 +5,6 @@ export const routes: Routes = [
 
   {
     path: 'signals',
-    // do not use loadComponent here as you do not want to leak the internals of your feature into your app
     loadChildren: () => import('./features/training/routes').then(feature => feature.routes),
     canActivate: [authGuard],
   },
