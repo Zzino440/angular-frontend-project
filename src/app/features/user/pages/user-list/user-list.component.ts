@@ -1,6 +1,4 @@
 import {Component, computed, inject, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -11,11 +9,12 @@ import {CamelCasePipe} from "../../../../shared/pipes/camel-case.pipe";
 import {AuthenticationService} from "../../../../security/services/authentication.service";
 import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
-import {Subject, takeUntil} from "rxjs";
+import {Subject} from "rxjs";
 import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 import {Permission} from "../../models/permission";
 import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
 import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
+import {UserSignalsService} from "../../services/user-signals.service";
 
 @Component({
   selector: 'app-user-list',
@@ -44,10 +43,10 @@ export class UserListComponent implements OnInit, OnDestroy {
   //direct injection cause i need to use it in html
   authenticationService = inject(AuthenticationService);
   snackBarNotificationService = inject(SnackBarNotificationService);
+  userSignalsService = inject(UserSignalsService);
 
   //comp variables
-  private users = signal<User[]>([]);
-  protected datasource = computed(() => new MatTableDataSource(this.users()));
+  protected datasource = computed(() => new MatTableDataSource(this.userSignalsService.users()));
 
   //filters variables
   private filterEmail = signal('');
@@ -63,14 +62,10 @@ export class UserListComponent implements OnInit, OnDestroy {
   };
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
+  //subject for component destruction
+  private destroy$ = new Subject<boolean>();
 
-  //subject that controls if the component is destroyed or another request has been submitted
-  //controls the subscription to getUser
-  private getUsersRequestManager = new Subject<void>();
-
-  constructor(private userService: UserService,
-              public dialog: MatDialog) {
-  }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
@@ -78,23 +73,22 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   getUsersExceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
-    this.getUsersRequestManager.next();
-    this.userService.getUserListExceptCurrent(currentUserId, this.filterEmail(), page, size).pipe(
-      takeUntil(this.getUsersRequestManager),
-    ).subscribe(usersResponse => {
-      this.users.set(usersResponse.content);
-      this.datasource().sort = this.sort;
-      this.pageEvent.length = usersResponse.totalElements;
-      this.pageEvent.pageSize = usersResponse.size;
-    });
-  }
+    this.userSignalsService.loadUsersExceptCurrent(
+      currentUserId, 
+      this.filterEmail(), 
+      page, 
+      size, 
+      this.destroy$
+    );
 
+    // Configurazione del sort dopo il caricamento dei dati
+    this.datasource().sort = this.sort;
+  }
 
   handleSelectedEmail(email: string) {
     this.filterEmail.update(() => email);
     this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
     //resetto il pageIndex quando applico il filtro
-    //in questo modo quando filtro che sono su una pagina differente dalla prima, mi torna sulla prima pagina
     this.paginator.pageIndex = 0;
   }
 
@@ -102,23 +96,22 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.getUsersExceptCurrent(pe.pageIndex, pe.pageSize);
   }
 
-
   openDeleteUserDialog(userId: number) {
     const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
       data: {userId: userId}
     });
+    
     dialogRef.afterClosed().subscribe(result => {
       if (result?.status === 'success') {
-        this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+        this.userSignalsService.deleteUser(userId, this.destroy$);
         this.paginator.pageIndex = 0;
         this.snackBarNotificationService.notify('User deleted', 'OK', NotificationTypeEnum.INFO);
-      } else if (result?.status === 'cancelled') {
       }
-    })
+    });
   }
 
   ngOnDestroy() {
-    this.getUsersRequestManager.next();
-    this.getUsersRequestManager.complete();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }
