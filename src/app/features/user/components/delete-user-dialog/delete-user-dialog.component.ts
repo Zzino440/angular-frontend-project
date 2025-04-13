@@ -11,18 +11,17 @@ import {
 import {UserService} from "../../services/user.service";
 
 @Component({
-  selector: 'app-delete-user-dialog',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogClose,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatDialogContainer
-  ],
-  templateUrl: './delete-user-dialog.component.html',
-  styleUrl: './delete-user-dialog.component.scss'
+    selector: 'app-delete-user-dialog',
+    imports: [
+        MatButtonModule,
+        MatDialogClose,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatDialogContainer
+    ],
+    templateUrl: './delete-user-dialog.component.html',
+    styleUrl: './delete-user-dialog.component.scss'
 })
 export class DeleteUserDialogComponent implements OnInit {
 

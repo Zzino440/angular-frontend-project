@@ -13,24 +13,23 @@ import {SnackBarNotificationService} from "../../../shared/services/snack-bar-no
 import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Component({
-  selector: 'app-toolbar',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    RouterLink,
-    NgForOf,
-    NgIf,
-    TitleCasePipe,
-    JsonPipe,
-    MatIcon,
-    MatMenu,
-    MatMenuItem,
-    MatMenuTrigger,
-    MatDivider
-  ],
-  templateUrl: './toolbar.component.html',
-  styleUrl: './toolbar.component.scss'
+    selector: 'app-toolbar',
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        RouterLink,
+        NgForOf,
+        NgIf,
+        TitleCasePipe,
+        JsonPipe,
+        MatIcon,
+        MatMenu,
+        MatMenuItem,
+        MatMenuTrigger,
+        MatDivider
+    ],
+    templateUrl: './toolbar.component.html',
+    styleUrl: './toolbar.component.scss'
 })
 export class ToolbarComponent implements OnInit {
 

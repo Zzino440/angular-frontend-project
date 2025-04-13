@@ -16,23 +16,22 @@ import {SnackBarNotificationService} from "../../../shared/services/snack-bar-no
 import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    PreventNumbersDirective,
-    ReactiveFormsModule,
-    RouterLink,
-    MatIconModule,
-    MatProgressSpinner,
-    NgIf
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-login',
+    imports: [
+        FormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        PreventNumbersDirective,
+        ReactiveFormsModule,
+        RouterLink,
+        MatIconModule,
+        MatProgressSpinner,
+        NgIf
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
 

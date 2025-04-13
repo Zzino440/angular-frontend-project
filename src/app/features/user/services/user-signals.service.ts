@@ -1,6 +1,6 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, resource, signal } from '@angular/core';
 import { User } from '../models/user';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams, httpResource } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { SnackBarNotificationService } from '../../../shared/services/snack-bar-notification.service';
 import { NotificationTypeEnum } from '../../../shared/enums/notification-type.enum';
@@ -17,6 +17,10 @@ export class UserSignalsService {
 
     private readonly environment = environment.endpointUri;
     private readonly usersUri = 'users/';
+
+/*    private httpResource = inject(HttpRes)*/
+/*    private usersResource = resource()*/
+/*  private usersHttpResource = httpResource()*/
 
     // Signals privati
     private readonly _usersSignal = signal<User[]>([]);

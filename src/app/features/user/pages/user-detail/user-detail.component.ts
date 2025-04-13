@@ -5,13 +5,12 @@ import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
 
 @Component({
-  selector: 'app-user-detail',
-  standalone: true,
-  imports: [
-    MatCardModule
-  ],
-  templateUrl: './user-detail.component.html',
-  styleUrl: './user-detail.component.scss'
+    selector: 'app-user-detail',
+    imports: [
+        MatCardModule
+    ],
+    templateUrl: './user-detail.component.html',
+    styleUrl: './user-detail.component.scss'
 })
 export class UserDetailComponent implements OnInit {
 

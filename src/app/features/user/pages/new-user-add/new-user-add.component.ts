@@ -20,26 +20,25 @@ import {SnackBarNotificationService} from "../../../../shared/services/snack-bar
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'app-new-user-add',
-  standalone: true,
-  imports: [
-    MatCard,
-    ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    PreventNumbersDirective,
-    MatButton,
-    MatSelect,
-    MatOption,
-    MatError,
-    MatIcon,
-    MatProgressSpinner,
-    MatSuffix,
-    NgIf
-  ],
-  templateUrl: './new-user-add.component.html',
-  styleUrl: './new-user-add.component.scss'
+    selector: 'app-new-user-add',
+    imports: [
+        MatCard,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        PreventNumbersDirective,
+        MatButton,
+        MatSelect,
+        MatOption,
+        MatError,
+        MatIcon,
+        MatProgressSpinner,
+        MatSuffix,
+        NgIf
+    ],
+    templateUrl: './new-user-add.component.html',
+    styleUrl: './new-user-add.component.scss'
 })
 export class NewUserAddComponent implements OnInit, OnDestroy {
 

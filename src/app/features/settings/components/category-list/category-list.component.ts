@@ -16,26 +16,25 @@ import {CategoryService} from "../../../../shared/services/category.service";
 import {VocabulariesEnum} from "../../../../shared/enums/vocabularies.enum";
 
 @Component({
-  selector: 'app-category-list',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    NgForOf,
-    ReactiveFormsModule,
-    MatFormField,
-    MatInput,
-    MatButton,
-    MatIcon,
-    NgIf,
-    AsyncPipe,
-    MatSelect,
-    MatOption
-  ],
-  templateUrl: './category-list.component.html',
-  styleUrl: './category-list.component.scss'
+    selector: 'app-category-list',
+    imports: [
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        NgForOf,
+        ReactiveFormsModule,
+        MatFormField,
+        MatInput,
+        MatButton,
+        MatIcon,
+        NgIf,
+        AsyncPipe,
+        MatSelect,
+        MatOption
+    ],
+    templateUrl: './category-list.component.html',
+    styleUrl: './category-list.component.scss'
 })
 export class CategoryListComponent implements OnInit {
 

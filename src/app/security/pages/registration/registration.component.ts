@@ -16,23 +16,22 @@ import {SnackBarNotificationService} from "../../../shared/services/snack-bar-no
 import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Component({
-  selector: 'app-registration',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    PreventNumbersDirective,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    NgIf,
-    RouterLink
-  ],
-  templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss'
+    selector: 'app-registration',
+    imports: [
+        FormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        PreventNumbersDirective,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        NgIf,
+        RouterLink
+    ],
+    templateUrl: './registration.component.html',
+    styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent implements OnInit {
   customValidators = inject(CustomValidators);

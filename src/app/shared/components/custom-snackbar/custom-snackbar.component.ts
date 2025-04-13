@@ -12,21 +12,20 @@ import {NgClass, NgSwitch, NgSwitchCase} from "@angular/common";
 import {NotificationTypeEnum} from "../../enums/notification-type.enum";
 
 @Component({
-  selector: 'app-custom-snackbar',
-  standalone: true,
-  imports: [
-    MatSnackBarActions,
-    MatButton,
-    MatSnackBarAction,
-    MatSnackBarLabel,
-    MatSnackBarContainer,
-    MatIconButton,
-    MatIcon,
-    NgClass,
-    NgSwitch,
-    NgSwitchCase
-  ],
-  template: `
+    selector: 'app-custom-snackbar',
+    imports: [
+        MatSnackBarActions,
+        MatButton,
+        MatSnackBarAction,
+        MatSnackBarLabel,
+        MatSnackBarContainer,
+        MatIconButton,
+        MatIcon,
+        NgClass,
+        NgSwitch,
+        NgSwitchCase
+    ],
+    template: `
     <div class="container custom-snackbar snack-bar-container">
       <div class="row d-flex align-items-center">
         <div class="col-md-1 d-flex align-items-center">
@@ -63,7 +62,7 @@ import {NotificationTypeEnum} from "../../enums/notification-type.enum";
     </div>
 
   `,
-  styles: `
+    styles: `
     @import "../../../../assets/style/colors";
 
     .success-icon {

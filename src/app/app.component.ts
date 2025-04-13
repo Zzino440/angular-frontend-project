@@ -7,11 +7,10 @@ import {AuthenticationService} from "./security/services/authentication.service"
 import {NavigationComponent} from "./navigation/pages/navigation.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, UserListComponent, ToolbarComponent, NavigationComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [CommonModule, RouterOutlet, UserListComponent, ToolbarComponent, NavigationComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   title = 'angular-frontend-project';

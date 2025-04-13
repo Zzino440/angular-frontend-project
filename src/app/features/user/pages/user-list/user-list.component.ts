@@ -17,20 +17,19 @@ import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.e
 import {UserSignalsService} from "../../services/user-signals.service";
 
 @Component({
-  selector: 'app-user-list',
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-    CamelCasePipe,
-    MatPaginatorModule,
-    MatSortModule,
-    UserFiltersComponent,
-  ],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss'
+    selector: 'app-user-list',
+    imports: [
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        CamelCasePipe,
+        MatPaginatorModule,
+        MatSortModule,
+        UserFiltersComponent,
+    ],
+    templateUrl: './user-list.component.html',
+    styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit, OnDestroy {
 

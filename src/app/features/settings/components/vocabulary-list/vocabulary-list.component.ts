@@ -9,20 +9,19 @@ import {CategoryService} from "../../../../shared/services/category.service";
 import {Category} from "../../../../shared/models/category";
 
 @Component({
-  selector: 'app-vocabulary-list',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatCardTitle,
-    MatCardHeader,
-    MatCardContent,
-    MatListItem,
-    NgForOf,
-    MatActionList,
-    CategoryListComponent,
-  ],
-  templateUrl: './vocabulary-list.component.html',
-  styleUrl: './vocabulary-list.component.scss'
+    selector: 'app-vocabulary-list',
+    imports: [
+        MatCard,
+        MatCardTitle,
+        MatCardHeader,
+        MatCardContent,
+        MatListItem,
+        NgForOf,
+        MatActionList,
+        CategoryListComponent,
+    ],
+    templateUrl: './vocabulary-list.component.html',
+    styleUrl: './vocabulary-list.component.scss'
 })
 export class VocabularyListComponent implements OnInit {
 

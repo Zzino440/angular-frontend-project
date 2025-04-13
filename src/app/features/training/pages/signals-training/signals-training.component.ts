@@ -1,11 +1,10 @@
 import {Component, OnInit, signal} from '@angular/core';
 
 @Component({
-  selector: 'app-signals-training',
-  standalone: true,
-  imports: [],
-  templateUrl: './signals-training.component.html',
-  styleUrl: './signals-training.component.scss'
+    selector: 'app-signals-training',
+    imports: [],
+    templateUrl: './signals-training.component.html',
+    styleUrl: './signals-training.component.scss'
 })
 export class SignalsTrainingComponent implements OnInit {
 

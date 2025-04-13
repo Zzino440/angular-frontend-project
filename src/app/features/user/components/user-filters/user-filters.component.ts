@@ -9,17 +9,16 @@ import {MatButtonModule} from "@angular/material/button";
 import {CustomValidators} from "../../../../shared/validators/custom-validators";
 
 @Component({
-  selector: 'app-user-filters',
-  standalone: true,
-  imports: [
-    MatInputModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatIconModule,
-    MatButtonModule
-  ],
-  templateUrl: './user-filters.component.html',
-  styleUrl: './user-filters.component.scss'
+    selector: 'app-user-filters',
+    imports: [
+        MatInputModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        MatButtonModule
+    ],
+    templateUrl: './user-filters.component.html',
+    styleUrl: './user-filters.component.scss'
 })
 export class UserFiltersComponent implements OnInit {
   @ViewChild('userEmailAutoComplelete') userEmailFilterAutocomplete!: MatAutocomplete;

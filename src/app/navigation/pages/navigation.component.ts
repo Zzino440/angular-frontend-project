@@ -13,20 +13,19 @@ import {ToolbarComponent} from "../components/toolbar/toolbar.component";
 import {AuthenticationService} from "../../security/services/authentication.service";
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.scss',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    AsyncPipe,
-    RouterOutlet,
-    ToolbarComponent,
-  ]
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    styleUrl: './navigation.component.scss',
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        AsyncPipe,
+        RouterOutlet,
+        ToolbarComponent,
+    ]
 })
 export class NavigationComponent implements OnInit {
   @ViewChild('drawer') drawer!: MatSidenav;
