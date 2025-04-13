@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CustomSnackbarComponent } from './custom-snackbar.component';
+import {CustomSnackbarComponent} from './custom-snackbar.component';
 
 describe('CustomSnackbarComponent', () => {
   let component: CustomSnackbarComponent;
@@ -11,7 +11,7 @@ describe('CustomSnackbarComponent', () => {
       imports: [CustomSnackbarComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(CustomSnackbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

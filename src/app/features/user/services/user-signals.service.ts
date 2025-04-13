@@ -1,12 +1,12 @@
-import { computed, inject, Injectable, resource, signal } from '@angular/core';
-import { User } from '../models/user';
-import { HttpClient, HttpErrorResponse, HttpParams, httpResource } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { SnackBarNotificationService } from '../../../shared/services/snack-bar-notification.service';
-import { NotificationTypeEnum } from '../../../shared/enums/notification-type.enum';
-import { takeUntil } from 'rxjs/operators';
-import { Observable, Subject, throwError } from 'rxjs';
-import { PagedResponse } from '../../../shared/models/paged-response';
+import {computed, inject, Injectable, signal} from '@angular/core';
+import {User} from '../models/user';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {SnackBarNotificationService} from '../../../shared/services/snack-bar-notification.service';
+import {NotificationTypeEnum} from '../../../shared/enums/notification-type.enum';
+import {takeUntil} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {PagedResponse} from '../../../shared/models/paged-response';
 
 @Injectable({
     providedIn: 'root'

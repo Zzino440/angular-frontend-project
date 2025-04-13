@@ -9,7 +9,7 @@ import {UserService} from "../../services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PreventNumbersDirective} from "../../../../shared/directives/prevent-numbers.directive";
 import {CustomValidators} from "../../../../shared/validators/custom-validators";
-import {JsonPipe, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {Role} from "../../models/role.enum";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";

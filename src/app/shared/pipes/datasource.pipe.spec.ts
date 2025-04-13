@@ -1,4 +1,4 @@
-import { DatasourcePipe } from './datasource.pipe';
+import {DatasourcePipe} from './datasource.pipe';
 
 describe('DatasourcePipe', () => {
   it('create an instance', () => {

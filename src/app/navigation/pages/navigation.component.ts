@@ -1,6 +1,6 @@
-import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';

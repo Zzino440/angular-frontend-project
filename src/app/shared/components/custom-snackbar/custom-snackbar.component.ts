@@ -2,13 +2,13 @@ import {Component, Inject, inject, OnInit} from '@angular/core';
 import {
   MAT_SNACK_BAR_DATA,
   MatSnackBarAction,
-  MatSnackBarActions, MatSnackBarContainer,
+  MatSnackBarActions,
   MatSnackBarLabel,
   MatSnackBarRef
 } from "@angular/material/snack-bar";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {NgClass, NgSwitch, NgSwitchCase} from "@angular/common";
+import {NgClass} from "@angular/common";
 import {NotificationTypeEnum} from "../../enums/notification-type.enum";
 
 @Component({
@@ -18,12 +18,9 @@ import {NotificationTypeEnum} from "../../enums/notification-type.enum";
         MatButton,
         MatSnackBarAction,
         MatSnackBarLabel,
-        MatSnackBarContainer,
         MatIconButton,
         MatIcon,
         NgClass,
-        NgSwitch,
-        NgSwitchCase
     ],
     template: `
     <div class="container custom-snackbar snack-bar-container">

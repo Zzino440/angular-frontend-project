@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {VocabularyListComponent} from "../../components/vocabulary-list/vocabulary-list.component";
 
 @Component({

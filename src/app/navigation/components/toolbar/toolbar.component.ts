@@ -3,7 +3,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {ToolbarItemsConfig} from "../../config/toolbarItemsConfig";
 import {RouterLink} from "@angular/router";
-import {JsonPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
+import {TitleCasePipe} from "@angular/common";
 import {AuthenticationService} from "../../../security/services/authentication.service";
 import {MatSidenav} from "@angular/material/sidenav";
 import {MatIcon} from "@angular/material/icon";
@@ -14,20 +14,17 @@ import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum
 
 @Component({
     selector: 'app-toolbar',
-    imports: [
-        MatToolbarModule,
-        MatButtonModule,
-        RouterLink,
-        NgForOf,
-        NgIf,
-        TitleCasePipe,
-        JsonPipe,
-        MatIcon,
-        MatMenu,
-        MatMenuItem,
-        MatMenuTrigger,
-        MatDivider
-    ],
+  imports: [
+    MatToolbarModule,
+    MatButtonModule,
+    RouterLink,
+    TitleCasePipe,
+    MatIcon,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
+    MatDivider
+  ],
     templateUrl: './toolbar.component.html',
     styleUrl: './toolbar.component.scss'
 })

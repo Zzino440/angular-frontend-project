@@ -3,23 +3,20 @@ import {MatButtonModule} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
-  MatDialogClose,
-  MatDialogContainer,
-  MatDialogContent, MatDialogRef,
+  MatDialogContent,
+  MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
 import {UserService} from "../../services/user.service";
 
 @Component({
     selector: 'app-delete-user-dialog',
-    imports: [
-        MatButtonModule,
-        MatDialogClose,
-        MatDialogActions,
-        MatDialogContent,
-        MatDialogTitle,
-        MatDialogContainer
-    ],
+  imports: [
+    MatButtonModule,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle
+  ],
     templateUrl: './delete-user-dialog.component.html',
     styleUrl: './delete-user-dialog.component.scss'
 })

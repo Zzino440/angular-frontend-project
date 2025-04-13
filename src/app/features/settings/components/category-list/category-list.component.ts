@@ -1,4 +1,4 @@
-import {Component, inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {Category} from "../../../../shared/models/category";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {Vocabulary} from "../../../../shared/models/vocabulary";

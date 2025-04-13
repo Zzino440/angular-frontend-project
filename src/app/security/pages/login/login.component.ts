@@ -5,31 +5,27 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {PreventNumbersDirective} from "../../../shared/directives/prevent-numbers.directive";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router, RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {CustomValidators} from "../../../shared/validators/custom-validators";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {NgIf} from "@angular/common";
 import {SnackBarNotificationService} from "../../../shared/services/snack-bar-notification.service";
 import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Component({
     selector: 'app-login',
-    imports: [
-        FormsModule,
-        MatButtonModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        PreventNumbersDirective,
-        ReactiveFormsModule,
-        RouterLink,
-        MatIconModule,
-        MatProgressSpinner,
-        NgIf
-    ],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    RouterLink,
+    MatIconModule,
+    MatProgressSpinner
+  ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'
 })

@@ -1,14 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
-import {UserListComponent} from "./features/user/pages/user-list/user-list.component";
 import {ToolbarComponent} from "./navigation/components/toolbar/toolbar.component";
 import {AuthenticationService} from "./security/services/authentication.service";
-import {NavigationComponent} from "./navigation/pages/navigation.component";
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule, RouterOutlet, UserListComponent, ToolbarComponent, NavigationComponent],
+  imports: [CommonModule, RouterOutlet, ToolbarComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
