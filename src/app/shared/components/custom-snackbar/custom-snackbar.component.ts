@@ -60,22 +60,22 @@ import {NotificationTypeEnum} from "../../enums/notification-type.enum";
 
   `,
     styles: `
-    @import "../../../../assets/style/colors";
+    @use "../../../../assets/style/colors" as colors;
 
     .success-icon {
-      color: $success-color;
+      color: colors.$success-color;
     }
 
     .error-icon {
-      color: $error-color
+      color: colors.$error-color
     }
 
     .info-icon {
-      color: $info-color;
+      color: colors.$info-color;
     }
 
     .warning-icon {
-      color: $warn-color;
+      color: colors.$warn-color;
     }
   `
 })
