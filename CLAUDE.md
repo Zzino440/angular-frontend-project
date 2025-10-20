@@ -35,3 +35,4 @@ Always use the Plan Tool to create a plan of the things to do and then execute t
 Never run commands to test the application like run npm, run lint, mvn build, mvn install etc...
 
 # Repository Guidelines
+
