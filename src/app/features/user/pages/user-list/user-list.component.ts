@@ -10,7 +10,6 @@ import {AuthenticationService} from "../../../../security/services/authenticatio
 import {MatPaginator, MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {Subject} from "rxjs";
-import {UserFiltersComponent} from "../../components/user-filters/user-filters.component";
 import {Permission} from "../../models/permission";
 import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
 import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
@@ -25,8 +24,7 @@ import {UserSignalsService} from "../../services/user-signals.service";
         RouterLink,
         CamelCasePipe,
         MatPaginatorModule,
-        MatSortModule,
-        UserFiltersComponent,
+        MatSortModule
     ],
     templateUrl: './user-list.component.html',
     styleUrl: './user-list.component.scss'
@@ -54,11 +52,11 @@ export class UserListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
 
   //pagination variables
-  pageEvent: PageEvent = {
-    length: 0,
-    pageSize: 10,
-    pageIndex: 0,
-  };
+  protected pageEvent = computed(() => ({
+    length: this.userSignalsService.pagination().totalElements,
+    pageSize: this.userSignalsService.pagination().pageSize,
+    pageIndex: this.userSignalsService.pagination().pageNumber,
+  }));
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   //subject for component destruction
@@ -67,16 +65,16 @@ export class UserListComponent implements OnInit, OnDestroy {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+    this.getUsersExceptCurrent(this.pageEvent().pageIndex, this.pageEvent().pageSize);
   }
 
   getUsersExceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
     this.userSignalsService.loadUsersExceptCurrent(
-      currentUserId, 
-      this.filterEmail(), 
-      page, 
-      size, 
+      currentUserId,
+      this.filterEmail(),
+      page,
+      size,
       this.destroy$
     );
 
@@ -86,7 +84,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   handleSelectedEmail(email: string) {
     this.filterEmail.update(() => email);
-    this.getUsersExceptCurrent(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+    this.getUsersExceptCurrent(this.pageEvent().pageIndex, this.pageEvent().pageSize);
     //resetto il pageIndex quando applico il filtro
     this.paginator.pageIndex = 0;
   }
@@ -99,7 +97,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
       data: {userId: userId}
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
       if (result?.status === 'success') {
         this.userSignalsService.deleteUser(userId, this.destroy$);

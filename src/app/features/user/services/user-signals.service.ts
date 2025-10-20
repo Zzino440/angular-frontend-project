@@ -21,11 +21,18 @@ export class UserSignalsService {
     // Signals privati
     private readonly _usersSignal = signal<User[]>([]);
     private readonly _isLoadingSignal = signal<boolean>(false);
+    private readonly _paginationSignal = signal<{totalElements: number; totalPages: number; pageSize: number; pageNumber: number}>({
+        totalElements: 0,
+        totalPages: 0,
+        pageSize: 10,
+        pageNumber: 0
+    });
 
     // Signals pubblici (computed)
     public users = computed(() => this._usersSignal());
     public isLoading = computed(() => this._isLoadingSignal());
     public hasUsers = computed(() => this._usersSignal().length > 0);
+    public pagination = computed(() => this._paginationSignal());
 
     /**
      * Carica la lista degli utenti
@@ -66,6 +73,12 @@ export class UserSignalsService {
         ).subscribe({
             next: (response) => {
                 this.setUsers(response.content);
+                this.setPagination({
+                    totalElements: response.totalElements,
+                    totalPages: response.totalPages,
+                    pageSize: response.size,
+                    pageNumber: response.number
+                });
                 this.setLoading(false);
             },
             error: (error: HttpErrorResponse) => {
@@ -151,6 +164,13 @@ export class UserSignalsService {
      */
     private setUsers(users: User[]): void {
         this._usersSignal.set(users);
+    }
+
+    /**
+     * Imposta i dati di paginazione
+     */
+    private setPagination(pagination: {totalElements: number; totalPages: number; pageSize: number; pageNumber: number}): void {
+        this._paginationSignal.set(pagination);
     }
 
     /**
