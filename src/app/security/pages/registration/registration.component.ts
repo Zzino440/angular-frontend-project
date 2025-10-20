@@ -11,25 +11,24 @@ import {RegisterRequest} from "../../models/register-request";
 import {Router, RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {NgIf} from "@angular/common";
+
 import {SnackBarNotificationService} from "../../../shared/services/snack-bar-notification.service";
 import {NotificationTypeEnum} from "../../../shared/enums/notification-type.enum";
 
 @Component({
     selector: 'app-registration',
     imports: [
-        FormsModule,
-        MatButtonModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        PreventNumbersDirective,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        NgIf,
-        RouterLink
-    ],
+    FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    PreventNumbersDirective,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    RouterLink
+],
     templateUrl: './registration.component.html',
     styleUrl: './registration.component.scss'
 })

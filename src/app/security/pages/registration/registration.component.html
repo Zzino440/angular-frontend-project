@@ -42,14 +42,15 @@
               <mat-label>Email</mat-label>
               <input autocomplete="email" placeholder="example@example.com" matInput formControlName="email">
               @if (emailControl?.pending) {
-                <mat-progress-spinner
-                  class="custom-spinner spin-position"
-                  matSuffix
-                  [mode]="'indeterminate'"
-                  [diameter]="20"
-                  *ngIf="emailControl?.pending"
-                >
-                </mat-progress-spinner>
+                @if (emailControl?.pending) {
+                  <mat-progress-spinner
+                    class="custom-spinner spin-position"
+                    matSuffix
+                    [mode]="'indeterminate'"
+                    [diameter]="20"
+                    >
+                  </mat-progress-spinner>
+                }
               } @else if (!emailControl?.pending && emailControl?.valid) {
                 <mat-icon matSuffix>
                   done
@@ -73,44 +74,44 @@
             <mat-form-field appearance="outline" class="w-50">
               <mat-label>Password</mat-label>
               <input autocomplete="new-password" type="password" matInput
-                     [type]="hide ? 'password' : 'text'"
-                     formControlName="password">
-              <button mat-icon-button matSuffix type="button" color="primary" (click)="hide = !hide"
-                      [attr.aria-label]="'Hide password'"
-                      [attr.aria-pressed]="hide">
-                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-              </button>
-              @if (passwordControl?.errors?.['required']) {
-                <mat-error>Password is <strong>required</strong></mat-error>
-              }
-            </mat-form-field>
+                [type]="hide ? 'password' : 'text'"
+                formControlName="password">
+                <button mat-icon-button matSuffix type="button" color="primary" (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                @if (passwordControl?.errors?.['required']) {
+                  <mat-error>Password is <strong>required</strong></mat-error>
+                }
+              </mat-form-field>
+            </div>
           </div>
         </div>
-      </div>
+        <div class="row py-2">
+          <div class="col-md d-flex justify-content-center align-items-center">
+            <button class="rounded-5" [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)"
+              type="submit"
+              color="primary" mat-flat-button>
+              Register
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+
       <div class="row py-2">
         <div class="col-md d-flex justify-content-center align-items-center">
-          <button class="rounded-5" [disabled]="registrationForm.invalid || (!registrationForm.dirty && !registrationForm.touched)"
-                  type="submit"
-                  color="primary" mat-flat-button>
-            Register
-          </button>
+          <div>Already <strong>registered?</strong></div>
         </div>
       </div>
 
-    </form>
-
-
-    <div class="row py-2">
-      <div class="col-md d-flex justify-content-center align-items-center">
-        <div>Already <strong>registered?</strong></div>
+      <div class="row py-2">
+        <div class="col-md d-flex justify-content-center align-items-center">
+          <button class="rounded-5" mat-flat-button color="primary" routerLink="/login" type="button">Go to Login</button>
+        </div>
       </div>
-    </div>
-
-    <div class="row py-2">
-      <div class="col-md d-flex justify-content-center align-items-center">
-        <button class="rounded-5" mat-flat-button color="primary" routerLink="/login" type="button">Go to Login</button>
-      </div>
-    </div>
-  </mat-card>
-</div>
+    </mat-card>
+  </div>
 

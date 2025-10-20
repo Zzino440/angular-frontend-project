@@ -9,8 +9,8 @@
 
           <div class="col-md d-flex justify-content-end">
             <button mat-flat-button color="primary"
-                    [disabled]="(categoryFormService.editingRowIndex$ | async) !== null"
-                    (click)="addNewCategoryForm()">
+              [disabled]="(categoryFormService.editingRowIndex$ | async) !== null"
+              (click)="addNewCategoryForm()">
               <mat-icon>add</mat-icon>
               <span>Add</span>
             </button>
@@ -23,77 +23,74 @@
     <mat-card-content>
       <table class="table">
         <thead>
-        <tr class="">
-          <th>Name</th>
-          <th>Description</th>
-          <!--HEADERS ONLY FOR BUSINESS UNIT BEGIN-->
-          @if (selectedVocabulary.id === VocabulariesEnum.BUSINESS_UNIT) {
-            <th>Legal Entity</th>
-          }
-          <!--HEADERS ONLY FOR BUSINESS UNIT ENDS-->
-          <th>Actions</th>
-        </tr>
+          <tr class="">
+            <th>Name</th>
+            <th>Description</th>
+            <!--HEADERS ONLY FOR BUSINESS UNIT BEGIN-->
+            @if (selectedVocabulary.id === VocabulariesEnum.BUSINESS_UNIT) {
+              <th>Legal Entity</th>
+            }
+            <!--HEADERS ONLY FOR BUSINESS UNIT ENDS-->
+            <th>Actions</th>
+          </tr>
         </thead>
 
         <tbody>
-        <tr *ngFor="let categoryFormGroup of categoryFormArray.controls; let i = index"
-            [formGroup]="categoryFormGroup">
-          <td class="">
-            <mat-form-field appearance="outline">
-              <input matInput [formControl]="categoryFormGroup.controls.name">
-            </mat-form-field>
-          </td>
-
-          <td class="">
-            <mat-form-field appearance="outline">
-              <input matInput [formControl]="categoryFormGroup.controls.description">
-            </mat-form-field>
-          </td>
-
-
-          @if (selectedVocabulary.id === VocabulariesEnum.BUSINESS_UNIT) {
-            <td class="">
-              <mat-form-field appearance="outline">
-                <mat-select [formControl]="categoryFormGroup.controls.parentCategoryId">
-                  @for (legalEntity of legalEntities; track legalEntity.id) {
-                    <mat-option [value]="legalEntity.id">{{ legalEntity.name }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-            </td>
-          }
-
-          <td class="d-flex align-items-center justify-content-between">
-            <button mat-flat-button color="primary"
-                    *ngIf="(categoryFormService.editingRowIndex$ | async) === i"
+          @for (categoryFormGroup of categoryFormArray.controls; track categoryFormGroup; let i = $index) {
+            <tr
+              [formGroup]="categoryFormGroup">
+              <td class="">
+                <mat-form-field appearance="outline">
+                  <input matInput [formControl]="categoryFormGroup.controls.name">
+                </mat-form-field>
+              </td>
+              <td class="">
+                <mat-form-field appearance="outline">
+                  <input matInput [formControl]="categoryFormGroup.controls.description">
+                </mat-form-field>
+              </td>
+              @if (selectedVocabulary.id === VocabulariesEnum.BUSINESS_UNIT) {
+                <td class="">
+                  <mat-form-field appearance="outline">
+                    <mat-select [formControl]="categoryFormGroup.controls.parentCategoryId">
+                      @for (legalEntity of legalEntities; track legalEntity.id) {
+                        <mat-option [value]="legalEntity.id">{{ legalEntity.name }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              }
+              <td class="d-flex align-items-center justify-content-between">
+                @if ((categoryFormService.editingRowIndex$ | async) === i) {
+                  <button mat-flat-button color="primary"
                     (click)="undoEdit()">
-              <mat-icon>undo</mat-icon>
-              <span>Undo</span>
-            </button>
-
-            <button mat-flat-button color="primary"
-                    *ngIf="(categoryFormService.editingRowIndex$ | async) !== i"
+                    <mat-icon>undo</mat-icon>
+                    <span>Undo</span>
+                  </button>
+                }
+                @if ((categoryFormService.editingRowIndex$ | async) !== i) {
+                  <button mat-flat-button color="primary"
                     [disabled]="(categoryFormService.editingRowIndex$ | async) !== null"
                     (click)="enableCategoryFormGroupAtIndex(i)">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
-
-            <button mat-flat-button color="primary"
-                    [disabled]="(categoryFormService.editingRowIndex$ | async) !== i"
-                    (click)="saveUpdateCategory(i)">
-              <mat-icon>check_circle</mat-icon>
-              <span>Save</span>
-            </button>
-
-            <button mat-flat-button color="primary"
-                    [disabled]="(categoryFormService.editingRowIndex$ | async) !== null"
-                    (click)="deleteCategory(i)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </td>
-        </tr>
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                }
+                <button mat-flat-button color="primary"
+                  [disabled]="(categoryFormService.editingRowIndex$ | async) !== i"
+                  (click)="saveUpdateCategory(i)">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Save</span>
+                </button>
+                <button mat-flat-button color="primary"
+                  [disabled]="(categoryFormService.editingRowIndex$ | async) !== null"
+                  (click)="deleteCategory(i)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
 

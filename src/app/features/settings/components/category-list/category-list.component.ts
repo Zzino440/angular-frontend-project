@@ -2,7 +2,7 @@ import {Component, inject, Input, OnInit} from '@angular/core';
 import {Category} from "../../../../shared/models/category";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {Vocabulary} from "../../../../shared/models/vocabulary";
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {CategoryForm} from "../../models/categoryForm";
 import {CategoryFormService} from "../../services/category-form.service";
 import {FormArray, FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -18,21 +18,19 @@ import {VocabulariesEnum} from "../../../../shared/enums/vocabularies.enum";
 @Component({
     selector: 'app-category-list',
     imports: [
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        NgForOf,
-        ReactiveFormsModule,
-        MatFormField,
-        MatInput,
-        MatButton,
-        MatIcon,
-        NgIf,
-        AsyncPipe,
-        MatSelect,
-        MatOption
-    ],
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatButton,
+    MatIcon,
+    AsyncPipe,
+    MatSelect,
+    MatOption
+],
     templateUrl: './category-list.component.html',
     styleUrl: './category-list.component.scss'
 })

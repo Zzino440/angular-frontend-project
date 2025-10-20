@@ -14,7 +14,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {CustomValidators} from "../../../../shared/validators/custom-validators";
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {NgIf} from "@angular/common";
+
 import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
 import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -22,21 +22,20 @@ import {HttpErrorResponse} from "@angular/common/http";
 @Component({
     selector: 'app-new-user-add',
     imports: [
-        MatCard,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        PreventNumbersDirective,
-        MatButton,
-        MatSelect,
-        MatOption,
-        MatError,
-        MatIcon,
-        MatProgressSpinner,
-        MatSuffix,
-        NgIf
-    ],
+    MatCard,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    PreventNumbersDirective,
+    MatButton,
+    MatSelect,
+    MatOption,
+    MatError,
+    MatIcon,
+    MatProgressSpinner,
+    MatSuffix
+],
     templateUrl: './new-user-add.component.html',
     styleUrl: './new-user-add.component.scss'
 })
