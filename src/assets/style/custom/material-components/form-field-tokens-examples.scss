@@ -1,0 +1,255 @@
+/**
+ * ESEMPI DI USO DEI TOKEN FORM FIELD
+ * Angular Material 20 - Material Design 3
+ *
+ * Questo file contiene vari esempi di personalizzazione dei form field
+ * usando il nuovo sistema di token SCSS.
+ *
+ * Per usare uno dei pattern sottostanti, copia il contenuto nel tuo
+ * file di stile principale.
+ */
+
+@use '@angular/material' as mat;
+
+// ============================================
+// PATTERN 1: FORM FIELD STANDARD ARROTONDATO
+// ============================================
+// Descrizione: Form field con bordi arrotondati (28px) come nel design system attuale
+// Uso: Applicare come tema globale
+
+// @include form-field-standard-rounded();
+@mixin form-field-standard-rounded() {
+  @include mat.form-field-overrides((
+    outlined-container-shape: 28px,
+    filled-container-shape: 28px,
+  ));
+}
+
+// ============================================
+// PATTERN 2: FORM FIELD COMPATTO
+// ============================================
+// Descrizione: Form field con altezza ridotta per layout densi
+// Uso: Pagine con molti form
+
+@mixin form-field-compact() {
+  @include mat.form-field-overrides((
+    container-height: 40px,
+    container-vertical-padding: 4px,
+    outlined-container-shape: 4px,
+  ));
+  @include mat.form-field-density(-2);
+}
+
+// ============================================
+// PATTERN 3: FORM FIELD TEMA SCURO
+// ============================================
+// Descrizione: Form field con colori per tema scuro
+// Uso: Aggiungere alla sezione dark mode
+
+@mixin form-field-dark-theme() {
+  @include mat.form-field-overrides((
+    // Outlined
+    outlined-outline-color: rgba(255, 255, 255, 0.3),
+    outlined-hover-outline-color: rgba(255, 255, 255, 0.4),
+    outlined-focus-outline-color: #90caf9,
+    outlined-input-text-color: #ffffff,
+    outlined-label-text-color: rgba(255, 255, 255, 0.7),
+    outlined-input-text-placeholder-color: rgba(255, 255, 255, 0.5),
+    outlined-container-shape: 28px,
+
+    // Filled
+    filled-container-color: rgba(255, 255, 255, 0.08),
+    filled-active-indicator-color: #90caf9,
+    filled-input-text-color: #ffffff,
+    filled-label-text-color: rgba(255, 255, 255, 0.7),
+  ));
+}
+
+// ============================================
+// PATTERN 4: FORM FIELD CON COLORI BRAND
+// ============================================
+// Descrizione: Form field con colori aziendali personalizzati
+// Uso: Quando hai colori brand specifici
+
+// Nota: Usa le tue variabili di colore dal file colors.scss
+@mixin form-field-brand-colors($primary-color, $secondary-color) {
+  @include mat.form-field-overrides((
+    outlined-container-shape: 28px,
+    outlined-outline-color: rgba($primary-color, 0.3),
+    outlined-focus-outline-color: $primary-color,
+    outlined-input-text-color: #333333,
+    outlined-label-text-color: rgba($primary-color, 0.7),
+    outlined-focus-label-text-color: $primary-color,
+    filled-container-color: rgba($primary-color, 0.05),
+    filled-active-indicator-color: $primary-color,
+  ));
+}
+
+// ============================================
+// PATTERN 5: FORM FIELD PER INPUT NUMERICO
+// ============================================
+// Descrizione: Form field ottimizzato per input numerici
+// Uso: Campi che accettano solo numeri
+
+@mixin form-field-numeric() {
+  @include mat.form-field-overrides((
+    container-text-font: 'Courier New',
+    container-text-size: 16px,
+    container-text-weight: 500,
+    outlined-container-shape: 8px,
+  ));
+}
+
+// ============================================
+// PATTERN 6: FORM FIELD ERROR STYLING
+// ============================================
+// Descrizione: Personalizzazione dello stile di errore
+// Uso: Mostrare errori più evidenti
+
+@mixin form-field-error-styling() {
+  @include mat.form-field-overrides((
+    outlined-error-outline-color: #ef5350,
+    outlined-error-focus-outline-color: #f44336,
+    outlined-error-label-text-color: #f44336,
+    error-trailing-icon-color: #f44336,
+    error-hover-trailing-icon-color: #ef5350,
+    subscript-text-size: 12px,
+    subscript-text-weight: 500,
+  ));
+}
+
+// ============================================
+// PATTERN 7: FORM FIELD DISABILITATO
+// ============================================
+// Descrizione: Personalizzazione dello stile disabled
+// Uso: Form in read-only
+
+@mixin form-field-disabled-styling() {
+  @include mat.form-field-overrides((
+    outlined-disabled-outline-color: rgba(0, 0, 0, 0.06),
+    outlined-disabled-input-text-color: rgba(0, 0, 0, 0.38),
+    outlined-disabled-label-text-color: rgba(0, 0, 0, 0.38),
+    filled-disabled-container-color: rgba(0, 0, 0, 0.04),
+    filled-disabled-input-text-color: rgba(0, 0, 0, 0.38),
+  ));
+}
+
+// ============================================
+// PATTERN 8: FORM FIELD MINIMALE
+// ============================================
+// Descrizione: Form field con stile minimalista
+// Uso: Design pulito e moderno
+
+@mixin form-field-minimal() {
+  @include mat.form-field-overrides((
+    outlined-container-shape: 0px,
+    outlined-outline-width: 1px,
+    outlined-focus-outline-width: 1px,
+    outlined-outline-color: #e0e0e0,
+    outlined-focus-outline-color: #333333,
+    container-text-size: 14px,
+  ));
+}
+
+// ============================================
+// PATTERN 9: FORM FIELD GRANDE
+// ============================================
+// Descrizione: Form field di grandi dimensioni per migliore UX
+// Uso: Dispositivi mobili, form critici
+
+@mixin form-field-large() {
+  @include mat.form-field-overrides((
+    container-height: 56px,
+    container-vertical-padding: 12px,
+    container-text-size: 16px,
+    outlined-container-shape: 12px,
+  ));
+  @include mat.form-field-density(0);
+}
+
+// ============================================
+// PATTERN 10: FORM FIELD MULTILINE/TEXTAREA
+// ============================================
+// Descrizione: Personalizzazione per textarea/input multiline
+// Uso: Commenti, descrizioni lunghe
+
+@mixin form-field-multiline() {
+  @include mat.form-field-overrides((
+    outlined-container-shape: 8px,
+    container-text-size: 14px,
+    container-text-line-height: 1.5,
+    subscript-text-size: 11px,
+  ));
+}
+
+// ============================================
+// ESEMPLARI DI UTILIZZO NEL FILE PRINCIPALE
+// ============================================
+
+/*
+
+// Nel file mat-form-field-input.scss principale:
+
+@use '@angular/material' as mat;
+@use './form-field-tokens-examples' as examples;
+
+html {
+  // Opzione 1: Usare il pattern standard arrotondato
+  @include examples.form-field-standard-rounded();
+
+  // Opzione 2: Usare il pattern compatto
+  // @include examples.form-field-compact();
+
+  // Opzione 3: Usare colori brand
+  // @include examples.form-field-brand-colors(#9c27b0, #ff4081);
+}
+
+// Per tema scuro
+@media (prefers-color-scheme: dark) {
+  html {
+    @include examples.form-field-dark-theme();
+  }
+}
+
+// Classe speciale per form field numerici
+.form-field-numeric {
+  @include examples.form-field-numeric();
+}
+
+*/
+
+// ============================================
+// COMBINAZIONI UTILI
+// ============================================
+
+/*
+
+// Combinazione: Compatto + Colori Brand
+@mixin form-field-compact-brand($brand-color) {
+  @include mat.form-field-overrides((
+    container-height: 44px,
+    container-vertical-padding: 4px,
+    outlined-container-shape: 8px,
+    outlined-focus-outline-color: $brand-color,
+    outlined-focus-label-text-color: $brand-color,
+    filled-active-indicator-color: $brand-color,
+  ));
+  @include mat.form-field-density(-1);
+}
+
+// Combinazione: Grande + Errore prominente
+@mixin form-field-large-error() {
+  @include mat.form-field-overrides((
+    container-height: 60px,
+    container-vertical-padding: 14px,
+    container-text-size: 18px,
+    outlined-container-shape: 12px,
+    outlined-error-outline-color: #f44336,
+    outlined-error-focus-outline-color: #d32f2f,
+    error-trailing-icon-color: #f44336,
+    subscript-text-size: 13px,
+    subscript-text-weight: 500,
+  ));
+}
+
+*/

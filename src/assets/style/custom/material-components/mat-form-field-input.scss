@@ -1,16 +1,14 @@
 @use '@angular/material' as mat;
 @use "../../../style/colors.scss";
 
-.mdc-text-field--outlined{
-  --mdc-outlined-text-field-container-shape: 28px;
-}
+html {
+  // Personalizza i token del form field con il nuovo sistema di Angular Material 20
+  @include mat.form-field-overrides((
+    outlined-container-shape: 28px,
+    filled-container-shape: 28px,
+  ));
 
-
-.mdc-text-field--filled{
-  --mdc-filled-text-field-container-shape: 28px;
-}
-
-html{
+  // Mantieni la densità compatta
   @include mat.form-field-density(-2);
 }
 
