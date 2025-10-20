@@ -1,5 +1,5 @@
-@use "../../../../assets/style/colors";
+@use "../../../../assets/style/colors" as colors;
 
 .error-color {
-  color: $error-color
+  color: colors.$error-color
 }

@@ -18,10 +18,6 @@ export class UserSignalsService {
     private readonly environment = environment.endpointUri;
     private readonly usersUri = 'users/';
 
-/*    private httpResource = inject(HttpRes)*/
-/*    private usersResource = resource()*/
-/*  private usersHttpResource = httpResource()*/
-
     // Signals privati
     private readonly _usersSignal = signal<User[]>([]);
     private readonly _isLoadingSignal = signal<boolean>(false);
