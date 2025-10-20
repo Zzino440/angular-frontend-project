@@ -1,9 +1,19 @@
-html {
-  --mdc-snackbar-container-shape: 28px !important;
-}
+@use '@angular/material' as mat;
 
-/*
-.mat-mdc-snack-bar-container {
-  --mdc-snackbar-container-shape: 28px !important;
+html {
+  // Applica gli override come da documentazione Angular Material 20
+    @include mat.snack-bar-overrides((
+      container-shape: 28px,
+    ));
+
+  @include mat.snack-bar-overrides((
+  container-shape: 28px,
+  ))
+
+  // Se vuoi applicare globalmente a TUTTI gli snackbar
+  // .mat-mdc-snack-bar-container {
+  //   @include mat.snack-bar-overrides((
+  //     container-shape: 28px,
+  //   ));
+  // }
 }
-*/
