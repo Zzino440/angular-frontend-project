@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import  {Component, Inject} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
@@ -7,7 +7,6 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {UserService} from "../../services/user.service";
 
 @Component({
     selector: 'app-delete-user-dialog',
@@ -20,20 +19,14 @@ import {UserService} from "../../services/user.service";
     templateUrl: './delete-user-dialog.component.html',
     styleUrl: './delete-user-dialog.component.scss'
 })
-export class DeleteUserDialogComponent implements OnInit {
+export class DeleteUserDialogComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { userId:number }, private userService: UserService, public dialogRef: MatDialogRef<DeleteUserDialogComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { userId:number },
+              public dialogRef: MatDialogRef<DeleteUserDialogComponent>) {
   }
 
-  ngOnInit() {
-
-  }
-
-  deleteUser() {
-    this.userService.deleteUser(this.data.userId).subscribe(res => {
-      console.log('res delete user', res);
-      this.dialogRef.close({ status: 'success', message: 'User successfully deleted' });
-    });
+  confirmDelete() {
+    this.dialogRef.close({ status: 'success', message: 'User deletion confirmed' });
   }
 
   closeDialog() {
