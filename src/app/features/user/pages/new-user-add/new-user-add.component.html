@@ -51,7 +51,7 @@
                       >
                     </mat-progress-spinner>
                   }
-                } @else if (!isEditUser && (!emailControl.pending && emailControl.valid)) {
+                } @else if (!isEditUser() && (!emailControl.pending && emailControl.valid)) {
                   <mat-icon matSuffix>
                     done
                   </mat-icon>
