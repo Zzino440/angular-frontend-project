@@ -1,18 +1,1 @@
-{
-  "permissions": {
-    "allow": [
-      "mcp__context7__resolve-library-id",
-      "mcp__context7__get-library-docs",
-      "Read(//c/Users/Zzino/.config/opencode/**)",
-      "Read(//c/Users/Zzino/**)",
-      "Read(//c/Users/Zzino/AppData/Roaming/**)",
-      "mcp__claude_ai_Figma__whoami",
-      "Bash(python3 -c ' *)",
-      "mcp__claude_ai_Figma__get_design_context",
-      "mcp__figma-desktop-mcp__get_design_context"
-    ],
-    "deny": [],
-    "ask": []
-  },
-  "outputStyle": "default"
-}
+
