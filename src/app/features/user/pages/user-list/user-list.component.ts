@@ -32,7 +32,7 @@ import {UserSignalsService} from "../../services/user-signals.service";
 export class UserListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
   //variable to use it in the html
   protected readonly Permission = Permission;
@@ -43,7 +43,11 @@ export class UserListComponent implements OnInit, OnDestroy {
   userSignalsService = inject(UserSignalsService);
 
   //comp variables
-  protected datasource = computed(() => new MatTableDataSource(this.userSignalsService.users()));
+  protected datasource = computed(() => {
+    const ds = new MatTableDataSource(this.userSignalsService.users());
+    ds.sort = this.sort;
+    return ds;
+  });
 
   //filters variables
   private filterEmail = signal('');
@@ -77,9 +81,6 @@ export class UserListComponent implements OnInit, OnDestroy {
       size,
       this.destroy$
     );
-
-    // Configurazione del sort dopo il caricamento dei dati
-    this.datasource().sort = this.sort;
   }
 
   handleSelectedEmail(email: string) {

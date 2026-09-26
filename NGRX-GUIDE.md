@@ -745,10 +745,10 @@ Ho riletto i tuoi file. Legenda: ✅ ok · ❌ da correggere prima della Parte 2
 | 1 | Modulo A – dipendenze `@ngrx/*@^20.1.0` | ✅ |
 | 2 | Modulo B – `app.config.ts` | ✅ (valuta di accendere i controlli di serializzabilità, vedi Modulo B aggiornato) |
 | 3 | Modulo C1 – `user.actions.ts` | ✅ |
-| 4 | Modulo C2 – `user.reducer.ts` | ❌ **mancano tre `on(...)`** (dettagli sotto) |
+| 4 | Modulo C2 – `user.reducer.ts` | ✅ **corretto** (mancavano tre `on(...)`, dettagli sotto) |
 | 5 | Modulo C3 – `user.selectors.ts` | ✅ |
 | 6 | Modulo D – `user.effects.ts` | ✅ `exhaustMap` per add/delete e `concatMap` per update sono scelte corrette |
-| 7 | `UserService` – `catchError(this.handleError)` | ❌ **ora è bloccante** (dettagli sotto) |
+| 7 | `UserService` – `catchError(this.handleError)` | ✅ **corretto** (era bloccante, dettagli sotto) |
 | 8 | Modulo E – `routes.ts` + `app.routes.ts` | ✅ con una nota sul guard |
 | 9 | Modulo F – test | ✅ il test dell'effect con il caso di errore è fatto bene |
 | 10 | `bash.exe.stackdump` nella root | 🧹 è un crash dump di Git Bash: cancellalo, non committarlo |
@@ -763,7 +763,7 @@ Ho riletto i tuoi file. Legenda: ✅ ok · ❌ da correggere prima della Parte 2
 - La lista nello store non si aggiorna (l'utente cancellato resta visibile).
 - Due dei tuoi test (`addUserSuccess aggiunge l'utente...` e `deleteUserSuccess rimuove per id`) **falliscono**. I tuoi test te lo stavano già dicendo: lanciali ora.
 
-**Fix:** copia i tre `on(...)` dal Modulo C2 (`addUserSuccess`, `updateUserSuccess`, `deleteUserSuccess`).
+**Fix (✅ già applicato):** aggiunti i tre `on(...)` del Modulo C2 (`addUserSuccess`, `updateUserSuccess`, `deleteUserSuccess`).
 
 **Verifica:**
 1. `ng test --include='**/user.reducer.spec.ts'`: prima del fix 2 test rossi, dopo tutti verdi.
@@ -778,7 +778,7 @@ Era già segnalato nel capitolo 2, ma ora diventa bloccante: gli effect chiamano
 2. `this.snackBarNotificationService` lancia `TypeError: Cannot read properties of undefined`.
 3. La snackbar non compare. L'effect riceve il `TypeError` al posto dell'`HttpErrorResponse`, quindi `error.error` vale `undefined` e nello store finisce `error: "undefined"`.
 
-**Fix:** in quei metodi scrivi `catchError(err => this.handleError(err))`, come già fa `getUserList`. L'arrow function mantiene il `this` del servizio.
+**Fix (✅ già applicato):** in quei metodi ora c'è `catchError(err => this.handleError(err))`, come già fa `getUserList`. L'arrow function mantiene il `this` del servizio.
 
 **Verifica:** spegni il backend, oppure crea un utente con un'email già esistente. Deve comparire la snackbar con il messaggio del backend e in DevTools deve apparire `[User] ... Failure` con un `error` leggibile, non `"undefined"`.
 
@@ -966,7 +966,11 @@ export class UserListComponent implements OnInit {
   private pagination = this.store.selectSignal(userFeature.selectPagination);
   protected loading = this.store.selectSignal(userFeature.selectLoading);
 
-  protected datasource = computed(() => new MatTableDataSource(this.users()));
+  protected datasource = computed(() => {
+    const ds = new MatTableDataSource(this.users());
+    ds.sort = this.sort;
+    return ds;
+  });
 
   protected pageEvent = computed(() => ({
     length: this.pagination().totalElements,
@@ -984,8 +988,6 @@ export class UserListComponent implements OnInit {
       page,
       size,
     }));
-
-    this.datasource().sort = this.sort;
   }
 
   // handleSelectedEmail, onChangePage invariati; ngOnDestroy rimosso
@@ -995,7 +997,9 @@ export class UserListComponent implements OnInit {
 Nota che `datasource` e `pageEvent` **non cambiano forma**: prima dipendevano da signal di un servizio, ora da signal dello store. È il vantaggio di avere già usato i signal: il template non si tocca.
 
 ### 🐞 Nota (bug che c'era già): `sort` si perde
-`this.datasource().sort = this.sort` imposta il sort sull'istanza **corrente** di `MatTableDataSource`. Quando arriva `loadUsersSuccess`, il `computed` crea una **nuova** istanza senza sort. Succedeva anche con `UserSignalsService`, perché l'HTTP è asincrono. Fix consigliato:
+> ✅ **Già corretto** nel codice attuale: lo snippet qui sopra ha già la forma giusta del `computed`.
+
+`this.datasource().sort = this.sort` impostava il sort sull'istanza **corrente** di `MatTableDataSource`. Quando arrivavano i nuovi dati, il `computed` creava una **nuova** istanza senza sort, perché l'HTTP è asincrono. Il fix applicato:
 ```ts
 @ViewChild(MatSort, {static: true}) sort!: MatSort;   // la tabella non è dentro un @if: static è sicuro
 
@@ -1139,7 +1143,7 @@ isEditUser = computed(() => this.currentUserId() > -1);
 ```
 **Conseguenza:** su `/add-user` il componente crede di essere in modifica. Chiama `getUserById(0)`, mostra il bottone "Edit" e al submit fa un **update con id 0** invece di una create.
 **Controllo:** apri `/add-user` e guarda il bottone. Se c'è scritto "Edit", il bug c'è.
-**Fix:** `isEditUser = computed(() => this.currentUserId() > 0);`. Gli id del database partono da 1.
+**Fix (✅ già applicato):** `isEditUser = computed(() => this.currentUserId() > 0);`. Gli id del database partono da 1.
 Con NgRx lo vedrai subito in DevTools: senza il fix, aprendo `/add-user` compare `[User] Load User` con `id: 0`.
 
 ### Codice (solo le parti che cambiano)

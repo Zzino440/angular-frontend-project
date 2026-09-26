@@ -41,6 +41,24 @@ export const userFeature = createFeature({
       loading: false
     })),
 
+    on(UserActions.addUserSuccess, (state, {user}) => ({
+      ...state,
+      users: [...state.users, user],
+      loading: false
+    })),
+
+    on(UserActions.updateUserSuccess, (state, {user}) => ({
+      ...state,
+      users: state.users.map(u => (u.id === user.id ? user : u)),
+      loading: false
+    })),
+
+    on(UserActions.deleteUserSuccess, (state, {id}) => ({
+      ...state,
+      users: state.users.filter(u => u.id !== id),
+      loading: false
+    })),
+
     on(
       UserActions.loadUsersFailure,
       UserActions.addUserFailure,

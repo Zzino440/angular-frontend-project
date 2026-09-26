@@ -78,7 +78,7 @@ export class NewUserAddComponent implements OnInit, OnDestroy {
 
   //utility variables
   currentUserId = signal<number>(0);
-  isEditUser = computed(() => this.currentUserId() > -1);
+  isEditUser = computed(() => this.currentUserId() > 0);
 
   roleOptions = Object.values(Role);
 

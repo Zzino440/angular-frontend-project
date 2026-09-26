@@ -34,31 +34,31 @@ export class UserService {
       .set('size', size);
 
     return this.httpClient.get<PagedResponse<User>>(`${this.environment + this.usersUri}not-current`, {params})
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(err => this.handleError(err)));
   }
 
 
   createUser(user: Partial<User>) {
     return this.httpClient.post<User>(`${this.environment + this.usersUri}`, user).pipe(
-      catchError(this.handleError)
+      catchError(err => this.handleError(err))
     );
   }
 
   getUserById(id: number) {
     return this.httpClient.get<User>(`${this.environment + this.usersUri}${id}`).pipe(
-      catchError(this.handleError)
+      catchError(err => this.handleError(err))
     )
   }
 
   updateUser(id: number, user: Partial<User>){
     return this.httpClient.put<User>(`${this.environment + this.usersUri}${id}`, user).pipe(
-      catchError(this.handleError)
+      catchError(err => this.handleError(err))
     )
   }
 
   deleteUser(id: number) {
     return this.httpClient.delete<User>(`${this.environment + this.usersUri}${id}`).pipe(
-      catchError(this.handleError)
+      catchError(err => this.handleError(err))
     )
   }
 
