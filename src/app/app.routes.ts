@@ -24,27 +24,12 @@ export const routes: Routes = [
     loadComponent: () => import('./security/pages/registration/registration.component').then(c => c.RegistrationComponent)
   },
   {
-    path: 'users',
-    loadComponent: () => import('./features/user/pages/user-list/user-list.component').then(c => c.UserListComponent),
-    canActivate: [authGuard],
-  },
-  {
-    path: 'add-user',
-    loadComponent: () => import('./features/user/pages/new-user-add/new-user-add.component').then(c => c.NewUserAddComponent),
-    canActivate: [authGuard],
-  },
-  {
-    path: 'user-detail/:id',
-    loadComponent: () => import('./features/user/pages/user-detail/user-detail.component').then(c => c.UserDetailComponent),
-    canActivate: [authGuard],
-  },
-  {
-    path: 'user-edit/:id',
-    loadComponent: () => import('./features/user/pages/new-user-add/new-user-add.component').then(c => c.NewUserAddComponent),
-    canActivate: [authGuard],
-  },
-  {
     path: '', redirectTo: 'users', pathMatch: 'full',
+  },
+  {
+    path: '',
+    loadChildren: () => import('./features/user/routes').then(feature => feature.routes),
+    canActivate: [authGuard],
   },
   {path: '**', redirectTo: 'users'}
 ];
