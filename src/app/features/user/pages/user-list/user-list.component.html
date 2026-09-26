@@ -1,6 +1,9 @@
 <div class="container pt-4 pb-2">
   <h1 class="fw-bold">User List</h1>
 <!--  <app-user-filters (selectedEmail)="handleSelectedEmail($event)"></app-user-filters>-->
+  @if (loading()){
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
   <table mat-table matSort matSortActive="email" matSortDirection="asc" [dataSource]="datasource()"
          class="mat-elevation-z8">
     <ng-container matColumnDef="firstName">

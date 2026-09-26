@@ -14,18 +14,23 @@ import {Permission} from "../../models/permission";
 import {SnackBarNotificationService} from "../../../../shared/services/snack-bar-notification.service";
 import {NotificationTypeEnum} from "../../../../shared/enums/notification-type.enum";
 import {UserSignalsService} from "../../services/user-signals.service";
+import {Store} from "@ngrx/store";
+import {userFeature} from "../../store/user.reducer";
+import {UserActions} from "../../store/user.actions";
+import {MatProgressBar} from "@angular/material/progress-bar";
 
 @Component({
     selector: 'app-user-list',
-    imports: [
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        RouterLink,
-        CamelCasePipe,
-        MatPaginatorModule,
-        MatSortModule
-    ],
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    CamelCasePipe,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressBar
+  ],
     templateUrl: './user-list.component.html',
     styleUrl: './user-list.component.scss'
 })
@@ -42,25 +47,29 @@ export class UserListComponent implements OnInit, OnDestroy {
   snackBarNotificationService = inject(SnackBarNotificationService);
   userSignalsService = inject(UserSignalsService);
 
+  private store = inject(Store);
+  private users = this.store.selectSignal(userFeature.selectUsers);
+  private pagination = this.store.selectSignal(userFeature.selectPagination);
+  protected loading = this.store.selectSignal(userFeature.selectLoading);
+
   //comp variables
   protected datasource = computed(() => {
-    const ds = new MatTableDataSource(this.userSignalsService.users());
+    const ds = new MatTableDataSource(this.users());
     ds.sort = this.sort;
     return ds;
   });
+
+  protected pageEvent = computed( () => ({
+    length: this.pagination().totalElements,
+    pageSize: this.pagination().pageSize,
+    pageIndex: this.pagination().pageNumber,
+  }) )
 
   //filters variables
   private filterEmail = signal('');
 
   //utils variables
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'role', 'actions'];
-
-  //pagination variables
-  protected pageEvent = computed(() => ({
-    length: this.userSignalsService.pagination().totalElements,
-    pageSize: this.userSignalsService.pagination().pageSize,
-    pageIndex: this.userSignalsService.pagination().pageNumber,
-  }));
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   //subject for component destruction
@@ -70,17 +79,21 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUsersExceptCurrent(this.pageEvent().pageIndex, this.pageEvent().pageSize);
+
+
   }
+
+
 
   getUsersExceptCurrent(page: number, size: number) {
     const currentUserId = this.authenticationService.currentUserSignal()?.id;
-    this.userSignalsService.loadUsersExceptCurrent(
+    this.store.dispatch(UserActions.loadUsers ({
       currentUserId,
-      this.filterEmail(),
+      email: this.filterEmail(),
       page,
       size,
-      this.destroy$
-    );
+    }))
+    console.log(this.loading())
   }
 
   handleSelectedEmail(email: string) {
